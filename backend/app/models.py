@@ -1,9 +1,5 @@
 import imghdr
-
-from fastapi import Query
 from pydantic import BaseModel, Field, EmailStr
-from typing import List
-from datetime import datetime
 
 
 class User(BaseModel):
@@ -14,7 +10,7 @@ class User(BaseModel):
     role: str = Field(..., max_length=45)
     phone_number: str = None
     other_accounts: str = None
-    picture: imghdr = None
+    # picture: imghdr = None
 
 
 

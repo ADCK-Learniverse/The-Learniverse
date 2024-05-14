@@ -11,10 +11,10 @@ logout_router = APIRouter(prefix='/logout')
 all_users = {}
 
 
-@login_router.post('/token', status_code=200)
+@login_router.post('/token', status_code=201)
 def user_login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
     """
-    This method takes the user's username and password and logs them in
+    This method takes the user's email and password and logs them in
     """
     print(form_data)
     return login(form_data.username, form_data.password)

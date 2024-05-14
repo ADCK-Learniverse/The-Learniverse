@@ -1,12 +1,12 @@
 from typing import Annotated
 from starlette import status
-from data.database import read_query
+from backend.app.data.database import read_query
 import bcrypt
 from datetime import datetime, timedelta
 from jose import jwt, JWTError
 from fastapi import HTTPException, Depends
 from fastapi.security import OAuth2PasswordBearer
-from services.admin_services import get_user_by_id, logged_in_users
+from backend.app.api.services.admin_services import get_user_by_id
 from dotenv import load_dotenv
 import os
 
@@ -16,6 +16,8 @@ ALGORITHM = 'HS256'
 TOKEN_EXPIRE_MINUTES = 15
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login/token")
+
+logged_in_users = {}
 
 
 async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
@@ -32,7 +34,7 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
         user_role: str = payload.get("role")
         if username is None or user_id is None:
             raise credentials_exception
-        return {"username": username, "id": user_id, "role": user_role}
+        return {"email": username, "id": user_id, "role": user_role}
     except JWTError:
         raise credentials_exception
 
@@ -47,31 +49,31 @@ def generate_token(data: dict):
 
 
 def authenticate_user(username: str, password: str):
-    username_sql = 'SELECT * FROM users WHERE username = %s'
-    password_sql = 'SELECT password FROM users WHERE username = %s'
+    username_sql = 'SELECT email FROM users WHERE email = %s'
+    password_sql = 'SELECT password FROM users WHERE email = %s'
     username_data = read_query(username_sql, (username,))
     password_data = read_query(password_sql, (username,))
     if not username_data:
-        raise HTTPException(status_code=404, detail='Incorrect username or password!')
+        raise HTTPException(status_code=404, detail='Incorrect email or password!')
     return bcrypt.checkpw(password.encode('utf-8'), password_data[0][0].encode('utf-8'))
 
 
 def login(username: str, password: str):
     if authenticate_user(username, password):
-        id_query = 'SELECT user_id FROM users WHERE username = %s'
+        id_query = 'SELECT user_id FROM users WHERE email = %s'
         get_id = read_query(id_query, (username,))
         user_id = get_id[0][0]
-        role_query = 'SELECT role FROM users WHERE username = %s'
+        role_query = 'SELECT role FROM users WHERE email = %s'
         get_role = read_query(role_query, (username,))
         user_token = generate_token({'sub': username, 'user_id': user_id,
                                     'role': get_role[0][0]})
-        logged_in_users.update({f'{user_id}': {'Username': username}})
+        logged_in_users.update({f'{user_id}': {'Email': username}})
         return {
                     "access_token": user_token,
                     "token_type": "bearer"
                 }
     else:
-        raise HTTPException(status_code=404, detail='Incorrect username or password!')
+        raise HTTPException(status_code=404, detail='Incorrect email or password!')
 
 
 def logout(user_id: int):

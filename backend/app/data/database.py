@@ -1,5 +1,5 @@
 import mysql.connector
-from creditentials import *
+from backend.app.data.creditentials import host, user, password, port, database
 
 mydb = mysql.connector.connect(
     host=f"{host}",
