@@ -1,0 +1,122 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema learnplatform
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema learnplatform
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `learnplatform` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+USE `learnplatform` ;
+
+-- -----------------------------------------------------
+-- Table `learnplatform`.`users`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `learnplatform`.`users` (
+  `user_id` INT NOT NULL AUTO_INCREMENT,
+  `email` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(45) NOT NULL,
+  `firstname` VARCHAR(45) NOT NULL,
+  `lastname` VARCHAR(45) NOT NULL,
+  `role` VARCHAR(15) NOT NULL,
+  `phone-number` VARCHAR(45) NOT NULL,
+  `other_accounts` VARCHAR(45) NOT NULL,
+  `picture` BLOB NULL,
+  PRIMARY KEY (`user_id`),
+  UNIQUE INDEX `idusers_UNIQUE` (`user_id` ASC) VISIBLE,
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `learnplatform`.`courses`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `learnplatform`.`courses` (
+  `course_id` INT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(45) NOT NULL,
+  `description` VARCHAR(45) NOT NULL,
+  `objectives` VARCHAR(45) NOT NULL,
+  `owner` VARCHAR(50) NOT NULL,
+  `status` VARCHAR(15) NOT NULL,
+  `rating` INT NOT NULL,
+  `picture` BLOB NULL,
+  PRIMARY KEY (`course_id`),
+  UNIQUE INDEX `title_UNIQUE` (`title` ASC) VISIBLE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `learnplatform`.`course_likes`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `learnplatform`.`course_likes` (
+  `user_id` INT NOT NULL,
+  `course_id` INT NOT NULL,
+  PRIMARY KEY (`user_id`, `course_id`),
+  INDEX `fk_users_has_courses_courses1_idx` (`course_id` ASC) VISIBLE,
+  INDEX `fk_users_has_courses_users_idx` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `fk_users_has_courses_users`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `learnplatform`.`users` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_users_has_courses_courses1`
+    FOREIGN KEY (`course_id`)
+    REFERENCES `learnplatform`.`courses` (`course_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `learnplatform`.`course_access`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `learnplatform`.`course_access` (
+  `user_id` INT NOT NULL,
+  `course_id` INT NOT NULL,
+  PRIMARY KEY (`user_id`, `course_id`),
+  INDEX `fk_users_has_courses_courses2_idx` (`course_id` ASC) VISIBLE,
+  INDEX `fk_users_has_courses_users1_idx` (`user_id` ASC) VISIBLE,
+  CONSTRAINT `fk_users_has_courses_users1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `learnplatform`.`users` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_users_has_courses_courses2`
+    FOREIGN KEY (`course_id`)
+    REFERENCES `learnplatform`.`courses` (`course_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `learnplatform`.`sections`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `learnplatform`.`sections` (
+  `section_id` INT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(45) NOT NULL,
+  `content` VARCHAR(45) NOT NULL,
+  `description` VARCHAR(45) NULL,
+  `course_id` INT NOT NULL,
+  PRIMARY KEY (`section_id`),
+  UNIQUE INDEX `section_id_UNIQUE` (`section_id` ASC) VISIBLE,
+  INDEX `fk_sections_courses1_idx` (`course_id` ASC) VISIBLE,
+  CONSTRAINT `fk_sections_courses1`
+    FOREIGN KEY (`course_id`)
+    REFERENCES `learnplatform`.`courses` (`course_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
