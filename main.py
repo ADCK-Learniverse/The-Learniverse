@@ -3,6 +3,8 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 from backend.app.api.routes.login import login_router, logout_router
 from backend.app.api.routes.register import register_router
+from backend.app.api.routes.uploadpic import picture_router
+from backend.app.api.routes.course import course_router
 # from routers.topics import topics_router
 # from routers.admin import admin_router
 # from routers.messenger import messenger_router
@@ -28,9 +30,11 @@ def home():
     return {"message": "Hello!"}
 
 
-app.include_router(login_router, tags=["login/register"])
-app.include_router(logout_router, tags=["login/register"])
-app.include_router(register_router, tags=["login/register"])
+app.include_router(login_router, tags=["Login / Register"])
+app.include_router(logout_router, tags=["Login / Register"])
+app.include_router(register_router, tags=["Login / Register"])
+app.include_router(picture_router, tags=["Profile / Course Pictures"])
+app.include_router(course_router, tags=["Courses"])
 # app.include_router(categories_router, tags=["Category"])
 # app.include_router(topics_router, tags=["Topics"])
 # app.include_router(users_router, tags=["Admin"])
