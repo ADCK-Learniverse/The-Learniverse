@@ -1,14 +1,8 @@
 import uvicorn
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
-from backend.app.api.routes.login import login_router, logout_router
-from backend.app.api.routes.register import register_router
-# from routers.topics import topics_router
-# from routers.admin import admin_router
-# from routers.messenger import messenger_router
-# from routers.users import users_router
-# from routers.reply import reply_router
 
+from backend.app.api.routes.login import login_router
 
 app = FastAPI()
 
@@ -29,8 +23,9 @@ def home():
 
 
 app.include_router(login_router, tags=["login/register"])
-app.include_router(logout_router, tags=["login/register"])
-app.include_router(register_router, tags=["login/register"])
+# app.include_router(logout_router, tags=["login/register"])
+# app.include_router(register_router, tags=["login/register"])
+# app.include_router(section_router, tags=["Sections"])
 # app.include_router(categories_router, tags=["Category"])
 # app.include_router(topics_router, tags=["Topics"])
 # app.include_router(users_router, tags=["Admin"])

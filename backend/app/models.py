@@ -12,5 +12,9 @@ class User(BaseModel):
     other_accounts: str = None
     # picture: imghdr = None
 
-
+class Section(BaseModel):
+    title: str = Field(..., max_length=45)
+    content: str = Field(..., max_length=1000)
+    description:str = None
+    references: str = None
 

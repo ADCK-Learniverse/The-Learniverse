@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 
-from backend.app.api.services.login_services import login, logout
+from backend.app.api.services.login_services import logout, login
 
 login_router = APIRouter(prefix='/login')
 logout_router = APIRouter(prefix='/logout')
