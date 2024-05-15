@@ -8,6 +8,7 @@ PASSWORD = env_vars.get("PASSWORD")
 PORT = env_vars.get("PORT")
 DATABASE = env_vars.get("DATABASE")
 
+
 mydb = mysql.connector.connect(
     host=f"{HOST}",
     user=f"{USER}",

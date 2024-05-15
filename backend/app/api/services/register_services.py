@@ -13,10 +13,10 @@ async def register_user(user: User):
         raise HTTPException(status_code=409, detail="Email already exists")
     else:
         hashed_password = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt())
-        sql = ('INSERT INTO users(email,password,firstname,lastname, role) '
-               'VALUES (%s, %s, %s, %s, %s)')
+        sql = ('INSERT INTO users(email,password,firstname,lastname, role, phone_number) '
+               'VALUES (%s, %s, %s, %s, %s, %s)')
         insert_query(sql, (user.email, hashed_password, user.firstname,
-                           user.lastname, user.role))
+                           user.lastname, user.role, user.phone_number))
         # await give_access_to_all_open_categories(user.email)
         return {"message": "User registered successfully"}
 
