@@ -12,7 +12,7 @@ section_router = APIRouter(prefix='/sections')
 
 @section_router.post('/', status_code=200)
 async def create_section(user: user_dependency, section:Section):
-    if user is None:
+    if user is None or user.get('role') == 'student':
         raise Unauthorized
 
 
@@ -36,7 +36,7 @@ async def specific_section(user: user_dependency, section_id):
 
 @section_router.delete('/{section_id}', status_code=200)
 async def delete_section(user: user_dependency, section_id):
-    if user is None:
+    if user is None or user.get('role') == 'student':
         raise Unauthorized
 
 
