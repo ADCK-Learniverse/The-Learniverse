@@ -1,10 +1,6 @@
 from backend.app.api.routes.section import *
 import pytest
 
-from backend.app.api.services.section_services import format_section_details
-
-from backend.app.tests.unit_tests.mock_data import MOCK_SECTION_DETAILS
-
 
 @pytest.mark.asyncio
 async def test_create_section_when_guest():

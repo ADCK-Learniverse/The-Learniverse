@@ -3,7 +3,7 @@ import pytest
 
 from backend.app.api.services.section_services import format_section_details
 from backend.app.api.utils.responses import NoContent, NotFound
-from backend.app.tests.unit_tests.mock_data import MOCK_SECTION_DETAILS
+from tests.unit_tests.mock_data import MOCK_SECTION_DETAILS
 
 
 
