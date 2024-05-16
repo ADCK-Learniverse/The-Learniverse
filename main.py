@@ -2,6 +2,7 @@ import uvicorn
 from fastapi import FastAPI
 from backend.app.api.routes.login import login_router, logout_router
 from backend.app.api.routes.register import register_router
+from backend.app.api.routes.section import section_router
 from backend.app.api.routes.uploadpic import picture_router
 from backend.app.api.routes.course import course_router
 
@@ -21,6 +22,7 @@ app.include_router(logout_router, tags=[LOGIN_REGISTER])
 app.include_router(register_router, tags=[LOGIN_REGISTER])
 app.include_router(picture_router, tags=["Profile / Course Pictures"])
 app.include_router(course_router, tags=["Courses"])
+app.include_router(section_router, tags=["Sections"])
 
 
 if __name__ == "__main__":

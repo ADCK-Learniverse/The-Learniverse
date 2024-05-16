@@ -1,7 +1,7 @@
 import mysql.connector
 from dotenv import dotenv_values
 
-env_vars = dotenv_values(".env")
+env_vars = dotenv_values()
 HOST = env_vars.get("HOST")
 USER = env_vars.get("USER")
 PASSWORD = env_vars.get("PASSWORD")

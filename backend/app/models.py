@@ -16,9 +16,9 @@ class Section(BaseModel):
     title: str = Field(..., max_length=45)
     content: str = Field(..., max_length=1000)
     description:str = None
-    references: str = None
-    phone_number: Optional[str]
-    other_accounts: Optional[str]
+    information: str = None
+    course_id: int = Field(...)
+
 class Course(BaseModel):
     title: str = Field(min_length=5, max_length=45)
     description: str = Field(min_length=5, max_length=45)
