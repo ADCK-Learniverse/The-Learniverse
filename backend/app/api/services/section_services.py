@@ -7,6 +7,7 @@ async def new_section(section_data):
                  (section_data.title, section_data.content,
                   section_data.description, section_data.information, section_data.course_id))
 
+
     return 'New Section created'
 
 
