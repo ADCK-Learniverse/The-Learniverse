@@ -7,6 +7,7 @@ from jose import jwt, JWTError
 from fastapi import HTTPException, Depends
 from fastapi.security import OAuth2PasswordBearer
 from backend.app.api.services.admin_services import get_user_by_id
+from backend.app.api.utils.responses import NotFound
 from dotenv import load_dotenv
 import os
 
@@ -26,15 +27,25 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
+
+
     try:
         secret_key = os.getenv('SECRET_KEY')
         payload = jwt.decode(token, secret_key, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
         user_id: int = payload.get("user_id")
         user_role: str = payload.get("role")
+        user_first_name = payload.get("first_name")
+        user_last_name = payload.get("last_name")
+        user_phone_number = payload.get("phone_number")
+
+
         if username is None or user_id is None:
             raise credentials_exception
-        return {"email": username, "id": user_id, "role": user_role}
+
+        return {"email": username, "id": user_id, "role": user_role,
+                'first name':user_first_name, 'last name': user_last_name, 'phone number': user_phone_number}
+
     except JWTError:
         raise credentials_exception
 
@@ -60,21 +71,21 @@ def authenticate_user(username: str, password: str):
 
 def login(username: str, password: str):
     if authenticate_user(username, password):
-        id_query = 'SELECT user_id FROM users WHERE email = %s'
-        get_id = read_query(id_query, (username,))
-        user_id = get_id[0][0]
-        role_query = 'SELECT role FROM users WHERE email = %s'
-        get_role = read_query(role_query, (username,))
-        user_token = generate_token({'sub': username, 'user_id': user_id,
-                                    'role': get_role[0][0]})
-        logged_in_users.update({f'{user_id}': {'Email': username}})
+        user_information = read_query('SELECT * FROM users WHERE email = %s', (username,))
+        print(user_information)
+
+
+        user_token = generate_token({'sub': username, 'user_id': user_information[0][0],
+                                     'first_name': user_information[0][4], 'last_name': user_information[0][5],
+                                     'role': user_information[0][3], 'phone_number': user_information[0][6]})
+
+        logged_in_users.update({f'{user_information[0][0]}': {'Email': username}})
         return {
                     "access_token": user_token,
                     "token_type": "bearer"
                 }
     else:
-        raise HTTPException(status_code=404, detail='Incorrect email or password!')
-
+        raise NotFound
 
 def logout(user_id: int):
     user = get_user_by_id(user_id)
@@ -82,4 +93,4 @@ def logout(user_id: int):
         logged_in_users.popitem()
         return {'message': 'You have successfully logged out!'}
     else:
-        raise HTTPException(status_code=404, detail='No such user is logged in!')
+        raise NotFound
