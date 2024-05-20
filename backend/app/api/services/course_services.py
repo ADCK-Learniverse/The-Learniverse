@@ -40,7 +40,6 @@ def switch_status(course_id: int, user_role: str, user_id: int):
         return {"message": "Course status switched to Public"}
     raise HTTPException(status_code=403, detail="You are not the creator of this course!")
 
-
 def subscribe(user_id: int = Field(gt=0), course_id: int = Field(gt=0)):
     subscription_sql = "INSERT INTO subscription(course_id, user_id) VALUES (%s, %s)"
     insert_query(subscription_sql, (course_id, user_id))
@@ -71,6 +70,3 @@ def update_course_rating(course_id: int, rating: int):
     calculate_rating = float(total_rating_value / (ratings * 10)) * 10
     calculation_sql = "UPDATE courses SET rating = %s WHERE course_id = %s"
     update_query(calculation_sql, (calculate_rating, course_id))
-
-
-

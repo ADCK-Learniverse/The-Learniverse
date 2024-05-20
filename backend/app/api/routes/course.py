@@ -1,7 +1,9 @@
 from fastapi import APIRouter, Depends
 from backend.app.models import Course
 from backend.app.api.services.login_services import get_current_user
+
 from backend.app.api.services.course_services import new_course, switch_status, subscribe, unsubscribe, rate
+from backend.app.api.services.course_services import new_course, switch_status
 from typing import Annotated
 
 course_router = APIRouter(prefix="/courses")
@@ -21,6 +23,7 @@ def switch_course_status(user: user_dependency, course_id: int):
     user_role = user.get("role")
     user_id = user.get("id")
     return switch_status(course_id, user_role, user_id)
+
 
 
 @course_router.post("/subscription/{course_id}", status_code=201)
