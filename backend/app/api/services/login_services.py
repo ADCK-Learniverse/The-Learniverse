@@ -44,7 +44,7 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
             raise credentials_exception
 
         return {"email": username, "id": user_id, "role": user_role,
-                'first name':user_first_name, 'last name': user_last_name, 'phone number': user_phone_number}
+                'first_name':user_first_name, 'last_name': user_last_name, 'phone_number': user_phone_number}
 
     except JWTError:
         raise credentials_exception
@@ -76,8 +76,8 @@ def login(username: str, password: str):
 
 
         user_token = generate_token({'sub': username, 'user_id': user_information[0][0],
-                                     'first_name': user_information[0][4], 'last_name': user_information[0][5],
-                                     'role': user_information[0][3], 'phone_number': user_information[0][6]})
+                                     'first_name': user_information[0][3], 'last_name': user_information[0][4],
+                                     'role': user_information[0][5], 'phone_number': user_information[0][6]})
 
         logged_in_users.update({f'{user_information[0][0]}': {'Email': username}})
         return {
