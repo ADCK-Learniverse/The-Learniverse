@@ -34,11 +34,4 @@ def switch_status(course_id: int, user_role: str, user_id: int):
     raise HTTPException(status_code=403, detail="You are not the creator of this course!")
 
 
-async def remove_course(first_name,last_name, course_id):
-    name = f"{first_name}{last_name}"
-    data = read_query('SELECT * FROM courses WHERE course_id = %s AND owner = %s',
-                      (course_id, name))
-    if not data:
-        raise NotFound
-    # write delete logic
 

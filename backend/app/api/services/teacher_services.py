@@ -1,13 +1,18 @@
-from backend.app.api.utils.utilities import format_personal_information, format_subscription_details, check_owner
+from backend.app.api.utils.utilities import format_personal_information, format_subscription_details, check_owner, \
+    check_if_student_or_guest
 from backend.app.data.database import read_query, update_query
 from backend.app.api.utils.responses import NotFound, Unauthorized
 
 
 async def get_information(user):
+    check_if_student_or_guest(user)
+
     return format_personal_information(user)
 
 
-async def update_information(user_id, update):
+async def update_information(user, update):
+    check_if_student_or_guest(user)
+    user_id = user.get('id')
     first_name = update.First_name
     last_name = update.Last_name
     phone_number = update.Phone_number
@@ -30,6 +35,8 @@ async def update_information(user_id, update):
 
 
 async def course_subscribers(Teacher, course_id):
+    check_if_student_or_guest(Teacher)
+
     if Teacher.get('role').lower() == 'teacher' and check_owner(Teacher, course_id) is None:
         raise Unauthorized
 
@@ -47,8 +54,13 @@ async def course_subscribers(Teacher, course_id):
     return format_subscription_details(data)
 
 
+async def view_student_requests(user):
+    check_if_student_or_guest(user)
 
-
-
-
+    data = read_query('SELECT * FROM users WHERE role = %s AND status = %s',
+                      ('student', 'awaiting'))
+    if data:
+        return data
+    else:
+        return 'No pending requests'
 
