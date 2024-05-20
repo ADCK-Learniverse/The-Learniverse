@@ -14,10 +14,10 @@ async def new_section(user, section_data):
     return 'New Section created'
 
 
-async def sections(user):
+async def sections(user, course_id):
     check_if_guest(user)
 
-    data = read_query('SELECT * FROM sections')
+    data = read_query('SELECT * FROM sections WHERE course_id = %s', (course_id,))
     if data:
         return format_section_details(data)
 
@@ -25,11 +25,11 @@ async def sections(user):
         raise NoContent
 
 
-async def section(user, section_id):
+async def section(user, section_id, course_id):
     check_if_guest(user)
 
 
-    data = read_query('SELECT * FROM sections WHERE section_id = %s', (section_id,))
+    data = read_query('SELECT * FROM sections WHERE section_id = %s AND course_id = %s', (section_id,course_id))
     if data:
         return format_section_details(data)
 
