@@ -16,7 +16,6 @@ def user_login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
     """
     This method takes the user's email and password and logs them in
     """
-    print(form_data)
     return login(form_data.username, form_data.password)
 
 

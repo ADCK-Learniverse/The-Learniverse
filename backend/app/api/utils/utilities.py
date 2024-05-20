@@ -49,3 +49,18 @@ async def unsubscribe(Teacher, course_id, subscriber_id):
     update_query('DELETE FROM subscription WHERE course_id = %s AND user_id = %s',
                  (course_id,subscriber_id))
     return 'User unsubscribed successfully'
+
+
+def format_course_info(content: list):
+    return [
+        {
+            "Course Title": course[1],
+            "Course ID": course[0],
+            "Description": course[2],
+            "Rating": course[3],
+            "Status": course[4],
+            "By": course[5],
+            "Tags": course[6]
+        }
+        for course in content
+    ]

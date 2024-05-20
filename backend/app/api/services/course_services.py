@@ -3,6 +3,7 @@ from backend.app.api.services.uploadpic_services import check_for_creator
 from backend.app.models import Course
 from fastapi import HTTPException
 from pydantic import Field
+from backend.app.api.utils.utilities import format_course_info
 
 
 def new_course(user_id: int, user_role: str, course: Course):
@@ -13,15 +14,40 @@ def new_course(user_id: int, user_role: str, course: Course):
     names_query = "SELECT firstname, lastname FROM users WHERE user_id = %s"
     get_names = read_query(names_query, (user_id,))
     names = get_names[0][0] + " " + get_names[0][1]
-    sql = ("INSERT INTO courses(title, description, objectives, owner, status, rating) VALUES"
-           "(%s, %s, %s, %s, %s, %s)")
+    joined_tags = ",".join(course.tags)
+    sql = ("INSERT INTO courses(title, description, objectives, owner, status, rating, tags) VALUES"
+           "(%s, %s, %s, %s, %s, %s, %s)")
     insert_query(sql, (course.title, course.description, course.objectives,
-                       names, course.status, course.rating))
+                       names, course.status, course.rating, joined_tags))
+    return {"message": "Course created successfully!"}
+
+
+def delete_course(user_id: int, user_role: str, course_id: int):
+    if user_role == "student":
+        raise HTTPException(status_code=403, detail="As a student you cannot delete courses!")
+    if check_for_creator(user_id, course_id) or user_role == "admin":
+        delete_sql = "DELETE FROM courses WHERE course_id = %s"
+        update_query(delete_sql, (course_id,))
+        return {"message": "Course deleted!"}
+
+
+def view_all():
+    sql = "SELECT course_id, title, description, rating, status, owner, tags FROM courses"
+    execute = read_query(sql)
+    return format_course_info(execute)
 
 
 def check_for_existing_course(title: str):
     sql = "SELECT * FROM courses WHERE title = %s"
     return read_query(sql, (title, ))
+
+
+def view_particular(course_id: int):
+    sql = "SELECT course_id, title, description, rating, status, owner, tags FROM courses WHERE course_id = %s"
+    execute = read_query(sql, (course_id,))
+    if not execute:
+        raise HTTPException(status_code=404, detail="Course not found!")
+    return format_course_info(execute)
 
 
 def switch_status(course_id: int, user_role: str, user_id: int):

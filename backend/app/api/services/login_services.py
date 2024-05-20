@@ -72,7 +72,6 @@ def authenticate_user(username: str, password: str):
 def login(username: str, password: str):
     if authenticate_user(username, password):
         user_information = read_query('SELECT * FROM users WHERE email = %s', (username,))
-        print(user_information)
 
 
         user_token = generate_token({'sub': username, 'user_id': user_information[0][0],
