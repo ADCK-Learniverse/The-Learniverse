@@ -1,6 +1,6 @@
 from typing import Annotated
 from starlette import status
-from backend.app.data.database import read_query
+from backend.app import data
 import bcrypt
 from datetime import datetime, timedelta
 from jose import jwt, JWTError
@@ -62,8 +62,8 @@ def generate_token(data: dict):
 def authenticate_user(username: str, password: str):
     username_sql = 'SELECT email FROM users WHERE email = %s'
     password_sql = 'SELECT password FROM users WHERE email = %s'
-    username_data = read_query(username_sql, (username,))
-    password_data = read_query(password_sql, (username,))
+    username_data = data.database.read_query(username_sql, (username,))
+    password_data = data.database.read_query(password_sql, (username,))
     if not username_data:
         raise HTTPException(status_code=404, detail='Incorrect email or password!')
     return bcrypt.checkpw(password.encode('utf-8'), password_data[0][0].encode('utf-8'))
@@ -71,9 +71,11 @@ def authenticate_user(username: str, password: str):
 
 def login(username: str, password: str):
     if authenticate_user(username, password):
-        user_information = read_query('SELECT * FROM users WHERE email = %s', (username,))
 
+        user_information = data.database.read_query('SELECT * FROM users WHERE email = %s', (username,))
 
+        user_information = data.database.read_query('SELECT * FROM users WHERE email = %s', (username,))
+        print(user_information)
         user_token = generate_token({'sub': username, 'user_id': user_information[0][0],
                                      'first_name': user_information[0][3], 'last_name': user_information[0][4],
                                      'role': user_information[0][5], 'phone_number': user_information[0][6]})
