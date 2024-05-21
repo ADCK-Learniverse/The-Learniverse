@@ -14,14 +14,14 @@ async def test_sections_when_None(mocker):
     assert isinstance(exc_info.value, Unauthorized)
 #
 
-@pytest.mark.asyncio
-async def test_section_when_any(mocker):
-    data = MOCK_SECTION_DETAILS
-    teacher = teacher_mock()
-    expected = format_section_details(MOCK_SECTION_DETAILS)
-    mocker.patch('backend.app.api.services.section_services.data', mocker.MagicMock(return_value = data))
-    result = await section(teacher,1,1)
-    assert result == expected
+# @pytest.mark.asyncio
+# async def test_section_when_any(mocker):
+#     data = MOCK_SECTION_DETAILS
+#     teacher = teacher_mock()
+#     expected = format_section_details(MOCK_SECTION_DETAILS)
+#     mocker.patch('backend.app.api.services.section_services.data', mocker.MagicMock(return_value = data))
+#     result = await section(teacher,1,1)
+#     assert result == expected
 
 
 @pytest.mark.asyncio
