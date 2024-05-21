@@ -1,0 +1,112 @@
+.container-background-image {
+  background-image: url("../../assets/py_bg.png");
+  background-size: cover; /* Cover the entire background */
+  background-repeat: no-repeat; /* Prevent repeating the image */
+  height: 100vh;
+}
+
+.container-wrapper {
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  height: 90vh;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  color: white;
+  text-align: center;
+  padding-bottom: 2rem;
+  text-transform: uppercase;
+  font-size: 4rem;
+}
+
+.button {
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #333333;
+  color: #00ff00;
+}
+
+.register-btn {
+  border: none;
+  background-color: transparent;
+  color: #333333;
+  text-decoration: underline;
+}
+
+.register-btn:hover {
+  color: #00ff00;
+}
+
+.go-back-container {
+  padding: 1rem 0 0 1rem;
+  margin: 0;
+}
+
+a.go-back-btn {
+  color: white;
+  font-size: 1.25rem;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+input {
+  padding: 0 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.input-label {
+  font-size: 1.25rem;
+  color: #333333;
+}
+
+.forms {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 22rem;
+}
+
+form {
+  background-color: rgba(255, 255, 255, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+  padding: 1rem;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+
+form#login-form {
+  border-radius: 1rem 1rem 0 0;
+  padding-top: 2rem;
+}
+
+form#register-form {
+  border-radius: 0 0 1rem 1rem;
+  padding-bottom: 2rem;
+}

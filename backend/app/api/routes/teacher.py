@@ -5,7 +5,7 @@ from backend.app.api.services.login_services import get_current_user
 from backend.app.api.services.teacher_services import get_information, update_information, course_subscribers, \
     view_student_requests
 
-from backend.app.api.utils.utilities import unsubscribe, approve_request, decline_request
+from backend.app.api.utils.utilities import unsubscribe, approve_student, decline_student
 from backend.app.models import UpdateProfile
 
 
@@ -56,7 +56,7 @@ async def approve_student_request(user: user_dependency, student_id: int):
     """
     This method approves one by one each registration request.
     """
-    return await approve_request(user, student_id)
+    return await approve_student(user, student_id)
 
 
 @teacher_router.delete('/registration_request', status_code=200)
@@ -64,4 +64,4 @@ async def decline_student_request(user: user_dependency, student_id: int):
     """
     This method declines one by one each registration request.
     """
-    return await decline_request(user, student_id)
+    return await decline_student(user, student_id)

@@ -78,18 +78,35 @@ def format_course_info(content: list):
     ]
 
 
-async def approve_request(user, person_id):
-    """This method approves student and teacher registration requests."""
+async def approve_student(user, person_id):
+    """This method approves student registration requests."""
 
     check_if_student_or_guest(user)
     data.database.update_query('UPDATE users SET status = %s WHERE user_id = %s', ('approved', person_id,))
     return 'Request Approved'
 
+async def approve_teacher(user, person_id):
+    """This method approves teacher and teacher registration requests."""
 
-async def decline_request(user, person_id):
+    check_if_admin_or_owner(user)
+    data.database.update_query('UPDATE users SET status = %s WHERE user_id = %s', ('approved', person_id,))
+    return 'Request Approved'
+
+
+
+async def decline_student(user, person_id):
     """This method declines student and teacher registration requests."""
 
     check_if_student_or_guest(user)
+
+    data.database.update_query('DELETE FROM users WHERE status = %s AND user_id = %s', ('awaiting', person_id,))
+
+    return 'Request declined, try again after 12 months'
+
+async def decline_teacher(user, person_id):
+    """This method declines student and teacher registration requests."""
+
+    check_if_admin_or_owner(user)
 
     data.database.update_query('DELETE FROM users WHERE status = %s AND user_id = %s', ('awaiting', person_id,))
 
