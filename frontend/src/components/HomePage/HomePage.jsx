@@ -1,6 +1,7 @@
 import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AppContext from "../../context/AppContext";
+import './Home_page.css';
 
 const server = "http://127.0.0.1:8000";
 const loginEndpoint = "login";
@@ -9,11 +10,6 @@ const token = JSON.parse(localStorage.getItem('token'));
 
 export default function HomePage() {
   const context = useContext(AppContext);
-
-  const logout = () => {
-    localStorage.removeItem("token");
-    context.setToken(null);
-  };
 
   return (
     <div id="page-top">
@@ -170,6 +166,7 @@ export default function HomePage() {
             <a className="mx-2" href="https://x.com/home"><i className="fab fa-twitter"></i></a>
             <a className="mx-2" href="https://www.youtube.com/"><i className="fab fa-youtube"></i></a>
             <a className="mx-2" href="https://github.com/Alexandur11"><i className="fab fa-github"></i></a>
+            <a className="mx-2" href="https://github.com/ChavdarKostadinov98"><i className="fab fa-github"></i></a>
           </div>
         </div>
       </section>
