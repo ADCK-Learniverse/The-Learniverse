@@ -1,6 +1,7 @@
 import pytest
 
-from backend.app.api.services.teacher_services import get_information, update_information, course_subscribers
+from backend.app.api.services.teacher_services import get_information, update_information, course_subscribers, \
+    view_student_requests
 from backend.app.api.utils.responses import Unauthorized, NotFound
 from backend.app.api.utils.utilities import format_personal_information, format_subscription_details
 from tests.unit_tests.mock_data import MOCK_USER_DETAILS, MOCK_UPDATE_INFORMATION, teacher_mock, \
@@ -83,3 +84,18 @@ async def test_course_subscribers_when_authorized_as_teacher_but_not_the_owner(m
 #     result = await course_subscribers(teacher, 1)
 #
 #     assert result == expected
+
+@pytest.mark.asyncio
+async def test_view_student_requests_when_authenticated_as_student_or_guest():
+    with pytest.raises(Unauthorized) as exc_info:
+        await view_student_requests(None)
+    assert isinstance(exc_info.value, Unauthorized)
+
+# @pytest.mark.asyncio
+# async def test_view_student_requests_when_authenticated_as_teacher_but_list_is_empty(mocker):
+#     teacher = teacher_mock()
+#
+#     mocker.patch('backend.app.api.services.teacher_services.data',return_value=None)
+#     result = await view_student_requests(teacher)
+#
+#     assert result == 'No pending requests'
