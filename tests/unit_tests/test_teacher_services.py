@@ -35,13 +35,13 @@ async def test_update_information_when_unauthorized():
 async def test_update_information_when_authorized(mocker):
     user = MOCK_USER_DETAILS
     update = MOCK_UPDATE_INFORMATION
-    mocker.patch('backend.app.api.services.teacher_services.update_query', mocker.MagicMock())
+    mocker.patch('backend.app.api.services.teacher_services.data', mocker.MagicMock())
     result = await update_information(user,update)
 
     assert result == 'Profile Update successfully'
 
 @pytest.mark.asyncio
-async def test_course_subscribers_when_authorized_but_not_as_teacher(mocker):
+async def test_course_subscribers_when_authorized_but_not_as_teacher():
     with pytest.raises(Unauthorized) as exc_info:
         await course_subscribers(None, 1)
 
@@ -63,9 +63,11 @@ async def test_course_subscribers_when_authorized_as_teacher_and_the_owner_but_t
     with pytest.raises(NotFound) as exc_info:
         mocker.patch('backend.app.api.services.teacher_services.check_owner',
                      mocker.MagicMock(return_value='Prosto go pusni da mine'))
-        mocker.patch('backend.app.api.services.teacher_services.read_query',
+
+        mocker.patch('backend.app.api.services.teacher_services.data',
                      mocker.MagicMock(return_value=None))
         await course_subscribers(teacher, 1)
+
 
     assert isinstance(exc_info.value, NotFound)
 
@@ -76,7 +78,7 @@ async def test_course_subscribers_when_authorized_as_teacher_and_the_owner_and_t
 
     mocker.patch('backend.app.api.services.teacher_services.check_owner',
                  mocker.MagicMock(return_value='Prosto go pusni da mine'))
-    mocker.patch('backend.app.api.services.teacher_services.read_query',
+    mocker.patch('backend.app.api.services.teacher_services.data',
                  mocker.MagicMock(return_value=MOCK_SUBSCRIPTION_DETAILS))
     result = await course_subscribers(teacher, 1)
 

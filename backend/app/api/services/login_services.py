@@ -62,8 +62,8 @@ def generate_token(data: dict):
 def authenticate_user(username: str, password: str):
     username_sql = 'SELECT email FROM users WHERE email = %s'
     password_sql = 'SELECT password FROM users WHERE email = %s'
-    username_data = read_query(username_sql, (username,))
-    password_data = read_query(password_sql, (username,))
+    username_data = data.database.read_query(username_sql, (username,))
+    password_data = data.database.read_query(password_sql, (username,))
     if not username_data:
         raise HTTPException(status_code=404, detail='Incorrect email or password!')
     return bcrypt.checkpw(password.encode('utf-8'), password_data[0][0].encode('utf-8'))
