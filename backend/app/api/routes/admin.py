@@ -5,7 +5,6 @@ from fastapi import APIRouter, Depends
 from backend.app.api.services.admin_services import view_teacher_requests, deactivate
 from backend.app.api.services.course_services import switch_status
 from backend.app.api.services.login_services import get_current_user
-from backend.app.api.utils.responses import Unauthorized
 from backend.app.api.utils.utilities import unsubscribe, approve_request, decline_request
 
 admin_router = APIRouter(prefix="/admin_panel")

@@ -1,6 +1,6 @@
 from typing import Annotated
 from starlette import status
-from backend.app.data.database import read_query
+from backend.app import data
 import bcrypt
 from datetime import datetime, timedelta
 from jose import jwt, JWTError
@@ -71,7 +71,7 @@ def authenticate_user(username: str, password: str):
 
 def login(username: str, password: str):
     if authenticate_user(username, password):
-        user_information = read_query('SELECT * FROM users WHERE email = %s', (username,))
+        user_information = data.database.read_query('SELECT * FROM users WHERE email = %s', (username,))
         print(user_information)
 
 

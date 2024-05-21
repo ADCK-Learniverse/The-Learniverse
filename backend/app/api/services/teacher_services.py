@@ -1,6 +1,6 @@
-from backend.app.api.utils.utilities import format_personal_information, format_subscription_details, check_owner, \
-    check_if_student_or_guest
-from backend.app.data.database import read_query, update_query
+from backend.app.api.utils.utilities import (format_personal_information,
+                                             format_subscription_details, check_owner,check_if_student_or_guest)
+from backend.app import data
 from backend.app.api.utils.responses import NotFound, Unauthorized
 
 
@@ -19,15 +19,15 @@ async def update_information(user, update):
     password = update.Password
 
     if first_name != 'string':
-        update_query('UPDATE users SET firstname = %s WHERE user_id = %s',
+        data.database.update_query('UPDATE users SET firstname = %s WHERE user_id = %s',
                      (first_name, user_id))
 
     if last_name != 'string':
-        update_query('UPDATE users SET lastname = %s WHERE user_id = %s',
+        data.database.update_query('UPDATE users SET lastname = %s WHERE user_id = %s',
                      (last_name, user_id))
 
     if phone_number != 'string':
-        update_query('UPDATE users SET phone_number = %s WHERE user_id = %s',
+        data.database.update_query('UPDATE users SET phone_number = %s WHERE user_id = %s',
                      (phone_number, user_id))
     # write update password
 
@@ -40,7 +40,7 @@ async def course_subscribers(Teacher, course_id):
     if Teacher.get('role').lower() == 'teacher' and check_owner(Teacher, course_id) is None:
         raise Unauthorized
 
-    data = read_query("""
+    info = data.database.read_query("""
             SELECT subscription.course_id, subscription.user_id, CONCAT(users.firstname, ' ', users.lastname) AS fullname, courses.title
             FROM subscription
             INNER JOIN users ON users.user_id = subscription.user_id
@@ -48,7 +48,7 @@ async def course_subscribers(Teacher, course_id):
             WHERE subscription.course_id = %s;
             """, (course_id,))
 
-    if not data:
+    if not info:
         raise NotFound
 
     return format_subscription_details(data)
@@ -57,10 +57,10 @@ async def course_subscribers(Teacher, course_id):
 async def view_student_requests(user):
     check_if_student_or_guest(user)
 
-    data = read_query('SELECT * FROM users WHERE role = %s AND status = %s',
+    info = data.database.read_query('SELECT * FROM users WHERE role = %s AND status = %s',
                       ('student', 'awaiting'))
-    if data:
-        return data
+    if info:
+        return info
     else:
         return 'No pending requests'
 

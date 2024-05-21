@@ -2,7 +2,6 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 
 from backend.app.api.services.section_services import new_section, sections, section, remove_section
-from backend.app.api.utils.responses import Unauthorized
 from backend.app.models import Section
 from backend.app.api.services.login_services import get_current_user
 user_dependency = Annotated[dict, Depends(get_current_user)]

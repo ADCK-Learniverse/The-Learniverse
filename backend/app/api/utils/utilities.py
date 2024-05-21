@@ -1,5 +1,5 @@
 from backend.app.api.utils.responses import Unauthorized
-from backend.app.data.database import read_query, update_query
+from backend.app import data
 
 
 def format_personal_information(personal_details_list):
@@ -43,10 +43,10 @@ def check_owner(Teacher, course_id):
 
     Teacher_name = f"{Teacher.get('first_name')} {Teacher.get('last_name')}"
 
-    data = read_query('SELECT * FROM courses WHERE course_id = %s AND owner = %s',
+    info = data.database.read_query('SELECT * FROM courses WHERE course_id = %s AND owner = %s',
                       (course_id, Teacher_name))
-    if data:
-        return data
+    if info:
+        return info
 
 
 async def unsubscribe(Teacher, course_id, subscriber_id):
@@ -57,7 +57,7 @@ async def unsubscribe(Teacher, course_id, subscriber_id):
     if Teacher.get('role').lower() == 'teacher' and check_owner(Teacher, course_id) is None:
         raise Unauthorized
 
-    update_query('DELETE FROM subscription WHERE course_id = %s AND user_id = %s',
+    data.database.update_query('DELETE FROM subscription WHERE course_id = %s AND user_id = %s',
                  (course_id, subscriber_id))
     return 'User unsubscribed successfully'
 
@@ -66,7 +66,7 @@ async def approve_request(user, person_id):
     """This method approves student and teacher registration requests."""
 
     check_if_student_or_guest(user)
-    update_query('UPDATE users SET status = %s WHERE user_id = %s', ('approved', person_id,))
+    data.database.update_query('UPDATE users SET status = %s WHERE user_id = %s', ('approved', person_id,))
     return 'Request Approved'
 
 
@@ -75,7 +75,7 @@ async def decline_request(user, person_id):
 
     check_if_student_or_guest(user)
 
-    update_query('DELETE FROM users WHERE status = %s AND user_id = %s', ('awaiting', person_id,))
+    data.database.update_query('DELETE FROM users WHERE status = %s AND user_id = %s', ('awaiting', person_id,))
 
     return 'Request declined, try again after 12 months'
 
@@ -106,3 +106,5 @@ def check_if_admin_or_owner(user):
 
     if user.get('role').lower() != 'admin' or user.get('role').lower() != 'owner':
         raise Unauthorized
+
+
