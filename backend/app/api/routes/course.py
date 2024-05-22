@@ -12,8 +12,8 @@ user_dependency = Annotated[dict, Depends(get_current_user)]
 
 
 @course_router.get("/all", status_code=200)
-def view_all_courses(user: user_dependency):
-    return view_all()
+def view_all_courses(user: user_dependency, search: str = None):
+    return view_all(search)
 
 
 @course_router.get("/{course_id}", status_code=200)

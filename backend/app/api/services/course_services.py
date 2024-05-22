@@ -14,11 +14,11 @@ def new_course(user_id: int, user_role: str, course: Course):
     names_query = "SELECT firstname, lastname FROM users WHERE user_id = %s"
     get_names = read_query(names_query, (user_id,))
     names = get_names[0][0] + " " + get_names[0][1]
-    joined_tags = ",".join(course.tags)
-    sql = ("INSERT INTO courses(title, description, objectives, owner, status, rating, tags) VALUES"
-           "(%s, %s, %s, %s, %s, %s, %s)")
+    joined_tags = ", ".join(course.tags)
+    sql = ("INSERT INTO courses(title, description, objectives, owner, status, tags) VALUES"
+           "(%s, %s, %s, %s, %s, %s)")
     insert_query(sql, (course.title, course.description, course.objectives,
-                       names, course.status, course.rating, joined_tags))
+                       names, course.status, joined_tags))
     return {"message": "Course created successfully!"}
 
 
@@ -31,10 +31,18 @@ def delete_course(user_id: int, user_role: str, course_id: int):
         return {"message": "Course deleted!"}
 
 
-def view_all():
-    sql = "SELECT course_id, title, description, rating, status, owner, tags FROM courses"
-    execute = read_query(sql)
-    return format_course_info(execute)
+def view_all(search):
+    if not search:
+        sql = "SELECT title, description, rating, status, owner, tags FROM courses"
+        execute = read_query(sql)
+        return format_course_info(execute)
+    if isinstance(search, str):
+        sql = ("SELECT title, description, rating, status, owner, tags FROM courses"
+               " WHERE FIND_IN_SET(%s, tags) > 0")
+        execute = read_query(sql, (search,))
+        if not execute:
+            return {"message": "No courses found."}
+        return {"Courses found": format_course_info(execute)}
 
 
 def check_for_existing_course(title: str):
@@ -65,6 +73,7 @@ def switch_status(course_id: int, user_role: str, user_id: int):
         update_query(switch_sql, (course_id,))
         return {"message": "Course status switched to Public"}
     raise HTTPException(status_code=403, detail="You are not the creator of this course!")
+
 
 def subscribe(user_id: int = Field(gt=0), course_id: int = Field(gt=0)):
     subscription_sql = "INSERT INTO subscription(course_id, user_id) VALUES (%s, %s)"

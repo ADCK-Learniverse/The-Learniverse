@@ -30,7 +30,6 @@ class Course(BaseModel):
     description: str = Field(min_length=5, max_length=45)
     objectives: str = Field(min_length=5, max_length=45)
     status: str = Field(min_length=6, max_length=7)
-    rating: Optional[int]
     tags: list
 
 
