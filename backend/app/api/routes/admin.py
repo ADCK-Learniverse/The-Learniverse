@@ -5,8 +5,7 @@ from fastapi import APIRouter, Depends
 from backend.app.api.services.admin_services import view_teacher_requests, deactivate
 from backend.app.api.services.course_services import switch_status
 from backend.app.api.services.login_services import get_current_user
-from backend.app.api.utils.responses import Unauthorized
-from backend.app.api.utils.utilities import unsubscribe, approve_request, decline_request
+from backend.app.api.utils.utilities import unsubscribe, approve_teacher, decline_teacher
 
 admin_router = APIRouter(prefix="/admin_panel")
 user_dependency = Annotated[dict, Depends(get_current_user)]
@@ -25,12 +24,12 @@ async def view_pending_requests_from_teachers(user: user_dependency):
 @admin_router.patch('/registration_request', status_code=200)
 async def approve_teacher_request(user: user_dependency, teacher_id: int):
     """This method approves one by one each registration request."""
-    return await approve_request(user, teacher_id)
+    return await approve_teacher(user, teacher_id)
 
 @admin_router.delete('/registration_request', status_code=200)
 async def decline_teacher_request(user: user_dependency, teacher_id: int):
     """This method declines one by one each registration request."""
-    return await decline_request(user, teacher_id)
+    return await decline_teacher(user, teacher_id)
 
 @admin_router.delete('/restrict_access', status_code=200)
 async def deactivate_account(user:user_dependency, person_id: int):
