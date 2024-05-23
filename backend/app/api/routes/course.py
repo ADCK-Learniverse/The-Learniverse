@@ -1,9 +1,9 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from backend.app.models import Course
 from backend.app.api.services.login_services import get_current_user
 from backend.app.api.services.course_services import (new_course, switch_status, subscribe,
                                                       delete_course, unsubscribe, rate, view_all,
-                                                      view_particular)
+                                                      view_particular, show_ratings)
 from typing import Annotated
 
 course_router = APIRouter(prefix="/courses")
@@ -12,15 +12,19 @@ user_dependency = Annotated[dict, Depends(get_current_user)]
 
 
 @course_router.get("/all", status_code=200)
-def view_all_courses(user: user_dependency, search: str = None):
-    return view_all(search)
+def view_all_courses(
+    search: str = None,
+    page: int = Query(1, ge=1),
+    size: int = Query(10, ge=1, le=100)
+):
+    return view_all(search, page, size)
 
 
 @course_router.get("/{course_id}", status_code=200)
 def view_course(user: user_dependency, course_id: int):
     user_id = user.get("id")
     user_role = user.get("role")
-    return view_particular(course_id)
+    return view_particular(course_id, user_id, user_role)
 
 
 @course_router.post("/new", status_code=201)
@@ -60,3 +64,9 @@ def course_delete(user: user_dependency, course_id: int):
 def rate_course(user: user_dependency, course_id: int, rating: int):
     user_id = user.get("id")
     return rate(user_id, course_id, rating)
+
+
+@course_router.get("/ratings/{course_id}", status_code=200)
+def view_ratings(user: user_dependency, course_id: int, page: int = Query(1, ge=1),
+    size: int = Query(10, ge=1, le=100)):
+    return show_ratings(course_id)

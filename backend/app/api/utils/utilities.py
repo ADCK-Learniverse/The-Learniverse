@@ -37,7 +37,6 @@ def format_section_details(section_details_list):
         } for format_detail in section_details_list ]
 
 
-
 def check_owner(Teacher, course_id):
     """This method checks if the Teacher is the owner of the course."""
 
@@ -77,6 +76,37 @@ def format_course_info(content: list):
     ]
 
 
+def format_ratings(content: list):
+    return [
+        {
+            "User": get_user_names(rating[0]),
+            "Rating": rating[1]
+        }
+        for rating in content
+    ]
+
+
+def format_user_info(content: list):
+    return [
+        {
+            "First name": user[0],
+            "Last name": user[1],
+            "Email": user[2],
+            "Phone number": user[3] if user[3] else "Not provided",
+            "Role": user[4],
+            "Status": user[5]
+        }
+        for user in content
+    ]
+
+
+def get_user_names(user_id: int):
+    sql = "SELECT firstname, lastname FROM users WHERE user_id = %s"
+    execute = data.database.read_query(sql, (user_id,))
+    names = execute[0][0] + " " + execute[0][1]
+    return names
+
+
 async def approve_student(user, person_id):
     """This method approves student registration requests."""
 
@@ -84,13 +114,13 @@ async def approve_student(user, person_id):
     data.database.update_query('UPDATE users SET status = %s WHERE user_id = %s', ('approved', person_id,))
     return 'Request Approved'
 
+
 async def approve_teacher(user, person_id):
     """This method approves teacher and teacher registration requests."""
 
     check_if_admin_or_owner(user)
     data.database.update_query('UPDATE users SET status = %s WHERE user_id = %s', ('approved', person_id,))
     return 'Request Approved'
-
 
 
 async def decline_student(user, person_id):
@@ -101,6 +131,7 @@ async def decline_student(user, person_id):
     data.database.update_query('DELETE FROM users WHERE status = %s AND user_id = %s', ('awaiting', person_id,))
 
     return 'Request declined, try again after 12 months'
+
 
 async def decline_teacher(user, person_id):
     """This method declines student and teacher registration requests."""

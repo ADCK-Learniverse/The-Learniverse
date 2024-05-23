@@ -75,7 +75,6 @@ def login(username: str, password: str):
         user_information = data.database.read_query('SELECT * FROM users WHERE email = %s', (username,))
 
         user_information = data.database.read_query('SELECT * FROM users WHERE email = %s', (username,))
-        print(user_information)
         user_token = generate_token({'sub': username, 'user_id': user_information[0][0],
                                      'first_name': user_information[0][3], 'last_name': user_information[0][4],
                                      'role': user_information[0][5], 'phone_number': user_information[0][6]})
