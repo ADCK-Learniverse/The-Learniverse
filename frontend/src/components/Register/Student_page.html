@@ -116,43 +116,41 @@
                 </div>
             </form>
         </div>
-    <script>
-        function handleFormSubmission(formId, url) {
-        document.getElementById(formId).addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent default form submission
+   <script>
+    document.getElementById('teacher-registration-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
 
-            // Serialize form data into JSON format
-            var formData = {
-                email: document.getElementById('student-email').value,
-                password: document.getElementById('student-password').value,
-                firstname: document.getElementById('student-firstname').value,
-                lastname: document.getElementById('student-lastname').value,
-                phone_number: document.getElementById('student-phone_number').value,
-            };
+        // Serialize form data into JSON format
+        var formData = {
+            email: document.getElementById('teacher-email').value,
+            password: document.getElementById('teacher-password').value,
+            firstname: document.getElementById('teacher-firstname').value,
+            lastname: document.getElementById('teacher-lastname').value,
+            phone_number: document.getElementById('teacher-phone').value,
+        };
 
-            // Send POST request with FormData
-            fetch('http://127.0.0.1:8000/register/student', {
-                method: "POST",
-                body: JSON.stringify(formData), // need to stringify JSON data
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                alert('User registered successfully!');
-                window.location.href = "http://localhost:5173/"; // Change "Login_page.html" to the path of your login page
-            })
-            .catch(error => {
-                alert('Failed to register user. Please try again.');
-            });
+        // Send POST request with FormData
+        fetch('http://127.0.0.1:8000/register/student', {
+            method: "POST",
+            body: JSON.stringify(formData), // Serialize to JSON
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            alert('User registered successfully!');
+            window.location.href = "http://localhost:5173/"; // Change the redirect URL if needed
+        })
+        .catch(error => {
+            alert('Failed to register user. Please try again.');
         });
-    }
-    </script>
+    });
+</script>
 </body>
 </html>

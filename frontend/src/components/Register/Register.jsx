@@ -8,7 +8,7 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
-  const [phone_number, setPhone_number] = useState("");
+  const [phonenumber, setPhonenumber] = useState("");
   const { appState, isLoading, error, register } = useAuth();
   const navigate = useNavigate();
 
@@ -29,13 +29,13 @@ export default function Register() {
   };
 
   const handlePhonenumberChange = (e) => {
-    setPhone_number(e.target.value);
+    setPhonenumber(e.target.value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!email || !password || !firstname || !lastname || !phone_number) {
+    if (!email || !password || !firstname || !lastname || !phonenumber) {
       alert("All fields are required.");
       return;
     }
@@ -45,7 +45,7 @@ export default function Register() {
     formData.append("password", password);
     formData.append("firstname", firstname);
     formData.append("lastname", lastname);
-    formData.append("phone_number", phone_number);
+    formData.append("phonenumber", phonenumber);
 
     register(formData)
       .then(() => {
@@ -104,8 +104,8 @@ export default function Register() {
             <label>Phone Number:</label>
             <input
               type="tel"
-              value={phone_number}
-              onChange={handlePhone_numberChange}
+              value={phonenumber}
+              onChange={handlePhonenumberChange}
               required
             />
           </div>
