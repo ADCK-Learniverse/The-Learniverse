@@ -70,3 +70,12 @@ def rate_course(user: user_dependency, course_id: int, rating: int):
 def view_ratings(user: user_dependency, course_id: int, page: int = Query(1, ge=1),
     size: int = Query(10, ge=1, le=100)):
     return show_ratings(course_id)
+
+
+def course_related_endpoints(router: APIRouter):
+    router.get("/all", status_code=200)(view_all_courses)
+    router.get("/{course_id}", status_code=200)(view_course)
+    router.post("/new", status_code=201)(create_course)
+    router.put("/status/{course_id}", status_code = 200)(switch_course_status)
+    router.delete("/", status_code=204)(course_delete)
+    router.get("/ratings/{course_id}", status_code=200)(view_ratings)

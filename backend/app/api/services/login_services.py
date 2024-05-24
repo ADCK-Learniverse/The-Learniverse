@@ -28,7 +28,6 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
         headers={"WWW-Authenticate": "Bearer"},
     )
 
-
     try:
         secret_key = os.getenv('SECRET_KEY')
         payload = jwt.decode(token, secret_key, algorithms=[ALGORITHM])
@@ -39,12 +38,11 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
         user_last_name = payload.get("last_name")
         user_phone_number = payload.get("phone_number")
 
-
         if username is None or user_id is None:
             raise credentials_exception
 
         return {"email": username, "id": user_id, "role": user_role,
-                'first_name':user_first_name, 'last_name': user_last_name, 'phone_number': user_phone_number}
+                'first_name': user_first_name, 'last_name': user_last_name, 'phone_number': user_phone_number}
 
     except JWTError:
         raise credentials_exception
@@ -71,9 +69,6 @@ def authenticate_user(username: str, password: str):
 
 def login(username: str, password: str):
     if authenticate_user(username, password):
-
-        user_information = data.database.read_query('SELECT * FROM users WHERE email = %s', (username,))
-
         user_information = data.database.read_query('SELECT * FROM users WHERE email = %s', (username,))
         user_token = generate_token({'sub': username, 'user_id': user_information[0][0],
                                      'first_name': user_information[0][3], 'last_name': user_information[0][4],
@@ -81,11 +76,12 @@ def login(username: str, password: str):
 
         logged_in_users.update({f'{user_information[0][0]}': {'Email': username}})
         return {
-                    "access_token": user_token,
-                    "token_type": "bearer"
-                }
+            "access_token": user_token,
+            "token_type": "bearer"
+        }
     else:
         raise NotFound
+
 
 def logout(user_id: int):
     user = get_user_by_id(user_id)

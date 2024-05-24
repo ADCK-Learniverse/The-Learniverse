@@ -1,32 +1,30 @@
 from typing import Annotated
-
 from fastapi import APIRouter, Depends
+from backend.app.api.routes.profile import profile_related_endpoints
 from backend.app.api.services.login_services import get_current_user
-from backend.app.api.services.teacher_services import get_information, update_information, course_subscribers, \
-    view_student_requests
-
+from backend.app.api.services.teacher_services import  course_subscribers,view_student_requests
 from backend.app.api.utils.utilities import unsubscribe, approve_student, decline_student
-from backend.app.models import UpdateProfile
+
 
 
 teacher_router = APIRouter(prefix='/teacher_panel')
 user_dependency = Annotated[dict, Depends(get_current_user)]
+profile_related_endpoints(teacher_router)
 
+# @teacher_router.get('/', status_code=200)
+# async def account_information(user: user_dependency):
+#     """
+#     This method returns the profile information of the user.
+#     """
+#     return await get_information(user)
+#
 
-@teacher_router.get('/', status_code=200)
-async def account_information(user: user_dependency):
-    """
-    This method returns the profile information of the user.
-    """
-    return await get_information(user)
-
-
-@teacher_router.patch('/personal_information', status_code=200)
-async def update_personal_information(user: user_dependency, update: UpdateProfile):
-    """
-    This method updates selectively the personal information of the user.
-    """
-    return await update_information(user, update)
+# @teacher_router.patch('/personal_information', status_code=200)
+# async def update_personal_information(user: user_dependency, update: UpdateProfile):
+#     """
+#     This method updates selectively the personal information of the user.
+#     """
+#     return await update_information(user, update)
 
 
 @teacher_router.get('/{course_id}/subscribers', status_code=200)
@@ -43,7 +41,7 @@ async def remove_subscriber(user: user_dependency, course_id: int, subscriber_id
     """
     return await unsubscribe(user,course_id, subscriber_id)
 
-@teacher_router.get('/pending_requests', status_code=200)
+@teacher_router.get('/student/pending_requests', status_code=200)
 async def view_pending_requests_from_students(user: user_dependency):
     """
     This method views all pending registrations from students.
@@ -51,7 +49,7 @@ async def view_pending_requests_from_students(user: user_dependency):
     return await view_student_requests(user)
 
 
-@teacher_router.patch('/registration_request', status_code=200)
+@teacher_router.patch('/student/registration_request', status_code=200)
 async def approve_student_request(user: user_dependency, student_id: int):
     """
     This method approves one by one each registration request.
@@ -59,9 +57,17 @@ async def approve_student_request(user: user_dependency, student_id: int):
     return await approve_student(user, student_id)
 
 
-@teacher_router.delete('/registration_request', status_code=200)
+@teacher_router.delete('/student/registration_request', status_code=200)
 async def decline_student_request(user: user_dependency, student_id: int):
     """
     This method declines one by one each registration request.
     """
     return await decline_student(user, student_id)
+
+def teacher_related_endpoints(router: APIRouter):
+    router.get('/{course_id}/subscribers', status_code=200)(view_subscribers)
+    router.get('/pending_requests', status_code=200)(view_pending_requests_from_students)
+    router.delete('/{course_id}/subscriber/{subscriber_id}', status_code=200)(remove_subscriber)
+    router.delete('/registration_request', status_code=200)(decline_student_request)
+    router.patch('/registration_request', status_code=200)(approve_student_request)
+

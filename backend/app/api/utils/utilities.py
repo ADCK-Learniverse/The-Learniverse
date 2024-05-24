@@ -17,7 +17,6 @@ def format_personal_information(personal_details_list):
 
 def format_subscription_details(subscription_details_List):
     """This method formats the subscription information list of all users subscribed to the course."""
-
     formatted_details = []
     for n, format_detail in enumerate(subscription_details_List, start=1):
         formatted_details = {
@@ -28,13 +27,14 @@ def format_subscription_details(subscription_details_List):
 
 def format_section_details(section_details_list):
     """This method formats the section information list."""
-    return [{
+    sections = { [{
             'Section Title': format_detail[1],
             'Section Content': format_detail[2],
             'Section Description': format_detail[3],
             'Section Information': format_detail[4],
             'Course Name': format_detail[5]
-        } for format_detail in section_details_list ]
+        } for format_detail in section_details_list ]}
+    return sections
 
 
 def check_owner(Teacher, course_id):
@@ -46,6 +46,7 @@ def check_owner(Teacher, course_id):
                       (course_id, Teacher_name))
     if info:
         return info
+
 
 
 async def unsubscribe(Teacher, course_id, subscriber_id):
@@ -167,7 +168,24 @@ def check_if_guest(user):
 def check_if_admin_or_owner(user):
     """This method authorises the user and raises error if it's not successful."""
 
-    if user.get('role').lower() != 'admin' or user.get('role').lower() != 'owner':
+    if user.get('role')!= 'admin' and user.get('role') != 'owner':
         raise Unauthorized
 
+def check_for_creator(user_id, course_id):
+    course_names_sql = "SELECT owner FROM courses WHERE course_id = %s"
+    execute_course = data.database.read_query(course_names_sql, (course_id,))
+    course_owner = execute_course[0][0]
+    names_sql = "SELECT firstname, lastname FROM users WHERE user_id = %s"
+    execute = data.database.read_query(names_sql, (user_id,))
+    names = execute[0][0] + " " + execute[0][1]
+    if names == course_owner:
+        return True
+    return False
+
+
+def paginate_query(base_sql, page=1, size=10):
+    start = (page - 1) * size
+    paginated_sql = f"{base_sql} LIMIT {size} OFFSET {start}"
+
+    return paginated_sql
 

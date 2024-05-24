@@ -25,6 +25,13 @@ async def specific_section(user: user_dependency, section_id: int, course_id: in
     return await section(user, section_id, course_id)
 
 @section_router.delete('/{section_id}', status_code=200)
-async def delete_section(user: user_dependency, section_id: int):
+async def delete_section(user: user_dependency,course_id: int, section_id: int):
     """This method deletes a specific section"""
-    return await remove_section(user, section_id)
+    return await remove_section(user,course_id, section_id)
+
+
+def section_related_endpoints(router: APIRouter):
+    router.post('/', status_code=200)(create_section)
+    router.get('/', status_code=200)(all_sections)
+    router.get('/{section_id}', status_code=200)(specific_section)
+    router.delete('/{section_id}', status_code=200)(delete_section)

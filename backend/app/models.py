@@ -14,7 +14,7 @@ class User(BaseModel):
     firstname: str = Field(..., max_length=45)
     lastname: str = Field(..., max_length=45)
     phone_number: Optional[str]
-    other_accounts: Optional[str]
+    # other_accounts: Optional[str]
 
 
 class Section(BaseModel):

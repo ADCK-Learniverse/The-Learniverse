@@ -1,6 +1,5 @@
 from backend.app import data
 from backend.app.api.services.uploadpic_services import check_for_creator
-from backend.app.api.services.section_services import sections
 from backend.app.api.utils.utilities import format_ratings, format_course_info
 from backend.app.models import Course
 from fastapi import HTTPException
