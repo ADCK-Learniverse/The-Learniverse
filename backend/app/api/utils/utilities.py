@@ -53,7 +53,8 @@ async def unsubscribe(Teacher, course_id, subscriber_id):
 
     """This method authorises the Teacher and then unsubscribes  the selected student."""
 
-    check_if_student_or_guest(Teacher)
+    check_if_guest(Teacher)
+    check_if_student(Teacher)
 
     if Teacher.get('role').lower() == 'teacher' and check_owner(Teacher, course_id) is None:
         raise Unauthorized
@@ -111,7 +112,9 @@ def get_user_names(user_id: int):
 async def approve_student(user, person_id):
     """This method approves student registration requests."""
 
-    check_if_student_or_guest(user)
+    check_if_guest(user)
+    check_if_student(user)
+
     data.database.update_query('UPDATE users SET status = %s WHERE user_id = %s', ('approved', person_id,))
     return 'Request Approved'
 
@@ -119,7 +122,10 @@ async def approve_student(user, person_id):
 async def approve_teacher(user, person_id):
     """This method approves teacher and teacher registration requests."""
 
-    check_if_admin_or_owner(user)
+    check_if_guest(user)
+    check_if_student(user)
+
+
     data.database.update_query('UPDATE users SET status = %s WHERE user_id = %s', ('approved', person_id,))
     return 'Request Approved'
 
@@ -127,7 +133,8 @@ async def approve_teacher(user, person_id):
 async def decline_student(user, person_id):
     """This method declines student and teacher registration requests."""
 
-    check_if_student_or_guest(user)
+    check_if_guest(user)
+    check_if_student(user)
 
     data.database.update_query('DELETE FROM users WHERE status = %s AND user_id = %s', ('awaiting', person_id,))
 
@@ -137,17 +144,19 @@ async def decline_student(user, person_id):
 async def decline_teacher(user, person_id):
     """This method declines student and teacher registration requests."""
 
-    check_if_admin_or_owner(user)
+    check_if_guest(user)
+    check_if_student(user)
+    check_if_teacher(user)
 
     data.database.update_query('DELETE FROM users WHERE status = %s AND user_id = %s', ('awaiting', person_id,))
 
     return 'Request declined, try again after 12 months'
 
 
-def check_if_student_or_guest(user):
+def check_if_guest(user):
     """This method authorises the user and raises error if it's not successful."""
 
-    if user is None or user.get('role').lower() == 'student':
+    if user is None:
         raise Unauthorized
 
 
@@ -158,17 +167,22 @@ def check_if_student(user):
         raise Unauthorized
 
 
-def check_if_guest(user):
+def check_if_admin(user):
     """This method authorises the user and raises error if it's not successful."""
 
-    if user is None:
+    if user.get('role')== 'admin':
         raise Unauthorized
 
 
-def check_if_admin_or_owner(user):
+def check_if_owner(user):
     """This method authorises the user and raises error if it's not successful."""
 
-    if user.get('role')!= 'admin' and user.get('role') != 'owner':
+    if user.get('role') == 'owner':
+        raise Unauthorized
+def check_if_teacher(user):
+    """This method authorises the user and raises error if it's not successful."""
+
+    if user.get('role') == 'teacher':
         raise Unauthorized
 
 def check_for_creator(user_id, course_id):

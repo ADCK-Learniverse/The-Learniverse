@@ -11,7 +11,6 @@ async def test_create_section_when_guest():
 
     assert isinstance(exc_info.value, Unauthorized)
 
-
 @pytest.mark.asyncio
 async def test_all_sections_when_guest():
     with pytest.raises(Unauthorized) as exc_info:
@@ -26,11 +25,10 @@ async def test_specific_section_when_guest():
 
     assert isinstance(exc_info.value, Unauthorized)
 
-
 @pytest.mark.asyncio
 async def test_delete_section_when_guest():
     with pytest.raises(Unauthorized) as exc_info:
-        await delete_section(None, None)
+        await delete_section(None, None, None)
 
     assert isinstance(exc_info.value, Unauthorized)
 

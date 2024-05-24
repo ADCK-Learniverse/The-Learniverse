@@ -1,11 +1,11 @@
-from backend.app.data.database import read_query, insert_query
+from backend.app import data
 from backend.app.models import User
 from fastapi import HTTPException
 import bcrypt
 
 
 async def check_existing_email(email: str):
-    return read_query("SELECT * FROM users WHERE email = %s", (email,))
+    return data.database.read_query("SELECT * FROM users WHERE email = %s", (email,))
 
 
 async def student(user: User):
@@ -15,7 +15,7 @@ async def student(user: User):
         hashed_password = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt())
         sql = ('INSERT INTO users(email,password,firstname,lastname, role, phone_number) '
                'VALUES (%s, %s, %s, %s, %s, %s)')
-        insert_query(sql, (user.email, hashed_password, user.firstname,
+        data.database.insert_query(sql, (user.email, hashed_password, user.firstname,
                            user.lastname, 'student', user.phone_number))
         # await give_access_to_all_open_categories(user.email)
         return {"message": "Student registered successfully"}
@@ -27,7 +27,7 @@ async def teacher(user: User):
         hashed_password = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt())
         sql = ('INSERT INTO users(email,password,firstname,lastname, role, phone_number) '
                'VALUES (%s, %s, %s, %s, %s, %s)')
-        insert_query(sql, (user.email, hashed_password, user.firstname,
+        data.database.insert_query(sql, (user.email, hashed_password, user.firstname,
                            user.lastname, 'teacher', user.phone_number))
         # await give_access_to_all_open_categories(user.email)
         return {"message": "Teacher registered successfully"}

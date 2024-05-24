@@ -1,6 +1,5 @@
 from backend.app import data
 from fastapi import HTTPException
-from backend.app.api.utils.utilities import format_user_info
 from backend.app.api.services.course_services import view_particular
 
 
