@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import AppContext from "../../context/AppContext";
 import './Home_page.css';
 
+
+
 const server = "http://127.0.0.1:8000";
 const loginEndpoint = "login";
 const loginUrl = `${server}/${loginEndpoint}/token`;
@@ -26,7 +28,7 @@ export default function HomePage() {
               <li className="nav-item"><a className="nav-link" href="#about">About</a></li>
               <li className="nav-item"><a className="nav-link" href="#projects">Courses</a></li>
               <li className="nav-item"><a className="nav-link" href="#signup">Newsletter</a></li>
-              <li className="nav-item"><a className="nav-link" href="Login_page.html">Step into the Universe</a></li>
+              <li className="nav-item"><a className="nav-link" href="/src/components/Login/Login_page.html">Step into the Universe</a></li>
             </ul>
           </div>
         </div>

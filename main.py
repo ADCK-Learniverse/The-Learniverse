@@ -1,5 +1,6 @@
 import uvicorn
 from fastapi import FastAPI
+from starlette.middleware.cors import CORSMiddleware
 
 from backend.app.api.routes.admin import admin_router
 from backend.app.api.routes.login import login_router, logout_router
@@ -15,6 +16,16 @@ from backend.app.api.routes.course import course_router
 app = FastAPI()
 
 LOGIN_REGISTER = "Login / Register"
+
+origins = ["*"]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 
 @app.get('/')
