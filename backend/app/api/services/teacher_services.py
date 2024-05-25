@@ -1,5 +1,5 @@
 from backend.app.api.utils.utilities import (format_personal_information,
-                                             format_subscription_details, check_owner, check_if_student_or_guest)
+                                             format_subscription_details, check_owner, check_if_guest, check_if_student)
 from backend.app import data
 from backend.app.api.utils.responses import NotFound, Unauthorized
 
@@ -35,7 +35,8 @@ from backend.app.api.utils.responses import NotFound, Unauthorized
 
 
 async def course_subscribers(Teacher, course_id):
-    check_if_student_or_guest(Teacher)
+    check_if_guest(Teacher)
+    check_if_student(Teacher)
 
     if Teacher.get('role').lower() == 'teacher' and check_owner(Teacher, course_id) is None:
         raise Unauthorized
@@ -55,7 +56,8 @@ async def course_subscribers(Teacher, course_id):
 
 
 async def view_student_requests(user):
-    check_if_student_or_guest(user)
+    check_if_guest(user)
+    check_if_student(user)
 
     info = data.database.read_query('SELECT * FROM users WHERE role = %s AND status = %s',
                                     ('student', 'awaiting'))

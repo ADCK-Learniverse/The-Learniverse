@@ -1,11 +1,12 @@
 from backend.app.api.utils.responses import NoContent, NotFound, Unauthorized
-from backend.app.api.utils.utilities import check_if_guest, check_if_student_or_guest, format_section_details, \
+from backend.app.api.utils.utilities import check_if_guest,check_if_student, format_section_details, \
     check_for_creator
 from backend.app import data
 
 
 async def new_section(user, section_data):
-    check_if_student_or_guest(user)
+    check_if_guest(user)
+    check_if_student(user)
 
     if check_for_creator(user_id=user.get('id'), course_id=section_data.course_id) == False:
         raise Unauthorized
@@ -15,7 +16,7 @@ async def new_section(user, section_data):
         (section_data.title, section_data.content,
          section_data.description, section_data.information, section_data.course_id))
 
-    return 'New Section created'
+    return {"message": "New Section created!"}
 
 
 async def sections(user, course_id):
@@ -42,14 +43,16 @@ async def section(user, section_id, course_id):
 
 
 async def remove_section(user,course_id, section_id):
-    check_if_student_or_guest(user)
+    check_if_guest(user)
+    check_if_student(user)
 
     if check_for_creator(user_id=user.get('id'), course_id=course_id) == False:
         raise Unauthorized
 
-    if data.database.read_query('SELECT * FROM sections WHERE section_id = %s', (section_id,)):
+    info = data.database.read_query('SELECT * FROM sections WHERE section_id = %s', (section_id,))
+    if info:
         data.database.update_query('DELETE FROM sections WHERE section_id = %s', (section_id,))
-        return "Section deleted"
+        return {"message": "Section Deleted!"}
 
     else:
         raise NotFound
