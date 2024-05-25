@@ -20,7 +20,7 @@ async def view_teacher_requests(user):
     if info:
         return info
     else:
-        return 'No pending requests'
+        return {"message": "'No pending requests"}
 
 
 async def deactivate(user, person_id):
@@ -30,4 +30,4 @@ async def deactivate(user, person_id):
 
 
     data.database.update_query('UPDATE users SET status = %s WHERE user_id = %s', ('banned', person_id,))
-    return 'User banned, access restricted'
+    return {"message": "User banned, access restricted"}

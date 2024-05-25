@@ -61,7 +61,7 @@ async def unsubscribe(Teacher, course_id, subscriber_id):
 
     data.database.update_query('DELETE FROM subscription WHERE course_id = %s AND user_id = %s',
                  (course_id, subscriber_id))
-    return 'User unsubscribed successfully'
+    return {"message": "User unsubscribed successfully"}
 
 
 def format_course_info(content: list):
@@ -116,7 +116,7 @@ async def approve_student(user, person_id):
     check_if_student(user)
 
     data.database.update_query('UPDATE users SET status = %s WHERE user_id = %s', ('approved', person_id,))
-    return 'Request Approved'
+    return {"message": "Request Approved!"}
 
 
 async def approve_teacher(user, person_id):
@@ -124,10 +124,11 @@ async def approve_teacher(user, person_id):
 
     check_if_guest(user)
     check_if_student(user)
+    check_if_teacher(user)
 
 
     data.database.update_query('UPDATE users SET status = %s WHERE user_id = %s', ('approved', person_id,))
-    return 'Request Approved'
+    return {"message": "Request Approved!"}
 
 
 async def decline_student(user, person_id):
@@ -138,7 +139,7 @@ async def decline_student(user, person_id):
 
     data.database.update_query('DELETE FROM users WHERE status = %s AND user_id = %s', ('awaiting', person_id,))
 
-    return 'Request declined, try again after 12 months'
+    return {"message": "Request declined, try again after 12 months!"}
 
 
 async def decline_teacher(user, person_id):
@@ -150,7 +151,7 @@ async def decline_teacher(user, person_id):
 
     data.database.update_query('DELETE FROM users WHERE status = %s AND user_id = %s', ('awaiting', person_id,))
 
-    return 'Request declined, try again after 12 months'
+    return {"message": "Request declined, try again after 12 months!"}
 
 
 def check_if_guest(user):
