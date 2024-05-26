@@ -184,9 +184,6 @@
                     password: document.getElementById('typePasswordX').value
                 };
 
-                // Log form data to debug
-                console.log('Form Data:', formData);
-
                 // Send POST request with JSON data
                 fetch("http://127.0.0.1:8000/login/token", {
                     method: "POST",
@@ -202,10 +199,10 @@
                     return response.json();
                 })
                 .then(data => {
-                    console.log('Success:', data); // Log response data
                     alert('Login successful!');
                     // Redirect to the desired page
                     window.location.href = "http://localhost:5173/";
+                    localStorage.setItem("token", JSON.stringify(data.access_token));
                 })
                 .catch(error => {
                     console.error('Error:', error);

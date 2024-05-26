@@ -5,10 +5,11 @@ const server = "http://127.0.0.1:8000";
 const loginEndpoint = "login";
 const loginUrl = `${server}/${loginEndpoint}/token`;
 
-export const useAuth = (username, password) => {
+export const useAuth = (email, password) => {
   const [appState, setAppState] = useState({ userData: null });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+
 
   const fetching = useCallback(async (formData) => {
     try {
@@ -25,6 +26,7 @@ export const useAuth = (username, password) => {
       setAppState(json);
       console.log(appState);
 
+      console.log("Before setting token to local storage");
       localStorage.setItem(
         "token",
         JSON.stringify(json.access_token)
@@ -38,14 +40,14 @@ export const useAuth = (username, password) => {
   }, []);
 
   useEffect(() => {
-    if (!username) {
+    if (!email) {
       return;
     }
     if (!password) {
       return;
     }
     const formData = new FormData();
-    formData.append("username", username);
+    formData.append("email", email);
     formData.append("password", password);
     fetching(formData);
   }, [fetching]);
