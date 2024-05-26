@@ -36,9 +36,9 @@ def delete_course(user_id: int, user_role: str, course_id: int):
 def view_all(search, page=1, size=10):
     start = (page - 1) * size
     if not search:
-        sql = "SELECT title, description, rating, status, owner, tags FROM courses"
+        sql = "SELECT title, description, rating, status, owner, tags, picture FROM courses"
     elif isinstance(search, str):
-        sql = ("SELECT title, description, rating, status, owner, tags FROM courses"
+        sql = ("SELECT title, description, rating, status, owner, tags, picture FROM courses"
                " WHERE FIND_IN_SET(%s, tags) > 0")
 
     sql += " LIMIT %s OFFSET %s"

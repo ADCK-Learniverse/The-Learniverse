@@ -1,13 +1,14 @@
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.style.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import Loader from "../Loader/Loader";
+import Navbar from "../Navbar/Navbar";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { appState, isLoading, error, login } = useAuth();
+  const { appState, isLoading, error, login } = useAuth(username, password);
   const navigate = useNavigate();
 
   const handleUsernameChange = (e) => {
@@ -18,82 +19,133 @@ export default function Login() {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!username || !password) {
+    if (!username) {
       return;
     }
 
+    if (!password) {
+      return;
+    }
     const formData = new FormData();
     formData.append("username", username);
     formData.append("password", password);
+    login(formData);
 
-    await login(formData);
-  };
-
-  useEffect(() => {
-    if (appState && appState.token) {
-      console.log("App state after login:", appState); // Log statement
-      alert("Successful login");
-      navigate("/");
+    if (appState !== null) {
+      alert("successful login");
+      window.location.href = "http://localhost:5173/";
+      localStorage.setItem("token", JSON.stringify(data.access_token));
     }
-  }, [appState, navigate]);
+  };
 
   if (isLoading) {
     return <Loader />;
   }
 
   return (
-    <div className="container-background-image">
-      <div className="go-back-container">
-        <Link to="/" className="go-back-btn">
-          ← Go back
-        </Link>
-      </div>
+    <>
+      <section className="login-wrapper vh-100">
+        <div className="container py-5 h-100">
+          <div className="row d-flex justify-content-center align-items-center h-100">
+            <div className="col-12 col-md-8 col-lg-6 col-xl-5">
+              <div
+                className="card bg-dark text-white"
+                style={{
+                  borderRadius: "1rem",
+                }}
+              >
+                <div className="card-body text-center">
+                  <div className="">
+                    <h2 className="fw-bold mb-2 text-uppercase">Login</h2>
+                    <p className="text-white-50 mb-5">
+                      Please enter your email and password!
+                    </p>
 
-      <div className="container-wrapper">
-        <div className="forms">
-          <h1>Login</h1>
-          <form id="login-form" onSubmit={handleSubmit}>
-            <label htmlFor="username">
-              <span className="input-label">Username</span>
-              <input
-                type="text"
-                id="username"
-                name="username"
-                value={username}
-                placeholder="Enter username"
-                onChange={handleUsernameChange}
-                required
-              />
-            </label>
-            <label htmlFor="password">
-              <span className="input-label">Password</span>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={password}
-                placeholder="************"
-                onChange={handlePasswordChange}
-                required
-              />
-            </label>
-            <button type="submit" className="button" id="loginBtn">
-              Login
-            </button>
-          </form>
-          <form id="register-form" method="post">
-            <button
-              href="http://localhost:63342/Forum-System-API/frontend/register_page.html?_ijt=9oj1a5ec2q6l52obc4ccf2acs1&_ij_reload=RELOAD_ON_SAVE"
-              className="register-btn"
-            >
-              Register
-            </button>
-          </form>
+                    <form onSubmit={handleSubmit}>
+                      <div
+                        data-mdb-input-init
+                        className="form-outline form-white mb-4"
+                      >
+                        <input
+                          type="email"
+                          id="typeEmailX"
+                          className="form-control form-control-lg"
+                          onChange={handleUsernameChange}
+                        />
+                        <label className="form-label" htmlFor="typeEmailX">
+                          Email
+                        </label>
+                      </div>
+
+                      <div
+                        data-mdb-input-init
+                        className="form-outline form-white mb-4"
+                      >
+                        <input
+                          type="password"
+                          id="typePasswordX"
+                          className="form-control form-control-lg"
+                          onChange={handlePasswordChange}
+                        />
+                        <label className="form-label" htmlFor="typePasswordX">
+                          Password
+                        </label>
+                      </div>
+
+                      <p className="small mb-5 pb-lg-2">
+                        <a className="text-white-50" href="#!">
+                          Forgot password?
+                        </a>
+                      </p>
+
+                      <button
+                        data-mdb-button-init
+                        data-mdb-ripple-init
+                        className="btn btn-outline-white btn-lg px-5"
+                        type="submit"
+                      >
+                        Login
+                      </button>
+                    </form>
+
+                    <div className="d-flex justify-content-center text-center mt-4 pt-1">
+                      <a href="#!" className="text-black">
+                        <i className="fab fa-facebook-f fa-lg"></i>
+                      </a>
+                      <a href="#!" className="text-black">
+                        <i className="fab fa-twitter fa-lg mx-4 px-2"></i>
+                      </a>
+                      <a href="#!" className="text-black">
+                        <i className="fab fa-google fa-lg"></i>
+                      </a>
+                    </div>
+                  </div>
+
+                  <div>
+                  <p className="mb-0">
+                      Dont have an account?{" "}
+                      <Link to="/register"
+                        className="text-white-50 fw-bold">
+                        Sign Up as Teacher
+                      </Link>
+                    </p>
+                    <p className="mb-0">
+                      Dont have an account?{" "}
+                      <Link to="/register"
+                        className="text-white-50 fw-bold">
+                        Sign Up as Teacher
+                      </Link>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </>
   );
 }
