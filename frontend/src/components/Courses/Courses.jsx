@@ -1,52 +1,76 @@
-import { useContext, useEffect, useState } from "react";
-import AppContext from "../../context/AppContext";
-const token = JSON.parse(localStorage.getItem("token"));
-const server = "http://127.0.0.1:8000";
-const loginEndpoint = "login";
-const loginUrl = `${server}/${loginEndpoint}/token`
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import Course from "./Course";
+import Navbar from "../Navbar/Navbar";
 
-// Individual Course Component
-const Course = ({ name, description }) => {
-  return (
-    <div>
-      <h2>{name}</h2>
-      <p>{description}</p>
-    </div>
-  );
-};
+const CoursesWrapper = styled.div`
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #1c1c3c, #3a3a80);
+  background-size: cover;
+  background-attachment: fixed;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
-// Component to Render All Courses
+const CourseContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  width: 80%;
+  margin-top: 20px;
+`;
+
+const Card = styled.div`
+  background-color: #282848;
+  color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+`;
+
 const AllCourses = () => {
-  // State to store the list of courses
   const [courses, setCourses] = useState([]);
 
-  // Simulated data fetch (replace with actual API call)
   useEffect(() => {
-    fetch(`${server}/courses`, {
-      headers: {
-        Authorization: `bearer ${token}`,
-      },
-    })
-      .then((response) => {
+    const fetchCourses = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/courses/all", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data.Courses);
-//         setCategories(data.Courses);
-      })
-      .catch((error) => console.error("Error:", error));
-  }, []);ount
+        const data = await response.json();
+        setCourses(data.Courses);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchCourses();
+  }, []);
 
   return (
-    <div>
-      <h1>All Courses</h1>
-      {courses.map(course => (
-        <Course key={course.id} name={course.name} description={course.description} />
-      ))}
-    </div>
+    <CoursesWrapper>
+      <Navbar />
+      <h1 style={{ marginTop: "100px" }}>Courses</h1>
+      <CourseContainer>
+        {courses.map((course) => (
+          <Card key={course.id}>
+            <h2>{course["Course Title"]}</h2>
+            <p>{course.Description}</p>
+            <p>Rating: {course.Rating}</p>
+            <p>Status: {course.Status}</p>
+            <p>By: {course.By}</p>
+          </Card>
+        ))}
+      </CourseContainer>
+    </CoursesWrapper>
   );
 };
 

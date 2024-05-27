@@ -29,8 +29,13 @@ export default function Navbar() {
             </li>
             <li className="nav-item">
               <a className="nav-link" href="#projects">
-                Courses
+                Best Courses
               </a>
+            </li>
+            <li className="nav-item">
+              <Link to="/courses" className="nav-link">
+                All courses
+              </Link>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="#signup">

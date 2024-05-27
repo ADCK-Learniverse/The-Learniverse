@@ -8,6 +8,8 @@ import CategoryInfo from "./components/Categories/CategoryInfo";
 import TopicInfo from "./components/Categories/TopicInfo";
 import RegistrationStudents from "./components/Register/RegistrationStudents";
 import RegistrationTeachers from "./components/Register/RegistrationTeachers";
+import Courses from "./components/Courses/Courses";
+import Course from "./components/Courses/Course";
 
 
 export const router = createBrowserRouter([
@@ -20,8 +22,12 @@ export const router = createBrowserRouter([
     element: <Login />,
   },
   {
-    path: "categories",
-    element: <Categories />,
+    path: "courses",
+    element: <Courses />,
+  },
+   {
+    path: "course",
+    element: <Course />,
   },
   {
     path: "categories/:categoryID",

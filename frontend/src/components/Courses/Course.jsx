@@ -1,16 +1,16 @@
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
 
-export default function Course({ courseTitle, courseID }) {
-  const navigate = useNavigate();
 
+const Course = ({ name, description, rating, status, by }) => {
   return (
-    <Link
-      to={`/courses/${courseID}`}
-      onClick={() => {
-        navigate(`/courses/${courseID}`);
-      }}
-    >
-      <li>{courseTitle}</li>
-    </Link>
+    <div className="course">
+      <h2>{name}</h2>
+      <p>{description}</p>
+      <p>Rating: {rating}</p>
+      <p>Status: {status}</p>
+      <p>By: {by}</p>
+    </div>
   );
-}
+};
+
+export default Course;
