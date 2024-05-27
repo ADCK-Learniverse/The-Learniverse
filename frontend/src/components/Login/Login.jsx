@@ -103,7 +103,7 @@ export default function Login() {
                       <button
                         data-mdb-button-init
                         data-mdb-ripple-init
-                        className="btn btn-outline-black btn-lg px-5"
+                        className="btn btn-outline-white btn-lg px-5"
                         type="submit"
                       >
                         Login
