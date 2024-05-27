@@ -66,7 +66,7 @@ async def decline_student_request(user: user_dependency, student_id: int):
 
 def teacher_related_endpoints(router: APIRouter):
     router.get('/{course_id}/subscribers', status_code=200)(view_subscribers)
-    router.get('/pending_requests', status_code=200)(view_pending_requests_from_students)
+    router.get('/student/pending_requests', status_code=200)(view_pending_requests_from_students)
     router.delete('/{course_id}/subscriber/{subscriber_id}', status_code=200)(remove_subscriber)
     router.delete('/registration_request', status_code=200)(decline_student_request)
     router.patch('/registration_request', status_code=200)(approve_student_request)

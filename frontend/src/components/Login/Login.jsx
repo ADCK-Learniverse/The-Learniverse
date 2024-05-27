@@ -3,7 +3,6 @@ import "./Login.style.css";
 import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import Loader from "../Loader/Loader";
-import Navbar from "../Navbar/Navbar";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -104,7 +103,7 @@ export default function Login() {
                       <button
                         data-mdb-button-init
                         data-mdb-ripple-init
-                        className="btn btn-outline-white btn-lg px-5"
+                        className="btn btn-outline-black btn-lg px-5"
                         type="submit"
                       >
                         Login
@@ -125,18 +124,16 @@ export default function Login() {
                   </div>
 
                   <div>
-                  <p className="mb-0">
-                      Dont have an account?{" "}
-                      <Link to="/register"
-                        className="text-white-50 fw-bold">
+                    <p className="mb-0">
+                      Don't have an account?{" "}
+                      <Link to="/register/teachers" className="text-white-50 fw-bold">
                         Sign Up as Teacher
                       </Link>
                     </p>
                     <p className="mb-0">
-                      Dont have an account?{" "}
-                      <Link to="/register"
-                        className="text-white-50 fw-bold">
-                        Sign Up as Teacher
+                      Don't have an account?{" "}
+                      <Link to="/register/students" className="text-white-50 fw-bold">
+                        Sign Up as Student
                       </Link>
                     </p>
                   </div>
