@@ -46,7 +46,7 @@ export default function HomePage() {
               </p>
             </div>
           </div>
-          <img className="img-fluid" src="assets/img/ipad.png" alt="..." />
+          <img className="img-fluid" src="ipad.png" alt="..." />
         </div>
       </section>
 
@@ -58,7 +58,7 @@ export default function HomePage() {
             <div className="col-xl-8 col-lg-7">
               <img
                 className="img-fluid mb-3 mb-lg-0"
-                src="assets/img/machine-learning.jpg"
+                src="machine-learning.jpg"
                 alt="..."
               />
             </div>
@@ -80,7 +80,7 @@ export default function HomePage() {
             <div className="col-xl-8 col-lg-7">
               <img
                 className="img-fluid mb-3 mb-lg-0"
-                src="assets/img/devops.jpg"
+                src="devops.jpg"
                 alt="..."
               />
             </div>
