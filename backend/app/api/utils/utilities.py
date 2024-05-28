@@ -27,13 +27,13 @@ def format_subscription_details(subscription_details_List):
 
 def format_section_details(section_details_list):
     """This method formats the section information list."""
-    sections = { [{
+    sections = [{
             'Section Title': format_detail[1],
             'Section Content': format_detail[2],
             'Section Description': format_detail[3],
             'Section Information': format_detail[4],
             'Course Name': format_detail[5]
-        } for format_detail in section_details_list ]}
+        } for format_detail in section_details_list ]
     return sections
 
 
