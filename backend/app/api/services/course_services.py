@@ -1,5 +1,6 @@
 from backend.app import data
 from backend.app.api.services.uploadpic_services import check_for_creator
+from backend.app.api.services.section_services import sections
 from backend.app.api.utils.utilities import format_ratings, format_course_info
 from backend.app.models import Course
 from fastapi import HTTPException
@@ -31,14 +32,15 @@ def delete_course(user_id: int, user_role: str, course_id: int):
         delete_sql = "DELETE FROM courses WHERE course_id = %s"
         data.database.update_query(delete_sql, (course_id,))
         return {"message": "Course deleted!"}
+    raise HTTPException(status_code=403, detail="You are not the creator of this course!")
 
 
 def view_all(search, page=1, size=10):
     start = (page - 1) * size
     if not search:
-        sql = "SELECT title, description, rating, status, owner, tags, picture FROM courses"
+        sql = "SELECT title, description, rating, status, owner, tags FROM courses"
     elif isinstance(search, str):
-        sql = ("SELECT title, description, rating, status, owner, tags, picture FROM courses"
+        sql = ("SELECT title, description, rating, status, owner, tags FROM courses"
                " WHERE FIND_IN_SET(%s, tags) > 0")
 
     sql += " LIMIT %s OFFSET %s"
