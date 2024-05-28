@@ -1,5 +1,6 @@
 import bcrypt
 from backend.app import data
+from backend.app.api.services.register_services import send_emails
 from backend.app.api.utils.utilities import format_user_info
 
 
@@ -36,7 +37,16 @@ def newsletter(email):
     if info:
         return 'Already subscribed'
     data.database.insert_query('INSERT INTO newsletter(email) VALUES (%s)', (email,))
-    return "Successfully subscribed to newsletter"
 
+    users = newsletter_subscribers()
+    send_emails(
+        users,
+        "Testing Newsletter",
+        "You have successfully subscribed to our newsletter",
+        "<h3>I don't know what to write in here </h3>"
+    )
+
+def newsletter_subscribers():
+    return data.database.read_query('SELECT email FROM newsletter')
 
 
