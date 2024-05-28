@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AppContext from "../../context/AppContext";
 import Navbar from "../Navbar/Navbar";
+import sendNewsletter from '../../newsletter';
 
 const server = "http://127.0.0.1:8000";
 const loginEndpoint = "login";
@@ -148,9 +149,10 @@ export default function HomePage() {
                   </div>
                   <div className="col-auto">
                     <button
-                      className="btn btn-primary disabled"
+                      className="btn btn-primary enabled"
                       id="submitButton"
-                      type="submit"
+                      type="button"
+                      onClick={() => sendNewsletter(document.getElementById('emailAddress').value)}
                     >
                       Notify Me!
                     </button>

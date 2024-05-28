@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, UploadFile, File
 
 from backend.app.api.services.login_services import get_current_user
 from backend.app.api.services.profile_services import update_phone, update_firstname, update_lastname, view_profile, \
-    update_password
+    update_password, newsletter
 from backend.app.api.services.uploadpic_services import update_user_picture
 
 profile_router = APIRouter(prefix="/student_panel")
@@ -43,9 +43,15 @@ def update_pic(user: user_dependency, picture: UploadFile = File(...)):
 def update_user_password(user: user_dependency, password: str):
     return  update_password(user, password)
 
+@profile_router.post('/newsletter', status_code=200)
+def subscribe_for_newsletter(email: str):
+    return newsletter(email)
+
 def profile_related_endpoints(router: APIRouter):
     router.get("/profile", status_code=200)(user_profile)
     router.put("/firstname", status_code=201)(update_first_name)
     router.put("/lastname", status_code=201)(update_last_name)
     router.put("/profile_pic", status_code=201)(update_pic)
     router.put("/password", status_code=201)(update_user_password)
+    router.post('/newsletter', status_code=200)(subscribe_for_newsletter)
+

@@ -26,10 +26,17 @@ def update_password(user, password):
     return {"message": "Password updated!"}
 
 
-
-
 def view_profile(user_id: int):
     sql = "SELECT firstname, lastname, email, phone_number, role, status FROM users WHERE user_id = %s"
     execute = data.database.read_query(sql, (user_id,))
     return {"User info": format_user_info(execute)}
+
+def newsletter(email):
+    info = data.database.read_query('SELECT * FROM newsletter WHERE email = %s', (email,))
+    if info:
+        return 'Already subscribed'
+    data.database.insert_query('INSERT INTO newsletter(email) VALUES (%s)', (email,))
+    return "Successfully subscribed to newsletter"
+
+
 

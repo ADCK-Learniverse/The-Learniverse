@@ -178,7 +178,7 @@ def check_if_admin(user):
 def check_if_owner(user):
     """This method authorises the user and raises error if it's not successful."""
 
-    if user.get('role') == 'owner':
+    if user.get('role') != 'owner':
         raise Unauthorized
 def check_if_teacher(user):
     """This method authorises the user and raises error if it's not successful."""
