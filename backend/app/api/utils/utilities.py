@@ -66,13 +66,13 @@ async def unsubscribe(Teacher, course_id, subscriber_id):
 
 def format_course_info(content: list):
     return [
-        {
-            "Course Title": course[0],
-            "Description": course[1],
-            "Rating": course[2],
-            "Status": course[3],
-            "By": course[4],
-            "Tags": course[5]
+        {   "Course ID" : course[0],
+            "Course Title": course[1],
+            "Description": course[2],
+            "Rating": course[3],
+            "Status": course[4],
+            "By": course[5],
+            "Tags": course[6]
         }
         for course in content
     ]

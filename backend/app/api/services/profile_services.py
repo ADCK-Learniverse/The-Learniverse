@@ -38,13 +38,13 @@ def newsletter(email):
         return 'Already subscribed'
     data.database.insert_query('INSERT INTO newsletter(email) VALUES (%s)', (email,))
 
-    users = newsletter_subscribers()
     send_emails(
-        users,
+        [email],
         "Testing Newsletter",
         "You have successfully subscribed to our newsletter",
         "<h3>I don't know what to write in here </h3>"
     )
+
 
 def newsletter_subscribers():
     return data.database.read_query('SELECT email FROM newsletter')

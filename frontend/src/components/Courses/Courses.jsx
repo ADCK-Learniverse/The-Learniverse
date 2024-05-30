@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import Course from "./Course";
-import Navbar from "../Navbar/Navbar";
+import { useNavigate } from "react-router-dom";
+import CoursesNavbar from "../Navbar/CoursesNavbar";
 
 const CoursesWrapper = styled.div`
   font-family: Arial, sans-serif;
@@ -29,10 +29,12 @@ const Card = styled.div`
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer; /* Add cursor pointer to indicate clickability */
 `;
 
 const AllCourses = () => {
   const [courses, setCourses] = useState([]);
+  const navigate = useNavigate(); // Use useNavigate for navigation
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -57,11 +59,14 @@ const AllCourses = () => {
 
   return (
     <CoursesWrapper>
-      <Navbar />
+      <CoursesNavbar />
       <h1 style={{ marginTop: "100px" }}>Courses</h1>
       <CourseContainer>
         {courses.map((course) => (
-          <Card key={course.id}>
+          <Card
+            key={course['Course ID']}
+            onClick={() => navigate(`/course/sections/${course['Course ID']}`)} // Navigate to course sections
+          >
             <h2>{course["Course Title"]}</h2>
             <p>{course.Description}</p>
             <p>Rating: {course.Rating}</p>

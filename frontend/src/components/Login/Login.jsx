@@ -35,7 +35,7 @@ export default function Login() {
 
     if (appState !== null) {
       alert("successful login");
-      window.location.href = "http://localhost:5173/";
+      window.location.href = "/";
       localStorage.setItem("token", JSON.stringify(data.access_token));
     }
   };

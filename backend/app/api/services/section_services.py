@@ -24,6 +24,7 @@ async def sections(user, course_id):
 
     info = data.database.read_query('SELECT * FROM sections WHERE course_id = %s', (course_id,))
     if info:
+        format_section_details(info)
         return format_section_details(info)
 
     else:

@@ -138,7 +138,7 @@ export default function Register() {
                           id="teacher-phone"
                         />
                       </div>
-                      <button type="submit" className="btn btn-outline-black btn-lg btn-block mb-4">
+                      <button type="submit" className="btn btn-outline-white btn-lg px-5">
                         {isLoading ? <Loader /> : "Register"}
                       </button>
                     </form>
