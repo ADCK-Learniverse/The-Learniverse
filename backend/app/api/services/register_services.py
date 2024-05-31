@@ -1,4 +1,4 @@
-from backend.app import data
+from backend.app.data.database import read_query, insert_query
 from backend.app.models import User
 from fastapi import HTTPException
 import bcrypt
@@ -12,12 +12,12 @@ load_dotenv()
 
 
 async def check_existing_email(email: str):
-    return data.database.read_query("SELECT * FROM users WHERE email = %s", (email,))
+    return read_query("SELECT * FROM users WHERE email = %s", (email,))
 
 
 def get_emails_by_role(role: str):
     sql = "SELECT email FROM users WHERE role = %s"
-    result = data.database.read_query(sql, (role,))
+    result = read_query(sql, (role,))
     return [row[0] for row in result]
 
 
@@ -63,7 +63,7 @@ async def student(user: User):
         hashed_password = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt())
         sql = ('INSERT INTO users(email,password,firstname,lastname, role, phone_number) '
                'VALUES (%s, %s, %s, %s, %s, %s)')
-        data.database.insert_query(sql, (user.email, hashed_password, user.firstname,
+        insert_query(sql, (user.email, hashed_password, user.firstname,
                            user.lastname, 'student', user.phone_number))
 
         teacher_emails = get_emails_by_role('teacher')
@@ -84,7 +84,7 @@ async def teacher(user: User):
         hashed_password = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt())
         sql = ('INSERT INTO users(email,password,firstname,lastname, role, phone_number) '
                'VALUES (%s, %s, %s, %s, %s, %s)')
-        data.database.insert_query(sql, (user.email, hashed_password, user.firstname,
+        insert_query(sql, (user.email, hashed_password, user.firstname,
                            user.lastname, 'teacher', user.phone_number))
 
         admin_emails = get_emails_by_role('admin')
