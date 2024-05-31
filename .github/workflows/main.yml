@@ -71,4 +71,4 @@ jobs:
           pip install -r backend/requirements.txt
       - name: Run unit tests
         run: |
-          pytest tests/unit_tests --ignore=tests/unit_tests/backend/app/api/services/register_services
+          pytest tests/unit_tests --ignore=backend/app/api/services/register_services
