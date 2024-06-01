@@ -8,15 +8,15 @@ PASSWORD = env_vars.get("PASSWORD")
 PORT = env_vars.get("PORT")
 DATABASE = env_vars.get("DATABASE")
 
-
-mydb = mysql.connector.connect(
-    host=f"{HOST}",
-    user=f"{USER}",
-    password=f"{PASSWORD}",
-    port=f"{PORT}",
-    database=f"{DATABASE}",
-)
-
+if name == "__main__":
+    mydb = mysql.connector.connect(
+        host=f"{HOST}",
+        user=f"{USER}",
+        password=f"{PASSWORD}",
+        port=f"{PORT}",
+        database=f"{DATABASE}",
+    )
+    
 
 def read_query(sql: str, sql_params=()):
     cursor = mydb.cursor()
