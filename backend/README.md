@@ -8,4 +8,4 @@ You can build the Dockerfile for the backend with the following command WHILE IN
 In order to just run the project locally
 install pip if you don't have it yet and python.
 1. Install the requirements
-2. uvicorn backend.main:app --reload   < in your interpeter's terminal in the highest root level
+2. uvicorn backend.main:app --reload   < in your  terminal in the highest root level
