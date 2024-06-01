@@ -36,7 +36,7 @@ export default function Login() {
     if (appState !== null) {
       alert("successful login");
       window.location.href = "/";
-      localStorage.setItem("token", JSON.stringify(data.access_token));
+      localStorage.setItem('token', token);
     }
   };
 

@@ -14,7 +14,7 @@ export default function HomePage() {
 
   return (
     <div id="page-top">
-      <Navbar />
+      <Navbar location = {"home"} />
       {/* Masthead */}
       <header className="masthead">
         <div className="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">

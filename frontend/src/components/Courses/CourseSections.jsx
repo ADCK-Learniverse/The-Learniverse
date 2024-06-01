@@ -1,23 +1,22 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import SectionsNavbar from "../Navbar/SectionsNavbar";
+import Navbar from "../Navbar/Navbar";
 
 const token = JSON.parse(localStorage.getItem("token"));
 
 export default function CourseSections() {
-  const { courseID } = useParams(); // Destructure useParams for cleaner code
+  const { courseID } = useParams();
 
   const [sections, setSections] = useState([]);
 
   useEffect(() => {
-    console.log(`Fetching sections for course ID: ${courseID}`); // Check courseID
+    console.log(`Fetching sections for course ID: ${courseID}`);
     fetch(`http://127.0.0.1:8000/sections/?course_id=${courseID}`, {
       headers: {
-        Authorization: `Bearer ${token}`, // Ensure the correct capitalization of 'Bearer'
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((response) => {
-        console.log("checkpoint1"); // Ensure we reach this point
         if (!response.ok) {
           console.error(`Response not ok: ${response.statusText}`);
           throw new Error("Failed to fetch data");
@@ -25,19 +24,19 @@ export default function CourseSections() {
         return response.json();
       })
       .then((data) => {
-        console.log("checkpoint2", data); // Check the data received
+        console.log("checkpoint2", data);
         if (data && data.length > 0) {
           setSections(data);
         } else {
-          setSections([]); // Set to an empty array if no sections are found
+          setSections([]);
         }
       })
       .catch((error) => console.error("Error:", error));
-  }, [courseID]); // Add courseID as a dependency
+  }, [courseID]);
 
   return (
     <>
-    <SectionsNavbar />
+    <Navbar location = {"course/sections/"} />
       <h1 style={{ color: "black" }}>Course Sections</h1>
       {sections.length > 0 ? (
         sections.map((section, index) => (
@@ -50,6 +49,7 @@ export default function CourseSections() {
       ) : (
         <p>No sections available.</p>
       )}
+
     </>
   );
 }

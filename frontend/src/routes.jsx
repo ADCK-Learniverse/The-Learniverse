@@ -7,6 +7,8 @@ import RegistrationTeachers from "./components/Register/RegistrationTeachers";
 import Courses from "./components/Courses/Courses";
 import Course from "./components/Courses/Course";
 import CourseSections from "./components/Courses/CourseSections";
+import CreateCourse from "./components/Courses/CreateCourse";
+import CreateSection from "./components/Courses/CreateSection";
 
 
 export const router = createBrowserRouter([
@@ -15,7 +17,7 @@ export const router = createBrowserRouter([
     element: <HomePage />,
   },
   {
-    path: "login", // Corrected path definition
+    path: "login",
     element: <Login />,
   },
   {
@@ -26,6 +28,14 @@ export const router = createBrowserRouter([
     path: "course/sections/:courseID",
     element: <CourseSections />,
   },
+    {
+    path: "courses/create-course",
+    element: <CreateCourse />,
+  },
+      {
+    path: "/sections/create-section",
+    element: <CreateSection />,
+  },
   {
     path: "register/students",
     element: <RegistrationStudents />,
@@ -35,7 +45,7 @@ export const router = createBrowserRouter([
     element: <RegistrationTeachers />,
   },
   {
-    path: "*", // Wildcard route should come last
+    path: "*",
     element: <NotFoundPage />,
   },
 ]);

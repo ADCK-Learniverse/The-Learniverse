@@ -5,10 +5,12 @@ from backend.app.api.services.course_services import (new_course, switch_status,
                                                       delete_course, unsubscribe, rate, view_all,
                                                       view_particular, show_ratings)
 from typing import Annotated
+import logging
 
 course_router = APIRouter(prefix="/courses")
 
 user_dependency = Annotated[dict, Depends(get_current_user)]
+
 
 
 @course_router.get("/all", status_code=200)
@@ -29,6 +31,7 @@ def view_course(user: user_dependency, course_id: int):
 
 @course_router.post("/new", status_code=201)
 def create_course(user: user_dependency, course: Course):
+    logging.debug(user)
     user_id = user.get("id")
     user_role = user.get("role")
     return new_course(user_id, user_role, course)
