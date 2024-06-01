@@ -69,7 +69,7 @@ def view_particular(course_id: int, user_id: int, user_role: str):
     if user_role == "student":
         if check_course_status(course_id) == "premium" and not check_for_subscription(user_id, course_id):
             raise HTTPException(status_code=403, detail="You must be subscribed in order to see this course!")
-    course_sql = "SELECT title, description, rating, status, owner, tags FROM courses WHERE course_id = %s"
+    course_sql = "SELECT course_id, title, description, rating, status, owner, tags FROM courses WHERE course_id = %s"
     execute = data.database.read_query(course_sql, (course_id,))
     if not execute:
         raise HTTPException(status_code=404, detail="Course not found!")

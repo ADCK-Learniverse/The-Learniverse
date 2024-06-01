@@ -9,7 +9,7 @@ user_dependency = Annotated[dict, Depends(get_current_user)]
 section_router = APIRouter(prefix='/sections')
 
 
-@section_router.post('/', status_code=200)
+@section_router.post('/new', status_code=200)
 async def create_section(user: user_dependency, section:Section):
     """This method creates a new section inside the selected course"""
     return await new_section(user, section)

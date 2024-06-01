@@ -11,6 +11,7 @@ from backend.app.api.utils.responses import NotFound
 from dotenv import load_dotenv
 import os
 
+
 load_dotenv()
 
 ALGORITHM = 'HS256'
@@ -30,6 +31,9 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
 
     try:
         secret_key = os.getenv('SECRET_KEY')
+        a = token
+        b = secret_key
+        c = ALGORITHM
         payload = jwt.decode(token, secret_key, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
         user_id: int = payload.get("user_id")

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import CoursesNavbar from "../Navbar/CoursesNavbar";
+import Navbar from "../Navbar/Navbar";
 
 const CoursesWrapper = styled.div`
   font-family: Arial, sans-serif;
@@ -59,7 +59,7 @@ const AllCourses = () => {
 
   return (
     <CoursesWrapper>
-      <CoursesNavbar />
+      <Navbar location = {"courses"} />
       <h1 style={{ marginTop: "100px" }}>Courses</h1>
       <CourseContainer>
         {courses.map((course) => (
