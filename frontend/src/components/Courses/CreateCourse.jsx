@@ -136,23 +136,23 @@ export default function CreateCourse() {
                     <input
                       type="text"
                       className="form-control-lg"
-                      placeholder="Status"
-                      value={status}
-                      onChange={handleStatusChange}
-                      id="course-status"
-                      aria-label="Course Status"
-                    />
-                  </div>
-                  <div className="form-outline mb-4">
-                    <input
-                      type="text"
-                      className="form-control-lg"
                       placeholder="Tags separated by ,"
                       value={tags}
                       onChange={handleTagsChange}
                       id="course-tags"
                       aria-label="Course Tags"
                     />
+                  </div>
+                  <div className="form-outline mb-4">
+                      <select
+                        className="form-control-lg"
+                        id="course-status"
+                        aria-label="Course Status"
+                        onChange={handleStatusChange}
+                      >
+                        <option value="premium">premium</option>
+                        <option value="public">public</option>
+                      </select>
                   </div>
                   <button type="submit" className="btn btn-outline-white btn-lg px-5">
                     {isLoading ? <Loader /> : "Create Course"}
