@@ -12,6 +12,7 @@ from backend.app.api.utils.utilities import approve_student, approve_teacher, de
 
 @pytest.mark.asyncio
 async def test_approve_student_as_guest():
+    # Arrange & Act
     with pytest.raises(Unauthorized) as exc_info:
         await  approve_student(None, 1)
 
@@ -20,6 +21,7 @@ async def test_approve_student_as_guest():
 
 @pytest.mark.asyncio
 async def test_approve_student_as_student():
+    # Arrange & Act
     with pytest.raises(Unauthorized) as exc_info:
         await  approve_student({'role': 'student'}, 1)
 
@@ -28,6 +30,7 @@ async def test_approve_student_as_student():
 
 @pytest.mark.asyncio
 async def test_approve_student_as_teacher(mocker):
+    # Arrange & Act
     mocker.patch('backend.app.api.utils.utilities.data')
 
     result = await approve_student({'role': 'teacher'}, 1)
@@ -37,6 +40,7 @@ async def test_approve_student_as_teacher(mocker):
 
 @pytest.mark.asyncio
 async def test_approve_student_as_admin_or_owner(mocker):
+    # Arrange & Act
     mocker.patch('backend.app.api.utils.utilities.data')
     result = await approve_student({'role': 'teacher or admin or owner'}, 1)
 
@@ -45,6 +49,7 @@ async def test_approve_student_as_admin_or_owner(mocker):
 
 @pytest.mark.asyncio
 async def test_approve_teacher_as_guest():
+    # Arrange & Act
     with pytest.raises(Unauthorized) as exc_info:
         await  approve_teacher(None, 1)
 
@@ -53,6 +58,7 @@ async def test_approve_teacher_as_guest():
 
 @pytest.mark.asyncio
 async def test_approve_teacher_as_student():
+    # Arrange & Act
     with pytest.raises(Unauthorized) as exc_info:
         await  approve_teacher({'role': 'student'}, 1)
 
@@ -61,6 +67,7 @@ async def test_approve_teacher_as_student():
 
 @pytest.mark.asyncio
 async def test_approve_teacher_as_teacher():
+    # Arrange & Act
     with pytest.raises(Unauthorized) as exc_info:
         await  approve_teacher({'role': 'teacher'}, 1)
 
@@ -69,6 +76,7 @@ async def test_approve_teacher_as_teacher():
 
 @pytest.mark.asyncio
 async def test_approve_teacher_as_admin_or_owner(mocker):
+    # Arrange & Act
     mocker.patch('backend.app.api.utils.utilities.data')
     result = await approve_student({'role': 'teacher'}, 1)
 
@@ -77,6 +85,7 @@ async def test_approve_teacher_as_admin_or_owner(mocker):
 
 @pytest.mark.asyncio
 async def test_decline_student_as_guest():
+    # Arrange & Act
     with pytest.raises(Unauthorized) as exc_info:
         await  decline_student(None, 1)
 
@@ -85,6 +94,7 @@ async def test_decline_student_as_guest():
 
 @pytest.mark.asyncio
 async def test_decline_student_as_student():
+    # Arrange & Act
     with pytest.raises(Unauthorized) as exc_info:
         await  decline_student({'role': 'student'}, 1)
 
@@ -93,6 +103,7 @@ async def test_decline_student_as_student():
 
 @pytest.mark.asyncio
 async def test_decline_student_as_teacher(mocker):
+    # Arrange & Act
     mocker.patch('backend.app.api.utils.utilities.data')
 
     result = await decline_student({'role': 'teacher'}, 1)
@@ -102,6 +113,7 @@ async def test_decline_student_as_teacher(mocker):
 
 @pytest.mark.asyncio
 async def test_decline_student_as_admin_or_owner(mocker):
+    # Arrange & Act
     mocker.patch('backend.app.api.utils.utilities.data')
     result = await decline_student({'role': 'teacher or admin or owner'}, 1)
 
@@ -110,6 +122,7 @@ async def test_decline_student_as_admin_or_owner(mocker):
 
 @pytest.mark.asyncio
 async def test_decline_teacher_as_guest():
+    # Arrange & Act
     with pytest.raises(Unauthorized) as exc_info:
         await  decline_teacher(None, 1)
 
@@ -118,6 +131,7 @@ async def test_decline_teacher_as_guest():
 
 @pytest.mark.asyncio
 async def test_decline_teacher_as_student():
+    # Arrange & Act
     with pytest.raises(Unauthorized) as exc_info:
         await  decline_teacher({'role': 'student'}, 1)
 

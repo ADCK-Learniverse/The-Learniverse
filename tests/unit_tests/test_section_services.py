@@ -8,10 +8,11 @@ from tests.unit_tests.mock_data import teacher_mock, MOCK_SECTION_DETAILS
 
 @pytest.mark.asyncio
 async def test_sections_when_None(mocker):
+    # Arrange & Act
     mocker.patch('backend.app.api.services.section_services', mocker.MagicMock(return_value=None))
     with pytest.raises(Unauthorized) as exc_info:
        await sections(None, 1)
-
+    # Assert
     assert isinstance(exc_info.value, Unauthorized)
 #
 
@@ -27,31 +28,34 @@ async def test_sections_when_None(mocker):
 
 @pytest.mark.asyncio
 async def test_section_when_None(mocker):
+    # Arrange & Act
     mocker.patch('backend.app.api.services.section_services', mocker.MagicMock(return_value=None))
     with pytest.raises(Unauthorized) as exc_info:
         await section(None, 1,1,)
-
+    # Assert
     assert isinstance(exc_info.value, Unauthorized)
 
 
 @pytest.mark.asyncio
 async def test_remove_section_when_it_exist(mocker):
+    # Arrange & Act
     teacher = teacher_mock()
     mocker.patch('backend.app.api.services.section_services.check_for_creator', mocker.MagicMock(return_value = 'Any'))
     mocker.patch('backend.app.api.services.section_services.data', mocker.MagicMock(return_value='Any'))
     mocker.patch('backend.app.api.services.section_services.data')
     result = await remove_section(teacher, 1, 1)
-
+    # Assert
     assert result == {"message": "Section Deleted!"}
 
 
 @pytest.mark.asyncio
 async def test_remove_section_when_None(mocker):
+    # Arrange & Act
     mocker.patch('backend.app.api.services.section_services.data', mocker.MagicMock(return_value=None))
     mocker.patch('backend.app.api.services.section_services.data')
     with pytest.raises(Unauthorized) as exc_info:
         await remove_section(None, 1, 1)
-
+    # Assert
     assert isinstance(exc_info.value, Unauthorized)
 
 

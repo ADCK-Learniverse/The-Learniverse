@@ -10,19 +10,21 @@ from tests.unit_tests.mock_data import MOCK_USER_DETAILS, MOCK_UPDATE_INFORMATIO
 
 @pytest.mark.asyncio
 async def test_course_subscribers_when_authorized_but_not_as_teacher():
+    # Arrange & Act
     with pytest.raises(Unauthorized) as exc_info:
         await course_subscribers(None, 1)
-
+    # Assert
     assert isinstance(exc_info.value, Unauthorized)
 
 
 @pytest.mark.asyncio
 async def test_course_subscribers_when_authorized_as_teacher_but_not_the_owner(mocker):
+    # Arrange & Act
     teacher = teacher_mock()
     with pytest.raises(Unauthorized) as exc_info:
         mocker.patch('backend.app.api.services.teacher_services.check_owner', mocker.MagicMock(return_value = None))
         await course_subscribers(teacher, 1)
-
+    # Assert
     assert isinstance(exc_info.value, Unauthorized)
 
 # @pytest.mark.asyncio
@@ -54,8 +56,10 @@ async def test_course_subscribers_when_authorized_as_teacher_but_not_the_owner(m
 
 @pytest.mark.asyncio
 async def test_view_student_requests_when_authenticated_as_student_or_guest():
+    # Arrange & Act
     with pytest.raises(Unauthorized) as exc_info:
         await view_student_requests(None)
+    # Assert
     assert isinstance(exc_info.value, Unauthorized)
 
 # @pytest.mark.asyncio
