@@ -9,5 +9,6 @@ Currently, two official plugins are available:
 
 How to Install and Run the Frontend
 1. npm install
-2. cd frontend
-3. npm run dev
+2. npm install styled-components
+3. cd frontend
+4. npm run dev in the terminal
