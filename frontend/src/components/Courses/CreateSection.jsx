@@ -34,7 +34,7 @@ export default function CreateSection() {
     setIsLoading(true);
     let token = localStorage.getItem('token');
     token = token.replace(/^"|"$/g, '');
-    console.log(token);
+
 
     try {
       const formData = {

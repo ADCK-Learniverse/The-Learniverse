@@ -1,0 +1,145 @@
+.register-wrapper {
+  background: linear-gradient(135deg, #1c1c3c, #3a3a80);
+  background-size: cover;
+  background-attachment: fixed;
+  color: #fff;
+}
+
+.card {
+  border-radius: 1rem;
+  background-color: #282848;
+  color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.form-outline {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.form-outline input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #3a3a80;
+  color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+.form-outline input:focus {
+  background-color: #5a5aa0;
+}
+
+.form-outline label {
+  position: absolute;
+  top: -1.5em;
+  left: 0;
+  color: #aaa;
+  font-size: 0.85em;
+}
+
+.btn-outline-light {
+  border: 2px solid #fff;
+  color: #fff;
+  background: transparent;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-outline-light:hover {
+  background: #fff;
+  color: #333;
+}
+
+.text-white-50 {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.fw-bold {
+  font-weight: bold;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+.form-control-lg {
+  padding: 1rem;
+  font-size: 1.25rem;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+}
+
+@media (min-width: 1200px) {
+  .col-xl-5 {
+    flex: 0 0 41.666667%;
+    max-width: 41.666667%;
+  }
+}
+
+.p-5 {
+  padding: 3rem;
+}
+
+.py-5 {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.mb-md-5,
+.mt-md-4,
+.pb-5,
+.mb-2,
+.mb-4,
+.mb-5,
+.mt-4,
+.pt-1 {
+  margin-bottom: 3rem;
+  margin-top: 1.5rem;
+  padding-bottom: 3rem;
+  margin-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
+  padding-top: 0.25rem;
+}
+
+.mt-4 {
+  margin-top: 1.5rem;
+}
+
+.fab {
+  font-size: 1.5rem;
+}
+
+.mx-4,
+.px-2 {
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}

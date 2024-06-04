@@ -1,6 +1,10 @@
 import bcrypt
+from starlette.responses import StreamingResponse, JSONResponse
+import io
+
 from backend.app import data
 from backend.app.api.services.register_services import send_emails
+from backend.app.api.utils.responses import NotFound
 from backend.app.api.utils.utilities import format_user_info
 
 
@@ -30,7 +34,16 @@ def update_password(user, password):
 def view_profile(user_id: int):
     sql = "SELECT firstname, lastname, email, phone_number, role, status FROM users WHERE user_id = %s"
     execute = data.database.read_query(sql, (user_id,))
-    return {"User info": format_user_info(execute)}
+    user_info = format_user_info(execute)
+    return {"User info": user_info}
+
+def view_picture(user_id: int):
+    info =  data.database.read_query('SELECT picture FROM users WHERE user_id = %s', (user_id,))
+    if info:
+        picture =  StreamingResponse(io.BytesIO(info[0][0]), media_type="image/png")
+        return picture
+    else:
+        raise NotFound
 
 def newsletter(email):
     info = data.database.read_query('SELECT * FROM newsletter WHERE email = %s', (email,))

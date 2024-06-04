@@ -63,11 +63,6 @@ export default function Navbar({ location }) {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#subscribed-members">
-                    Subscribed Members
-                  </a>
-                </li>
-                <li className="nav-item">
                   <Link to="/profile" className="nav-link">
                     Profile
                   </Link>
@@ -82,7 +77,7 @@ export default function Navbar({ location }) {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#subscribed-members">
+                  <a className="nav-link" href="/course/subscribedMembers">
                     Subscribed Members
                   </a>
                 </li>
@@ -90,6 +85,15 @@ export default function Navbar({ location }) {
                   <a className="nav-link" href="#profile">
                     Profile
                   </a>
+                </li>
+              </>
+            )}
+            {locationLowerCase === "profile" && (
+              <>
+                <li className="nav-item">
+                  <Link to="/courses" className="nav-link">
+                    All courses
+                  </Link>
                 </li>
               </>
             )}

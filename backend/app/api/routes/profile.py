@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, UploadFile, File
 
 from backend.app.api.services.login_services import get_current_user
 from backend.app.api.services.profile_services import update_phone, update_firstname, update_lastname, view_profile, \
-    update_password, newsletter
+    update_password, newsletter, view_picture
 from backend.app.api.services.uploadpic_services import update_user_picture
 
 profile_router = APIRouter(prefix="/student_panel")
@@ -15,6 +15,11 @@ user_dependency = Annotated[dict, Depends(get_current_user)]
 def user_profile(user: user_dependency):
     user_id = user.get("id")
     return view_profile(user_id)
+
+@profile_router.get("/picture", status_code=200)
+def user_profile_picture(user: user_dependency):
+    user_id = user.get("id")
+    return  view_picture(user_id)
 
 @profile_router.put("/number", status_code=201)
 def update_number(user: user_dependency, new_num: str):
@@ -49,6 +54,7 @@ def subscribe_for_newsletter(email: str):
 
 def profile_related_endpoints(router: APIRouter):
     router.get("/profile", status_code=200)(user_profile)
+    router.get("/picture", status_code=200)(user_profile_picture)
     router.put("/firstname", status_code=201)(update_first_name)
     router.put("/lastname", status_code=201)(update_last_name)
     router.put("/profile_pic", status_code=201)(update_pic)

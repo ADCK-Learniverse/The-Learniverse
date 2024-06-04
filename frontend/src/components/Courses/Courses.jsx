@@ -34,7 +34,7 @@ const Card = styled.div`
 
 const AllCourses = () => {
   const [courses, setCourses] = useState([]);
-  const navigate = useNavigate(); // Use useNavigate for navigation
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCourses = async () => {

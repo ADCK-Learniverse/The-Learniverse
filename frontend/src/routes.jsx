@@ -9,6 +9,8 @@ import Course from "./components/Courses/Course";
 import CourseSections from "./components/Courses/CourseSections";
 import CreateCourse from "./components/Courses/CreateCourse";
 import CreateSection from "./components/Courses/CreateSection";
+import Profile from "./components/Profile/Profile";
+import SubscribedMembers from "./components/Courses/SubscribedMembers";
 
 
 export const router = createBrowserRouter([
@@ -43,6 +45,14 @@ export const router = createBrowserRouter([
   {
     path: "register/teachers",
     element: <RegistrationTeachers />,
+  },
+    {
+    path: "/profile",
+    element: <Profile />,
+  },
+     {
+    path: "course/subscribedMembers",
+    element: <SubscribedMembers />,
   },
   {
     path: "*",

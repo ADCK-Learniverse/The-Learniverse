@@ -1,3 +1,6 @@
+from starlette.responses import StreamingResponse
+import io
+
 from backend.app.api.utils.responses import Unauthorized
 from backend.app import data
 
@@ -22,7 +25,7 @@ def format_subscription_details(subscription_details_List):
         formatted_details = {
             n: format_detail[2]
         }
-    return {f'{subscription_details_List[0][3]} Subscribers': formatted_details}
+    return {'Course Subscribers': formatted_details}
 
 
 def format_section_details(section_details_list):
@@ -96,7 +99,7 @@ def format_user_info(content: list):
             "Email": user[2],
             "Phone number": user[3] if user[3] else "Not provided",
             "Role": user[4],
-            "Status": user[5]
+            "Status": user[5],
         }
         for user in content
     ]
