@@ -23,6 +23,7 @@ const SubscribedMembers = () => {
         const data = await response.json();
         setMembers(data.Members);
         setCourseMembers(data['Course Subscribers']);
+        console.log(data)
       } catch (error) {
         console.error("Error:", error);
       }

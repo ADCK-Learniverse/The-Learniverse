@@ -23,5 +23,13 @@ async def account_role(user: user_dependency, person_id: int, role: str):
     """This method switches the account role of the selected user by selecting his id and one of the 3 existing roles"""
     return convert(user, person_id, role)
 
+@owner_router.post('/token', status_code=201)
+def take_info(user:user_dependency):
+    information = {"username": user.get("sub"),
+                   "role": user.get("role"),
+                   "first": user.get('first_name'),
+                   "last": user.get('last_name'),
+                   "id": user.get('user_id')}
 
+    return information
 

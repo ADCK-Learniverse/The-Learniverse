@@ -1,8 +1,25 @@
-/* eslint-disable react/prop-types */
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import AppContext from "../../context/AppContext";
+import "./Navbar.css";
+
+
+
 
 export default function Navbar({ location }) {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const locationLowerCase = location.toLowerCase();
+  const context = useContext(AppContext);
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    alert("Logging out");
+    window.location.href = "/";
+  };
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
@@ -48,25 +65,50 @@ export default function Navbar({ location }) {
                     Newsletter
                   </a>
                 </li>
-                <li className="nav-item">
-                  <Link to="/login" className="nav-link">
-                    Step into the Universe
-                  </Link>
-                </li>
+                {!context.token && (
+                  <li className="nav-item">
+                    <Link to="/login" className="nav-link">
+                      Step into the Universe
+                    </Link>
+                  </li>
+                )}
+                {context.token && (
+                  <li className="nav-item dropdown">
+                    <button className="profile-btn nav-link" onClick={toggleDropdown}>
+                      Menu
+                    </button>
+                    {dropdownOpen && (
+                      <div className="dropdown-content">
+                        <Link to="/profile" className="nav-link">Profile</Link>
+                        <Link to="/" className="nav-link" onClick={logout}>Logout</Link>
+                      </div>
+                    )}
+                  </li>
+                )}
               </>
             )}
             {locationLowerCase === "courses" && (
               <>
-                <li className="nav-item">
-                  <Link to="/courses/create-course" className="nav-link">
-                    Create Course
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link to="/profile" className="nav-link">
-                    Profile
-                  </Link>
-                </li>
+                {context.token && (
+                  <li className="nav-item">
+                    <Link to="/courses/create-course" className="nav-link">
+                      Create Course
+                    </Link>
+                  </li>
+                )}
+                {context.token && (
+                  <li className="nav-item dropdown">
+                    <button className="profile-btn nav-link" onClick={toggleDropdown}>
+                      Menu
+                    </button>
+                    {dropdownOpen && (
+                      <div className="dropdown-content">
+                        <Link to="/profile" className="nav-link">Profile</Link>
+                        <Link to="/" className="nav-link" onClick={logout}>Logout</Link>
+                      </div>
+                    )}
+                  </li>
+                )}
               </>
             )}
             {locationLowerCase === "course/sections/" && (
@@ -81,11 +123,19 @@ export default function Navbar({ location }) {
                     Subscribed Members
                   </a>
                 </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#profile">
-                    Profile
-                  </a>
-                </li>
+                {context.token && (
+                  <li className="nav-item dropdown">
+                    <button className="profile-btn nav-link" onClick={toggleDropdown}>
+                      Menu
+                    </button>
+                    {dropdownOpen && (
+                      <div className="dropdown-content">
+                        <Link to="/profile" className="nav-link">Profile</Link>
+                        <Link to="/" className="nav-link" onClick={logout}>Logout</Link>
+                      </div>
+                    )}
+                  </li>
+                )}
               </>
             )}
             {locationLowerCase === "profile" && (
@@ -95,6 +145,13 @@ export default function Navbar({ location }) {
                     All courses
                   </Link>
                 </li>
+                {context.token && (
+                  <li className="nav-item">
+                    <Link to="/profile/password" className="nav-link">
+                      Change Password
+                    </Link>
+                  </li>
+                )}
               </>
             )}
           </ul>

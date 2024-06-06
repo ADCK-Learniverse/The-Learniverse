@@ -1,0 +1,26 @@
+.profile-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  padding: 0;
+}
+
+.dropdown-content {
+  position: absolute;
+  background-color: none;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  right: 0;
+  z-index: 1;
+}
+
+.dropdown-content .nav-link {
+  display: block;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: black;
+}
+
+.dropdown-content .nav-link:hover {
+  background-color: #f1f1f1;
+}

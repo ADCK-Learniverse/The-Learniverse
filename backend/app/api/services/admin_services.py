@@ -1,5 +1,5 @@
 from pydantic import Field
-from backend.app.api.utils.utilities import check_if_guest, check_if_student, check_if_teacher
+from backend.app.api.utils.utilities import check_if_guest, check_if_student, check_if_teacher, format_requests
 from backend.app import data
 
 
@@ -15,10 +15,10 @@ async def view_teacher_requests(user):
     check_if_student(user)
     check_if_teacher(user)
 
-    info = data.database.read_query('SELECT * FROM users WHERE role = %s AND status = %s',
+    info = data.database.read_query('SELECT email,firstname,lastname,phone_number FROM users WHERE role = %s AND status = %s',
                       ('teacher', 'awaiting'))
     if info:
-        return info
+        return format_requests(info)
     else:
         return {"message": "'No pending requests"}
 

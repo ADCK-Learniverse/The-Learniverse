@@ -206,3 +206,14 @@ def paginate_query(base_sql, page=1, size=10):
     paginated_sql = f"{base_sql} LIMIT {size} OFFSET {start}"
 
     return paginated_sql
+
+def format_requests(requests_details_list):
+    """This method formats the section information list."""
+    requests = [{
+            'Email': request_detail[0],
+            'First Name': request_detail[1],
+            'Last Name': request_detail[2],
+            'Phone Number': request_detail[3],
+        } for request_detail in requests_details_list ]
+    return requests
+

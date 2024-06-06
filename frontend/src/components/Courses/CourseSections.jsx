@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
 
-const token = JSON.parse(localStorage.getItem("token"));
+
 
 export default function CourseSections() {
   const { courseID } = useParams();
+  const token = JSON.parse(localStorage.getItem("token"));
 
   const [sections, setSections] = useState([]);
 

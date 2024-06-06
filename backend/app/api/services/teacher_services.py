@@ -1,5 +1,6 @@
 from backend.app.api.utils.utilities import (format_personal_information,
-                                             format_subscription_details, check_owner, check_if_guest, check_if_student)
+                                             format_subscription_details, check_owner, check_if_guest, check_if_student,
+                                             format_requests)
 from backend.app import data
 from backend.app.api.utils.responses import NotFound, Unauthorized
 
@@ -59,9 +60,9 @@ async def view_student_requests(user):
     check_if_guest(user)
     check_if_student(user)
 
-    info = data.database.read_query('SELECT * FROM users WHERE role = %s AND status = %s',
+    info = data.database.read_query('SELECT email,firstname,lastname,role,phone_number FROM users WHERE role = %s AND status = %s',
                                     ('student', 'awaiting'))
     if info:
-        return info
+        return format_requests(info)
     else:
         return 'No pending requests'

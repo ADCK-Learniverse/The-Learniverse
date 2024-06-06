@@ -4,13 +4,20 @@ import NotFoundPage from "./components/NotFoundPage/NotFoundPage";
 import Login from "./components/Login/Login";
 import RegistrationStudents from "./components/Register/RegistrationStudents";
 import RegistrationTeachers from "./components/Register/RegistrationTeachers";
+import TeacherRequests from "./components/Register/TeacherRequests";
 import Courses from "./components/Courses/Courses";
 import Course from "./components/Courses/Course";
 import CourseSections from "./components/Courses/CourseSections";
 import CreateCourse from "./components/Courses/CreateCourse";
 import CreateSection from "./components/Courses/CreateSection";
 import Profile from "./components/Profile/Profile";
+import UpdateFirstName from "./components/Profile/UpdateFirstName";
+import UpdateLastName from "./components/Profile/UpdateLastName";
+import UpdatePassword from "./components/Profile/UpdatePassword";
+import UpdateEmail from "./components/Profile/UpdateEmail";
+import UpdatePhone from "./components/Profile/UpdatePhone";
 import SubscribedMembers from "./components/Courses/SubscribedMembers";
+
 
 
 export const router = createBrowserRouter([
@@ -47,8 +54,32 @@ export const router = createBrowserRouter([
     element: <RegistrationTeachers />,
   },
     {
+    path: "teacher/requests",
+    element: <TeacherRequests />,
+  },
+    {
     path: "/profile",
     element: <Profile />,
+  },
+    {
+    path: "/profile/firstName",
+    element: <UpdateFirstName />,
+  },
+    {
+    path: "/profile/lastName",
+    element: <UpdateLastName />,
+  },
+    {
+    path: "/profile/password",
+    element: <UpdatePassword />,
+  },
+    {
+    path: "/profile/email",
+    element: <UpdateEmail />,
+  },
+      {
+    path: "/profile/phone",
+    element: <UpdatePhone />,
   },
      {
     path: "course/subscribedMembers",

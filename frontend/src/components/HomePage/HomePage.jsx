@@ -7,10 +7,11 @@ import sendNewsletter from '../../newsletter';
 const server = "http://127.0.0.1:8000";
 const loginEndpoint = "login";
 const loginUrl = `${server}/${loginEndpoint}/token`;
-const token = JSON.parse(localStorage.getItem("token"));
+
 
 export default function HomePage() {
   const context = useContext(AppContext);
+  const token = JSON.parse(localStorage.getItem("token"));
 
   return (
     <div id="page-top">
@@ -202,7 +203,7 @@ export default function HomePage() {
                   <h4 className="text-uppercase m-0">Address</h4>
                   <hr className="my-4 mx-auto" />
                   <div className="small text-black-50">
-                    4923 Market Street, Orlando FL
+                    Bulgaria
                   </div>
                 </div>
               </div>
@@ -214,7 +215,7 @@ export default function HomePage() {
                   <h4 className="text-uppercase m-0">Email</h4>
                   <hr className="my-4 mx-auto" />
                   <div className="small text-black-50">
-                    <a href="#!">hello@yourdomain.com</a>
+                    <a href="#!">TheLearnivers@gmail.com</a>
                   </div>
                 </div>
               </div>
@@ -225,7 +226,7 @@ export default function HomePage() {
                   <i className="fas fa-mobile-alt text-primary mb-2"></i>
                   <h4 className="text-uppercase m-0">Phone</h4>
                   <hr className="my-4 mx-auto" />
-                  <div className="small text-black-50">+1 (555) 902-8832</div>
+                  <div className="small text-black-50">+359 000000000</div>
                 </div>
               </div>
             </div>
