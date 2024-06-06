@@ -60,6 +60,7 @@ async def add_token_refresh_header(request: Request, call_next):
     else:
         return await call_next(request)
 
+
 @app.get('/')
 def home():
     return {"message": "Hello!"}
