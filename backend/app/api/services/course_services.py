@@ -35,7 +35,7 @@ async def delete_course(user_id: int, user_role: str, course_id: int):
     raise HTTPException(status_code=403, detail="You are not the creator of this course!")
 
 
-async def view_all(search, page=1, size=10):
+def view_all(search, page=1, size=10):
     start = (page - 1) * size
     if not search:
         sql = "SELECT course_id, title, description, rating, status, owner, tags FROM courses"
@@ -46,10 +46,10 @@ async def view_all(search, page=1, size=10):
     sql += " LIMIT %s OFFSET %s"
 
     if not search:
-        execute = await data.database.read_query(sql, (size, start))
+        execute = data.database.read_query(sql, (size, start))
         courses = format_course_info(execute)
     elif isinstance(search, str):
-        execute = await data.database.read_query(sql, (search, size, start))
+        execute = data.database.read_query(sql, (search, size, start))
         courses = format_course_info(execute)
     return {
         "Courses": courses,
@@ -63,11 +63,11 @@ async def check_for_existing_course(title: str):
     return await data.database.read_query(sql, (title, ))
 
 
-async def view_particular(course_id: int, user_id: int, user_role: str):
-    if not await check_if_user_is_approved(user_id):
+def view_particular(course_id: int, user_id: int, user_role: str):
+    if not check_if_user_is_approved(user_id):
         raise HTTPException(status_code=403, detail="You must be approved in order to view courses!")
     if user_role == "student":
-        if await check_course_status(course_id) == "premium" and not check_for_subscription(user_id, course_id):
+        if check_course_status(course_id) == "premium" and not check_for_subscription(user_id, course_id):
             raise HTTPException(status_code=403, detail="You must be subscribed in order to see this course!")
     course_sql = "SELECT course_id, title, description, rating, status, owner, tags FROM courses WHERE course_id = %s"
     execute = data.database.read_query(course_sql, (course_id,))

@@ -22,7 +22,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login/token")
 logged_in_users = {}
 
 
-async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
+def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -38,21 +38,47 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
         user_first_name = payload.get("first_name")
         user_last_name = payload.get("last_name")
         user_phone_number = payload.get("phone_number")
+        last_activity_str = payload.get("last_activity")
 
         if username is None or user_id is None:
             raise credentials_exception
 
-        return {"email": username, "id": user_id, "role": user_role,
-                'first_name': user_first_name, 'last_name': user_last_name, 'phone_number': user_phone_number}
+        last_activity = datetime.strptime(last_activity_str, "%Y-%m-%d %H:%M:%S.%f")
+
+        now = datetime.utcnow()
+        if now - last_activity > timedelta(minutes=15):
+            raise credentials_exception
+
+        new_token = generate_token({
+            'sub': username,
+            'user_id': user_id,
+            'first_name': user_first_name,
+            'last_name': user_last_name,
+            'role': user_role,
+            'phone_number': user_phone_number,
+            'last_activity': now.strftime("%Y-%m-%d %H:%M:%S.%f")
+        })
+
+        user_data = {
+            "email": username,
+            "id": user_id,
+            "role": user_role,
+            'first_name': user_first_name,
+            'last_name': user_last_name,
+            'phone_number': user_phone_number,
+            "new_token": new_token
+        }
+
+        return user_data
 
     except JWTError:
         raise credentials_exception
 
 
-def generate_token(data: dict):
+def generate_token(data: dict) -> str:
     to_encode = data.copy()
     expire = datetime.utcnow() + timedelta(minutes=TOKEN_EXPIRE_MINUTES)
-    to_encode.update({'exp': expire})
+    to_encode.update({'exp': expire, 'last_activity': datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S.%f")})
     secret_key = os.getenv('SECRET_KEY')
     encoded_jwt = jwt.encode(to_encode, secret_key, algorithm=ALGORITHM)
     return encoded_jwt
