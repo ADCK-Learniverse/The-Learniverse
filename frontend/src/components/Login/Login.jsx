@@ -33,16 +33,7 @@ export default function Login() {
     formData.append("password", password);
     login(formData);
 
-    if (appState !== null) {
-      alert("successful login");
-      window.location.href = "/";
-      localStorage.setItem('token', token);
-    }
   };
-
-  if (isLoading) {
-    return <Loader />;
-  }
 
   return (
     <>

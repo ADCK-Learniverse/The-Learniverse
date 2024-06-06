@@ -7,7 +7,7 @@ from fastapi import HTTPException
 from pydantic import Field
 
 
-async def new_course(user_id: int, user_role: str, course: Course):
+def new_course(user_id: int, user_role: str, course: Course):
     if user_role == "student":
         raise HTTPException(status_code=403, detail="As a student, you cannot create courses!")
     if not check_if_user_is_approved(user_id):
@@ -20,22 +20,22 @@ async def new_course(user_id: int, user_role: str, course: Course):
     joined_tags = ", ".join(course.tags)
     sql = ("INSERT INTO courses(title, description, objectives, owner, status, tags) VALUES"
            "(%s, %s, %s, %s, %s, %s)")
-    await data.database.insert_query(sql, (course.title, course.description, course.objectives,
+    data.database.insert_query(sql, (course.title, course.description, course.objectives,
                                      names, course.status, joined_tags))
     return {"message": "Course created successfully!"}
 
 
-async def delete_course(user_id: int, user_role: str, course_id: int):
+def delete_course(user_id: int, user_role: str, course_id: int):
     if user_role == "student":
         raise HTTPException(status_code=403, detail="As a student you cannot delete courses!")
     if check_for_creator(user_id, course_id) or user_role == "admin":
         delete_sql = "DELETE FROM courses WHERE course_id = %s"
-        await data.database.update_query(delete_sql, (course_id,))
+        data.database.update_query(delete_sql, (course_id,))
         return {"message": "Course deleted!"}
     raise HTTPException(status_code=403, detail="You are not the creator of this course!")
 
 
-async def view_all(search, page=1, size=10):
+def view_all(search, page=1, size=10):
     start = (page - 1) * size
     if not search:
         sql = "SELECT course_id, title, description, rating, status, owner, tags FROM courses"
@@ -46,10 +46,10 @@ async def view_all(search, page=1, size=10):
     sql += " LIMIT %s OFFSET %s"
 
     if not search:
-        execute = await data.database.read_query(sql, (size, start))
+        execute =  data.database.read_query(sql, (size, start))
         courses = format_course_info(execute)
     elif isinstance(search, str):
-        execute = await data.database.read_query(sql, (search, size, start))
+        execute =  data.database.read_query(sql, (search, size, start))
         courses = format_course_info(execute)
     return {
         "Courses": courses,
@@ -63,11 +63,11 @@ async def check_for_existing_course(title: str):
     return await data.database.read_query(sql, (title, ))
 
 
-async def view_particular(course_id: int, user_id: int, user_role: str):
-    if not await check_if_user_is_approved(user_id):
+def view_particular(course_id: int, user_id: int, user_role: str):
+    if not  check_if_user_is_approved(user_id):
         raise HTTPException(status_code=403, detail="You must be approved in order to view courses!")
     if user_role == "student":
-        if await check_course_status(course_id) == "premium" and not check_for_subscription(user_id, course_id):
+        if  check_course_status(course_id) == "premium" and not check_for_subscription(user_id, course_id):
             raise HTTPException(status_code=403, detail="You must be subscribed in order to see this course!")
     course_sql = "SELECT course_id, title, description, rating, status, owner, tags FROM courses WHERE course_id = %s"
     execute = data.database.read_query(course_sql, (course_id,))
