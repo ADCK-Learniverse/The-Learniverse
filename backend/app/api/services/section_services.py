@@ -1,6 +1,6 @@
 from backend.app.api.utils.responses import NoContent, NotFound, Unauthorized
 from backend.app.api.utils.utilities import check_if_guest,check_if_student, format_section_details, \
-    check_for_creator
+    check_for_creator, mark_section_as_visited
 from backend.app import data
 
 
@@ -32,11 +32,13 @@ async def sections(user, course_id):
 
 
 async def section(user, section_id, course_id):
+    user_id = user.get("id")
     check_if_guest(user)
 
     info = data.database.read_query('SELECT * FROM sections WHERE section_id = %s AND course_id = %s',
                                     (section_id, course_id))
     if info:
+        mark_section_as_visited(user_id, section_id)
         return format_section_details(info)
 
     else:
