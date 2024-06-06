@@ -17,18 +17,22 @@ export const useAuth = (username, password) => {
         method: "POST",
         body: formData,
       });
-
-      console.log(data);
-
       const json = await data.json();
-      console.log(json);
       setAppState(json);
-      console.log(appState);
 
-      localStorage.setItem(
+      if (json.access_token === undefined) {
+        setError("Login failed: token is undefined");
+        alert("Wrong Username or Password");
+        window.location.href = "/login";
+      } else {
+        setAppState({ userData: json });
+        window.location.href = "/";
+        localStorage.setItem(
         "token",
-        JSON.stringify(json.access_token)
-      );
+        JSON.stringify(json.access_token));
+      }
+
+
     } catch (error) {
       console.log(error.message);
       setError(error.message);
