@@ -1,5 +1,7 @@
 from backend.app.api.utils.responses import Unauthorized
 from backend.app import data
+from starlette.responses import StreamingResponse
+import io
 
 
 def format_personal_information(personal_details_list):
@@ -22,13 +24,12 @@ def format_subscription_details(subscription_details_List):
         formatted_details = {
             n: format_detail[2]
         }
-    return {f'{subscription_details_List[0][3]} Subscribers': formatted_details}
+    return {'Course Subscribers': formatted_details}
 
 
 def format_section_details(section_details_list):
     """This method formats the section information list."""
-    sections = [
-        {
+    sections = [{
             'Section Title': format_detail[1],
             'Section Content': format_detail[2],
             'Section Description': format_detail[3],
