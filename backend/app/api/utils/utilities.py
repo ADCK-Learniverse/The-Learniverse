@@ -27,13 +27,14 @@ def format_subscription_details(subscription_details_List):
 
 def format_section_details(section_details_list):
     """This method formats the section information list."""
-    sections = { [{
+    sections = [
+        {
             'Section Title': format_detail[1],
             'Section Content': format_detail[2],
             'Section Description': format_detail[3],
             'Section Information': format_detail[4],
             'Course Name': format_detail[5]
-        } for format_detail in section_details_list ]}
+        } for format_detail in section_details_list]
     return sections
 
 
@@ -129,6 +130,41 @@ async def approve_teacher(user, person_id):
 
     data.database.update_query('UPDATE users SET status = %s WHERE user_id = %s', ('approved', person_id,))
     return {"message": "Request Approved!"}
+
+
+def get_course_sections(course_id: int):
+    sql = "SELECT title, content, description, information, section_id FROM sections WHERE course_id = %s"
+    execute = data.database.read_query(sql, (course_id,))
+    if execute:
+        formatted = [
+            {
+                "Title": row[0],
+                "Content": row[1],
+                "Description": row[2],
+                "Information": row[3],
+                "Section ID": row[4]
+            }
+            for row in execute
+        ]
+        return formatted
+    return execute
+
+
+def mark_section_as_visited(user_id: int, section_id: int):
+    sql = "SELECT visited_sections FROM users WHERE user_id = %s"
+    student_data = data.database.read_query(sql, (user_id,))
+
+    if not student_data:
+        visited_sections_str = ''
+    else:
+        visited_sections_str = student_data[0][0]
+
+    visited_sections = set(map(int, visited_sections_str.split(','))) if visited_sections_str else set()
+    visited_sections.add(section_id)
+    updated_visited_sections_str = ','.join(map(str, visited_sections))
+
+    update_sql = "UPDATE users SET visited_sections = %s WHERE user_id = %s"
+    data.database.update_query(update_sql, (updated_visited_sections_str, user_id))
 
 
 async def decline_student(user, person_id):

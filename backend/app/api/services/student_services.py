@@ -4,19 +4,19 @@ from backend.app.api.utils.utilities import format_user_info
 from backend.app.api.services.course_services import view_particular
 
 
-def welcome_message(user_id: int):
+async def welcome_message(user_id: int):
     sql = "SELECT firstname FROM users WHERE user_id = %s"
     execute = data.database.read_query(sql, (user_id,))
     name = execute[0][0]
     return {"message": f"Hello, {name}"}
 
 
-def view_subscriptions(user_id: int, user_role: str, page: int = 1, size: int = 10):
+async def view_subscriptions(user_id: int, user_role: str, page: int = 1, size: int = 10):
     start = (page - 1) * size
     sql = "SELECT course_id FROM subscription WHERE user_id = %s LIMIT %s OFFSET %s"
-    execute = data.database.read_query(sql, (user_id, size, start))
+    execute = await data.database.read_query(sql, (user_id, size, start))
     courses_count_sql = "SELECT COUNT(*) FROM subscription WHERE user_id = %s"
-    courses_count = data.database.read_query(courses_count_sql, (user_id,))[0][0]
+    courses_count = await data.database.read_query(courses_count_sql, (user_id,))[0][0]
     if not execute:
         raise HTTPException(status_code=404, detail="No subscriptions found!")
     course_ids = [row[0] for row in execute]
