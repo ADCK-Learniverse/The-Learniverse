@@ -44,9 +44,6 @@ async def add_token_refresh_header(request: Request, call_next):
     excluded_paths = ["/login", "/register", "/logout"]
     if not any(request.url.path.startswith(path) for path in excluded_paths):
         response = await call_next(request)
-        print("Request URL:", request.url)
-        print("Request Headers:", request.headers)
-        print("Response:", response)
         if "Authorization" in request.headers:
             token = request.headers.get("Authorization").split(" ")[1]
             try:
