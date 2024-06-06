@@ -25,7 +25,6 @@ export default function CourseSections() {
         return response.json();
       })
       .then((data) => {
-        console.log("checkpoint2", data);
         if (data && data.length > 0) {
           setSections(data);
         } else {

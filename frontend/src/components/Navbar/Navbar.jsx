@@ -80,6 +80,8 @@ export default function Navbar({ location }) {
                     {dropdownOpen && (
                       <div className="dropdown-content">
                         <Link to="/profile" className="nav-link">Profile</Link>
+                        <Link to="/student/requests" className="nav-link">Student Requests</Link>
+                        <Link to="/teacher/requests" className="nav-link">Teacher Requests</Link>
                         <Link to="/" className="nav-link" onClick={logout}>Logout</Link>
                       </div>
                     )}
@@ -104,6 +106,8 @@ export default function Navbar({ location }) {
                     {dropdownOpen && (
                       <div className="dropdown-content">
                         <Link to="/profile" className="nav-link">Profile</Link>
+                        <Link to="/student/requests" className="nav-link">Student Requests</Link>
+                        <Link to="/teacher/requests" className="nav-link">Teacher Requests</Link>
                         <Link to="/" className="nav-link" onClick={logout}>Logout</Link>
                       </div>
                     )}

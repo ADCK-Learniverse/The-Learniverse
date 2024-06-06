@@ -5,6 +5,7 @@ import Login from "./components/Login/Login";
 import RegistrationStudents from "./components/Register/RegistrationStudents";
 import RegistrationTeachers from "./components/Register/RegistrationTeachers";
 import TeacherRequests from "./components/Register/TeacherRequests";
+import StudentRequests from "./components/Register/StudentRequests";
 import Courses from "./components/Courses/Courses";
 import Course from "./components/Courses/Course";
 import CourseSections from "./components/Courses/CourseSections";
@@ -56,6 +57,10 @@ export const router = createBrowserRouter([
     {
     path: "teacher/requests",
     element: <TeacherRequests />,
+  },
+  {
+    path: "student/requests",
+    element: <StudentRequests />,
   },
     {
     path: "/profile",

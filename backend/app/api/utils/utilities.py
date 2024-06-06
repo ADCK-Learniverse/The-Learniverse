@@ -244,10 +244,11 @@ def paginate_query(base_sql, page=1, size=10):
 def format_requests(requests_details_list):
     """This method formats the section information list."""
     requests = [{
-            'Email': request_detail[0],
-            'First Name': request_detail[1],
-            'Last Name': request_detail[2],
-            'Phone Number': request_detail[3],
+            'User ID': request_detail[0],
+            'Email': request_detail[1],
+            'First Name': request_detail[2],
+            'Last Name': request_detail[3],
+            'Phone Number': request_detail[4],
         } for request_detail in requests_details_list ]
     return requests
 

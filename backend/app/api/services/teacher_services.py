@@ -60,7 +60,7 @@ async def view_student_requests(user):
     check_if_guest(user)
     check_if_student(user)
 
-    info = data.database.read_query('SELECT email,firstname,lastname,role,phone_number FROM users WHERE role = %s AND status = %s',
+    info = data.database.read_query('SELECT user_id,email,firstname,lastname,role,phone_number FROM users WHERE role = %s AND status = %s',
                                     ('student', 'awaiting'))
     if info:
         return format_requests(info)
