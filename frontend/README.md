@@ -8,9 +8,10 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
 How to Install and Run the Frontend
-1. npm install
-2. npm install mdb-react-ui-kit
-3. npm install styled-components
+1. Download and install Node.js
+2. npm install
+3. npm install mdb-react-ui-kit
+4. npm install styled-components
 2. cd frontend
 3. npm run dev
 
