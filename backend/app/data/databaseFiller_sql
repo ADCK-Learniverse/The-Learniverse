@@ -1,0 +1,63 @@
+-- Register 2 owners
+INSERT INTO users (email, password, firstname, lastname, role, phone_number, other_accounts, status)
+VALUES
+('owner1@example.com', 'password123', 'Owner', 'One', 'owner', '1234567890', 'other_accounts_info', 'approved'),
+('owner2@example.com', 'password123', 'Owner', 'Two', 'owner', '1234567891', 'other_accounts_info', 'approved');
+
+-- Register 2 admins
+INSERT INTO users (email, password, firstname, lastname, role, phone_number, other_accounts, status)
+VALUES
+('admin1@example.com', 'password123', 'Admin', 'One', 'admin', '1234567892', 'other_accounts_info', 'approved'),
+('admin2@example.com', 'password123', 'Admin', 'Two', 'admin', '1234567893', 'other_accounts_info', 'approved');
+
+-- Register 2 teachers
+INSERT INTO users (email, password, firstname, lastname, role, phone_number, other_accounts, status)
+VALUES
+('teacher1@example.com', 'password123', 'Teacher', 'One', 'teacher', '1234567894', 'other_accounts_info', 'approved'),
+('teacher2@example.com', 'password123', 'Teacher', 'Two', 'teacher', '1234567895', 'other_accounts_info', 'approved');
+
+-- Register 2 students
+INSERT INTO users (email, password, firstname, lastname, role, phone_number, other_accounts, status)
+VALUES
+('student1@example.com', 'password123', 'Student', 'One', 'student', '1234567896', 'other_accounts_info', 'approved'),
+('student2@example.com', 'password123', 'Student', 'Two', 'student', '1234567897', 'other_accounts_info', 'approved');
+
+-- Register 2 public courses
+INSERT INTO courses (title, description, objectives, owner, status, rating, visibility, tags)
+VALUES
+('Public Course 1', 'Description of Public Course 1', 'Objectives of Public Course 1', 'Owner One', 'public', 4.5, 1, 'tag1,tag2,tag3'),
+('Public Course 2', 'Description of Public Course 2', 'Objectives of Public Course 2', 'Owner Two', 'public', 4.2, 1, 'tag4,tag5,tag6');
+
+-- Register 2 private courses
+INSERT INTO courses (title, description, objectives, owner, status, rating, visibility, tags)
+VALUES
+('Private Course 1', 'Description of Private Course 1', 'Objectives of Private Course 1', 'Owner One', 'private', 4.7, 0, 'tag7,tag8,tag9'),
+('Private Course 2', 'Description of Private Course 2', 'Objectives of Private Course 2', 'Owner Two', 'private', 4.3, 0, 'tag10,tag11,tag12');
+
+-- Insert one section for each public course
+INSERT INTO sections (title, content, description, information, course_id)
+SELECT 'Section 1', 'Content of Section 1', 'Description of Section 1', 'Information about Section 1', course_id
+FROM courses
+WHERE status = 'public'
+LIMIT 2;
+
+-- Insert one section for each private course
+INSERT INTO sections (title, content, description, information, course_id)
+SELECT 'Section 1', 'Content of Section 1', 'Description of Section 1', 'Information about Section 1', course_id
+FROM courses
+WHERE status = 'private'
+LIMIT 2;
+
+-- Fill subscription table with subscriptions for users and courses
+INSERT INTO subscription (course_id, user_id, course_status)
+VALUES
+-- Subscriptions for Public Courses
+(1, 1, 'public'), -- Public Course 1, Owner One
+(1, 2, 'public'), -- Public Course 1, Admin One
+(2, 3, 'public'), -- Public Course 2, Teacher One
+(2, 4, 'public'), -- Public Course 2, Student One
+-- Subscriptions for Private Courses
+(3, 1, 'premium'), -- Private Course 1, Owner One
+(3, 2, 'premium'), -- Private Course 1, Admin One
+(4, 3, 'premium'), -- Private Course 2, Teacher One
+(4, 4, 'premium'); -- Private Course 2, Student One
