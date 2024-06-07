@@ -67,7 +67,12 @@ async def unsubscribe(Teacher, course_id, subscriber_id):
 
 def format_course_info(content: list):
     return [
+<<<<<<< HEAD
         {   "Course ID": course[0],
+=======
+        {
+            "Course ID": course[0],
+>>>>>>> 20dd955140eee43c677827811ee9b7e21eb7818f
             "Course Title": course[1],
             "Description": course[2],
             "Rating": course[3],

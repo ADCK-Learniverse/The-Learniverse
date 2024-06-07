@@ -25,12 +25,12 @@ def new_course(user_id: int, user_role: str, course: Course):
     return {"message": "Course created successfully!"}
 
 
-async def delete_course(user_id: int, user_role: str, course_id: int):
+def delete_course(user_id: int, user_role: str, course_id: int):
     if user_role == "student":
         raise HTTPException(status_code=403, detail="As a student you cannot delete courses!")
     if check_for_creator(user_id, course_id) or user_role == "admin":
         delete_sql = "DELETE FROM courses WHERE course_id = %s"
-        await data.database.update_query(delete_sql, (course_id,))
+        data.database.update_query(delete_sql, (course_id,))
         return {"message": "Course deleted!"}
     raise HTTPException(status_code=403, detail="You are not the creator of this course!")
 
@@ -61,6 +61,8 @@ def view_all(search, page=1, size=10):
 def check_for_existing_course(title: str):
     sql = "SELECT * FROM courses WHERE title = %s"
     return  data.database.read_query(sql, (title, ))
+
+
 
 
 def view_particular(course_id: int, user_id: int, user_role: str):
@@ -165,9 +167,9 @@ def check_for_subscription(user_id: int, course_id: int):
     return execute
 
 
-async def check_if_user_is_approved(user_id: int):
+def check_if_user_is_approved(user_id: int):
     sql = "SELECT status FROM users WHERE user_id = %s"
-    execute = await data.database.read_query(sql, (user_id,))
+    execute = data.database.read_query(sql, (user_id,))
     if execute[0][0] != "approved":
         return False
     return True
