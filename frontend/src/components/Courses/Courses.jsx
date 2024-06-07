@@ -49,6 +49,7 @@ const AllCourses = () => {
         }
         const data = await response.json();
         setCourses(data.Courses);
+        console.log(data)
       } catch (error) {
         console.error("Error:", error);
       }
