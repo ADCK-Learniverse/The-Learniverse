@@ -49,6 +49,7 @@ const AllCourses = () => {
         }
         const data = await response.json();
         setCourses(data.Courses);
+        console.log(data)
       } catch (error) {
         console.error("Error:", error);
       }
@@ -65,7 +66,7 @@ const AllCourses = () => {
         {courses.map((course) => (
           <Card
             key={course['Course ID']}
-            onClick={() => navigate(`/course/sections/${course['Course ID']}`)} // Navigate to course sections
+            onClick={() => navigate(`/course/sections/${course['Course ID']}`)}
           >
             <h2>{course["Course Title"]}</h2>
             <p>{course.Description}</p>

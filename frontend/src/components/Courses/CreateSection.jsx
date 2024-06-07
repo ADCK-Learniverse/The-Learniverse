@@ -42,7 +42,7 @@ export default function CreateSection() {
         content,
         description,
         information,
-        course_id: courseID // Fixed variable name
+        course_id: courseID
       };
 
       const response = await fetch('http://127.0.0.1:8000/sections/new', {
@@ -66,9 +66,9 @@ export default function CreateSection() {
         return;
       }
 
-      // Section created successfully
+
       alert("Section created successfully");
-      navigate('/'); // Redirect to home page or wherever appropriate
+      navigate('/');
     } catch (error) {
       setError(error.message);
     } finally {

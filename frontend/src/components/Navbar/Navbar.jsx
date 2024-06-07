@@ -123,6 +123,11 @@ export default function Navbar({ location }) {
                   </Link>
                 </li>
                 <li className="nav-item">
+                  <Link to="/sections/delete-section/" className="nav-link">
+                    Delete Section
+                  </Link>
+                </li>
+                <li className="nav-item">
                   <a className="nav-link" href="/course/subscribedMembers">
                     Subscribed Members
                   </a>

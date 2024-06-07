@@ -11,6 +11,7 @@ import Course from "./components/Courses/Course";
 import CourseSections from "./components/Courses/CourseSections";
 import CreateCourse from "./components/Courses/CreateCourse";
 import CreateSection from "./components/Courses/CreateSection";
+import DeleteSection from "./components/Courses/DeleteSection";
 import Profile from "./components/Profile/Profile";
 import UpdateFirstName from "./components/Profile/UpdateFirstName";
 import UpdateLastName from "./components/Profile/UpdateLastName";
@@ -45,6 +46,10 @@ export const router = createBrowserRouter([
       {
     path: "/sections/create-section",
     element: <CreateSection />,
+  },
+      {
+    path: "/sections/delete-section",
+    element: <DeleteSection />,
   },
   {
     path: "register/students",
