@@ -41,7 +41,7 @@ async def section(user, section_id, course_id):
         return format_section_details(info)
 
     else:
-        raise NoContent
+        return []
 
 
 async def remove_section(user,course_id, section_id):
