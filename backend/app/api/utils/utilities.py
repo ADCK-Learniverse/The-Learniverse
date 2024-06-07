@@ -1,7 +1,6 @@
 from backend.app.api.utils.responses import Unauthorized
 from backend.app import data
-from starlette.responses import StreamingResponse
-import io
+
 
 
 def format_personal_information(personal_details_list):
@@ -34,7 +33,7 @@ def format_section_details(section_details_list):
             'Section Content': format_detail[2],
             'Section Description': format_detail[3],
             'Section Information': format_detail[4],
-            'Course Name': format_detail[5]
+            'Course ID': format_detail[5],
         } for format_detail in section_details_list]
     return sections
 
@@ -68,13 +67,13 @@ async def unsubscribe(Teacher, course_id, subscriber_id):
 
 def format_course_info(content: list):
     return [
-        {
-            "Course Title": course[0],
-            "Description": course[1],
-            "Rating": course[2],
-            "Status": course[3],
-            "By": course[4],
-            "Tags": course[5]
+        {   "Course ID": course[0],
+            "Course Title": course[1],
+            "Description": course[2],
+            "Rating": course[3],
+            "Status": course[4],
+            "By": course[5],
+            "Tags": course[6]
         }
         for course in content
     ]

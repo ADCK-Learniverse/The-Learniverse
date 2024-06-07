@@ -7,10 +7,11 @@ from jose import jwt, JWTError
 from fastapi import HTTPException, Depends
 from fastapi.security import OAuth2PasswordBearer
 from backend.app.api.services.admin_services import get_user_by_id
-from backend.app.api.utils.responses import NotFound
+from backend.app.api.utils.responses import NotFound, AccountNotApproved
 from dotenv import load_dotenv
 import os
 
+from backend.app.data.database import read_query
 
 load_dotenv()
 
@@ -95,6 +96,9 @@ def authenticate_user(username: str, password: str):
 
 
 def login(username: str, password: str):
+    check_if_account_status_is_approved(username) # Stop him at the entrance if he is not approved.
+
+
     if authenticate_user(username, password):
         user_information = data.database.read_query('SELECT * FROM users WHERE email = %s', (username,))
         user_token = generate_token({'sub': username, 'user_id': user_information[0][0],
@@ -117,3 +121,10 @@ def logout(user_id: int):
         return {'message': 'You have successfully logged out!'}
     else:
         raise NotFound
+
+
+def check_if_account_status_is_approved(username):
+    info = read_query('SELECT status FROM users WHERE email = %s', (username,))
+    if info[0][0] != 'approved':
+        raise AccountNotApproved
+

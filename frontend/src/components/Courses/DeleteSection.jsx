@@ -59,7 +59,7 @@ export default function DeleteSection() {
       }
 
 
-      alert("Section created successfully");
+      alert("Section deleted successfully");
       navigate('/');
     } catch (error) {
       setError(error.message);
@@ -98,7 +98,7 @@ export default function DeleteSection() {
                     />
                   </div>
                   <button type="submit" className="btn btn-outline-white btn-lg px-5">
-                    {isLoading ? <Loader /> : "Create Section"}
+                    {isLoading ? <Loader /> : "Delete Section"}
                   </button>
                 </form>
               </div>

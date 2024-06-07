@@ -19,3 +19,7 @@ class NoContent(HTTPException):
 class InternalServerError(HTTPException):
     def __init__(self, content='Internal Server Error'):
         super().__init__(status_code=500, detail=content)
+
+class AccountNotApproved(HTTPException):
+    def __init__(self, content='Your account has no access at this time!'):
+        super().__init__(status_code=403, detail=content)

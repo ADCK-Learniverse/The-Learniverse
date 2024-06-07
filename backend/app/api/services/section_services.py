@@ -2,6 +2,7 @@ from backend.app.api.utils.responses import NoContent, NotFound, Unauthorized
 from backend.app.api.utils.utilities import check_if_guest,check_if_student, format_section_details, \
     check_for_creator, mark_section_as_visited
 from backend.app import data
+from backend.app.data.database import read_query
 
 
 async def new_section(user, section_data):
@@ -19,16 +20,14 @@ async def new_section(user, section_data):
     return {"message": "New Section created!"}
 
 
-async def sections(user, course_id):
+async def sections(user, course_id, filter):
     check_if_guest(user)
 
-    info = data.database.read_query('SELECT * FROM sections WHERE course_id = %s', (course_id,))
-    if info:
-        format_section_details(info)
-        return format_section_details(info)
+    if filter:
+        return sort_sections_with(filter)
+    return sort_sections_by_default(course_id)
 
-    else:
-        raise NoContent
+
 
 
 async def section(user, section_id, course_id):
@@ -59,3 +58,17 @@ async def remove_section(user,course_id, section_id):
 
     else:
         raise NotFound
+
+
+def sort_sections_with(filter):
+    if filter.lower() == 'id':
+       info = read_query('SELECT * FROM sections ORDER BY %s', ('section_id',))
+       return [] if info is None else format_section_details(info)
+
+    if filter.lower() == "title":
+        info = read_query('SELECT * FROM sections ORDER BY %s', (filter,))
+        return [] if info is None else format_section_details(info)
+
+def sort_sections_by_default(course_id):
+    info = read_query('SELECT * FROM sections WHERE course_id = %s', (course_id,))
+    return [] if info is None else format_section_details(info)

@@ -1,4 +1,4 @@
-from typing import Annotated
+from typing import Annotated, Optional
 from fastapi import APIRouter, Depends
 
 from backend.app.api.services.section_services import new_section, sections, section, remove_section
@@ -15,9 +15,10 @@ async def create_section(user: user_dependency, section:Section):
     return await new_section(user, section)
 
 @section_router.get('/', status_code=200)
-async def all_sections(user: user_dependency, course_id: int):
-    """This method returns all sections"""
-    return await sections(user, course_id)
+async def all_sections(user: user_dependency, course_id: int, filter: Optional[str] = None):
+    """This method returns all sections with a default arrangement.
+    Filter option can be used, to filter by id or title."""
+    return await sections(user, course_id, filter)
 
 @section_router.get('/{section_id}', status_code=200)
 async def specific_section(user: user_dependency, section_id: int, course_id: int):

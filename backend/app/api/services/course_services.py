@@ -7,7 +7,7 @@ from fastapi import HTTPException
 from pydantic import Field
 
 
-async def new_course(user_id: int, user_role: str, course: Course):
+def new_course(user_id: int, user_role: str, course: Course):
     if user_role == "student":
         raise HTTPException(status_code=403, detail="As a student, you cannot create courses!")
     if not check_if_user_is_approved(user_id):
@@ -20,7 +20,7 @@ async def new_course(user_id: int, user_role: str, course: Course):
     joined_tags = ", ".join(course.tags)
     sql = ("INSERT INTO courses(title, description, objectives, owner, status, tags) VALUES"
            "(%s, %s, %s, %s, %s, %s)")
-    await data.database.insert_query(sql, (course.title, course.description, course.objectives,
+    data.database.insert_query(sql, (course.title, course.description, course.objectives,
                                      names, course.status, joined_tags))
     return {"message": "Course created successfully!"}
 
@@ -58,9 +58,9 @@ def view_all(search, page=1, size=10):
     }
 
 
-async def check_for_existing_course(title: str):
+def check_for_existing_course(title: str):
     sql = "SELECT * FROM courses WHERE title = %s"
-    return await data.database.read_query(sql, (title, ))
+    return  data.database.read_query(sql, (title, ))
 
 
 def view_particular(course_id: int, user_id: int, user_role: str):
