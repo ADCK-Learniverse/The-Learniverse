@@ -82,6 +82,7 @@ export default function Navbar({ location }) {
                         <Link to="/profile" className="nav-link">Profile</Link>
                         <Link to="/student/requests" className="nav-link">Student Requests</Link>
                         <Link to="/teacher/requests" className="nav-link">Teacher Requests</Link>
+                        <Link to="/control-panel" className="nav-link">O/A Dashboard</Link>
                         <Link to="/" className="nav-link" onClick={logout}>Logout</Link>
                       </div>
                     )}
@@ -98,6 +99,32 @@ export default function Navbar({ location }) {
                     </Link>
                   </li>
                 )}
+                {context.token && (
+                  <li className="nav-item">
+                    <Link to="/courses/delete-course" className="nav-link">
+                      Delete Course
+                    </Link>
+                  </li>
+                )}
+                {context.token && (
+                  <li className="nav-item dropdown">
+                    <button className="profile-btn nav-link" onClick={toggleDropdown}>
+                      Menu
+                    </button>
+                    {dropdownOpen && (
+                      <div className="dropdown-content">
+                        <Link to="/profile" className="nav-link">Profile</Link>
+                        <Link to="/student/requests" className="nav-link">Student Requests</Link>
+                        <Link to="/teacher/requests" className="nav-link">Teacher Requests</Link>
+                        <Link to="/" className="nav-link" onClick={logout}>Logout</Link>
+                      </div>
+                    )}
+                  </li>
+                )}
+              </>
+            )}
+            {locationLowerCase === "admin" && (
+              <>
                 {context.token && (
                   <li className="nav-item dropdown">
                     <button className="profile-btn nav-link" onClick={toggleDropdown}>
@@ -161,8 +188,10 @@ export default function Navbar({ location }) {
                     </Link>
                   </li>
                 )}
+
               </>
             )}
+
           </ul>
         </div>
       </div>

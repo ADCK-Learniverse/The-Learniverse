@@ -1,6 +1,7 @@
 from backend.app import data
 from backend.app.api.services.uploadpic_services import check_for_creator
 from backend.app.api.services.section_services import sections
+from backend.app.api.utils.newsletter_utilities import new_course_newsletter, removed_course_newsletter
 from backend.app.api.utils.utilities import format_ratings, format_course_info, get_course_sections
 from backend.app.models import Course
 from fastapi import HTTPException
@@ -22,15 +23,20 @@ def new_course(user_id: int, user_role: str, course: Course):
            "(%s, %s, %s, %s, %s, %s)")
     data.database.insert_query(sql, (course.title, course.description, course.objectives,
                                      names, course.status, joined_tags))
+
+
+    new_course_newsletter(course.title) # Send Email notifications to the subscribed users
     return {"message": "Course created successfully!"}
 
 
 def delete_course(user_id: int, user_role: str, course_id: int):
     if user_role == "student":
         raise HTTPException(status_code=403, detail="As a student you cannot delete courses!")
-    if check_for_creator(user_id, course_id) or user_role == "admin":
+    if check_for_creator(user_id, course_id) or user_role == "admin" or user_role == "owner":
         delete_sql = "DELETE FROM courses WHERE course_id = %s"
         data.database.update_query(delete_sql, (course_id,))
+
+        removed_course_newsletter()
         return {"message": "Course deleted!"}
     raise HTTPException(status_code=403, detail="You are not the creator of this course!")
 

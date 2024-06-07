@@ -1,6 +1,6 @@
 from backend.app.api.utils.responses import NoContent, NotFound, Unauthorized
-from backend.app.api.utils.utilities import check_if_guest,check_if_student, format_section_details, \
-    check_for_creator, mark_section_as_visited
+from backend.app.api.utils.utilities import check_if_guest, check_if_student, format_section_details, \
+    check_for_creator, mark_section_as_visited, check_owner
 from backend.app import data
 from backend.app.data.database import read_query
 
@@ -48,7 +48,7 @@ async def remove_section(user,course_id, section_id):
     check_if_guest(user)
     check_if_student(user)
 
-    if check_for_creator(user_id=user.get('id'), course_id=course_id) == False:
+    if not check_owner(user, course_id):
         raise Unauthorized
 
     info = data.database.read_query('SELECT * FROM sections WHERE section_id = %s', (section_id,))

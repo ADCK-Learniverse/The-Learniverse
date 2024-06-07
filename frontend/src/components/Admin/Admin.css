@@ -1,0 +1,51 @@
+* {
+  box-sizing: border-box;
+}
+
+.admin-wrapper {
+  background: linear-gradient(135deg, #1c1c3c, #3a3a80);
+  background-size: cover;
+  background-attachment: fixed;
+  color: #fff;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.control-panel {
+  flex: 1;
+  display: flex;
+  padding: 100px;
+}
+
+.main-panel {
+  flex: 2;
+  border: 2px solid #ccc;
+  margin-right: 20px;
+  border-radius: 80px;
+
+  height: 68%; /* Adjust this value to make the box smaller height-wise */
+}
+
+.side-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.top-box, .bottom-box {
+  flex: 1;
+  border: 2px solid #ccc;
+  border-radius: 80px;
+
+  height: 40%;
+}
+
+.extra-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-left: 20px;
+}

@@ -1,6 +1,6 @@
 from backend.app.api.utils.responses import Unauthorized
 from backend.app import data
-
+from backend.app.data.database import read_query
 
 
 def format_personal_information(personal_details_list):
@@ -208,15 +208,16 @@ def check_if_student(user):
 def check_if_admin(user):
     """This method authorises the user and raises error if it's not successful."""
 
-    if user.get('role')== 'admin':
+    if user.get('role') == 'admin':
         raise Unauthorized
 
 
 def check_if_owner(user):
     """This method authorises the user and raises error if it's not successful."""
 
-    if user.get('role') == 'owner':
+    if user.get('role') != 'owner':
         raise Unauthorized
+
 def check_if_teacher(user):
     """This method authorises the user and raises error if it's not successful."""
 

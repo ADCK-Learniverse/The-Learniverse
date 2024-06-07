@@ -67,6 +67,7 @@ export const CardComponent  =  ({ profileImage, email, firstName, lastName, phon
 
       // Handle success response
       console.log('Request approved successfully');
+      window.location.href = "/teacher/requests";
     } catch (error) {
       console.error('Error approving request:', error);
     }
@@ -85,9 +86,8 @@ export const CardComponent  =  ({ profileImage, email, firstName, lastName, phon
       if (!declineResponse.ok) {
         throw new Error('Failed to approve');
       }
-
-      // Handle success response
       console.log('Request declined successfully');
+      window.location.href = "/teacher/requests";
     } catch (error) {
       console.error('Error approving request:', error);
     }

@@ -5,23 +5,19 @@ import Loader from "../Loader/Loader";
 export default function DeleteSection() {
   const navigate = useNavigate();
 
-
   const [course, setCourse] = useState("");
-  const [section, setSection] = useState("");
-
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
 
   const handleCourseChange = (e) => setCourse(e.target.value);
-  const handleSectionChange = (e) => setSection(e.target.value);
 
   // Form submission handler
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Form validation
-    if (!course || !section) {
+    if (!course) {
       alert("All fields are required.");
       return;
     }
@@ -34,10 +30,9 @@ export default function DeleteSection() {
     try {
       const formData = {
         course,
-        section,
       };
 
-      const response = await fetch(`http://127.0.0.1:8000/sections/${encodeURIComponent(section)}?course_id=${encodeURIComponent(course)}`, {
+      const response = await fetch(`http://127.0.0.1:8000/courses/?course_id=${encodeURIComponent(course)}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -59,7 +54,7 @@ export default function DeleteSection() {
       }
 
 
-      alert("Section deleted successfully");
+      alert("Course deleted successfully");
       navigate('/');
     } catch (error) {
       setError(error.message);
@@ -75,8 +70,8 @@ export default function DeleteSection() {
           <div className="col-12 col-md-8 col-lg-6 col-xl-5">
             <div className="card bg-dark text-white" style={{ borderRadius: "1rem" }}>
               <div className="card-body text-center">
-                <h2 className="fw-bold mb-2 text-uppercase">Delete Section</h2>
-                <form id="delete-section-form" onSubmit={handleSubmit}>
+                <h2 className="fw-bold mb-2 text-uppercase">Delete Course</h2>
+                <form id="delete-course-form" onSubmit={handleSubmit}>
                   <div className="form-outline mb-4">
                     <input
                       type="text"
@@ -87,18 +82,8 @@ export default function DeleteSection() {
                       aria-label="Course ID"
                     />
                   </div>
-                  <div className="form-outline mb-4">
-                    <input
-                      type="text"
-                      className="form-control-lg"
-                      placeholder="Section ID"
-                      value={section}
-                      onChange={handleSectionChange}
-                      aria-label="Section ID"
-                    />
-                  </div>
                   <button type="submit" className="btn btn-outline-white btn-lg px-5">
-                    {isLoading ? <Loader /> : "Delete Section"}
+                    {isLoading ? <Loader /> : "Delete Course"}
                   </button>
                 </form>
               </div>
