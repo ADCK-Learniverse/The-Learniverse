@@ -24,6 +24,7 @@ export default function ProfilePage() {
         }
         const data = await response.json();
         const userInfo = data['User info'][0];
+        console.log(userInfo)
         setUser({
           firstname: userInfo['First name'],
           lastname: userInfo['Last name'],
@@ -37,6 +38,7 @@ export default function ProfilePage() {
           twitter: userInfo.twitter,
           instagram: userInfo.instagram,
           facebook: userInfo.facebook,
+          picture: userInfo['picture']
         });
       } catch (error) {
         console.error("Error:", error);

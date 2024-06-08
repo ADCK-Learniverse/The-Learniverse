@@ -26,9 +26,9 @@ class Section(BaseModel):
 
 
 class Course(BaseModel):
-    title: str = Field(min_length=5, max_length=45)
-    description: str = Field(min_length=5, max_length=45)
-    objectives: str = Field(min_length=5, max_length=45)
+    title: str = Field(min_length=3, max_length=45)
+    description: str = Field(min_length=5, max_length=300)
+    objectives: str = Field(min_length=5, max_length=300)
     status: str = Field(min_length=6, max_length=7)
     tags: list
 

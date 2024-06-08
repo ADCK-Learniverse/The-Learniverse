@@ -16,7 +16,7 @@ from backend.app.data.database import read_query
 load_dotenv()
 
 ALGORITHM = 'HS256'
-TOKEN_EXPIRE_MINUTES = 15
+TOKEN_EXPIRE_MINUTES = 60
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login/token")
 

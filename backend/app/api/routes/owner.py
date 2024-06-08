@@ -1,10 +1,14 @@
+import io
 from typing import Annotated
 from fastapi import APIRouter, Depends
+from starlette.responses import StreamingResponse
+
 from backend.app.api.routes.admin import admin_related_endpoints
 from backend.app.api.routes.profile import profile_related_endpoints
 from backend.app.api.routes.teacher import teacher_related_endpoints
 from backend.app.api.services.login_services import get_current_user
 from backend.app.api.services.owner_services import convert
+from backend.app.data.database import read_query
 
 owner_router = APIRouter(prefix="/owner_panel")
 user_dependency = Annotated[dict, Depends(get_current_user)]
@@ -33,3 +37,11 @@ def take_info(user:user_dependency):
 
     return information
 
+@owner_router.get("/frontendpic", status_code=200)
+def get_pic_course(course_id):
+    info = read_query('SELECT picture FROM courses WHERE course_id = %s', (course_id,))
+    if info:
+        picture = StreamingResponse(io.BytesIO(info[0][0]), media_type="image/png")
+        return picture
+    else:
+        raise []
