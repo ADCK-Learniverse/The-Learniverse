@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Navbar from "../Navbar/Navbar";
 import defaultCoursePic from "../../assets/default.jpg";
+import Loader from "../Loader/Loader"; // Adjust the import path
 
 export default function CourseSections() {
   const { courseID } = useParams();
@@ -28,7 +29,6 @@ export default function CourseSections() {
         console.log('Fetched Course Data:', courseData);
         setCourse(courseData[0]);
 
-        // Check if the user is subscribed to the course
         const subscriptionResponse = await fetch(`http://127.0.0.1:8000/courses/subscription/${courseID}`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -68,12 +68,12 @@ export default function CourseSections() {
   };
 
   const getProgressColor = (progress) => {
-    if (0 <= progress <= 35) return 'red';
-    if (35 < progress <= 75) return 'orange';
+    if ( 0 <= progress <= 35) return 'red';
+    if (35 <= progress <= 75) return 'orange';
     return 'green';
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loader />;
   if (error) return <div>Error: {error.message}</div>;
   if (!course) return <div>No course data available.</div>;
 

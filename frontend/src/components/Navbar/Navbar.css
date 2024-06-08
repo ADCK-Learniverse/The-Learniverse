@@ -1,26 +1,56 @@
-.profile-btn {
+/* General Navbar Styles */
+.navbar {
+  transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+.navbar-scrolled {
+  background: rgba(0, 50, 100, 33); /* Dark pale blue with transparency */
+  backdrop-filter: blur(16px);
+}
+
+/* Dropdown Menu Styles */
+.navbar .dropdown-content {
+  background: rgba(0, 50, 100, 0.7); /* Dark pale blue with transparency */
+  backdrop-filter: blur(10px);
+  border: none;
+  position: absolute;
+  display: none;
+  flex-direction: column;
+  width: 200px;
+  top: 100%;
+  right: 0;
+  z-index: 1000;
+}
+
+/* Show dropdown menu when dropdown is open */
+.navbar .dropdown.open .dropdown-content {
+  display: flex;
+}
+
+/* Navbar link colors */
+.navbar .nav-link {
+  color: white;
+}
+
+/* Dropdown link colors */
+.navbar .dropdown-content .nav-link {
+  color: white;
+}
+
+/* Dropdown link hover effect */
+.navbar .dropdown-content .nav-link:hover {
+  color: #ddd;
+}
+
+/* Profile button in dropdown */
+.navbar .profile-btn {
   background: none;
   border: none;
+  color: white;
   cursor: pointer;
-  color: inherit;
-  padding: 0;
 }
 
-.dropdown-content {
-  position: absolute;
-  background-color: none;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  right: 0;
-  z-index: 1;
-}
-
-.dropdown-content .nav-link {
-  display: block;
-  padding: 12px 16px;
-  text-decoration: none;
-  color: black;
-}
-
-.dropdown-content .nav-link:hover {
-  background-color: none;
+/* Ensure white text color for navbar brand */
+.navbar .navbar-brand {
+  color: white;
 }

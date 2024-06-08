@@ -1,15 +1,28 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import AppContext from "../../context/AppContext";
 import "./Navbar.css";
 
-
-
-
 export default function Navbar({ location }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const locationLowerCase = location.toLowerCase();
   const context = useContext(AppContext);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -22,10 +35,10 @@ export default function Navbar({ location }) {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+    <nav className={`navbar navbar-expand-lg navbar-light fixed-top ${scrolled ? "navbar-scrolled" : ""}`} id="mainNav">
       <div className="container px-4 px-lg-5">
         <li className="nav-item">
-          <Link to="/" className="nav-link">
+          <Link to="/" className="navbar-brand">
             The Learniverse
           </Link>
         </li>
@@ -73,19 +86,17 @@ export default function Navbar({ location }) {
                   </li>
                 )}
                 {context.token && (
-                  <li className="nav-item dropdown">
+                  <li className={`nav-item dropdown ${dropdownOpen ? "open" : ""}`}>
                     <button className="profile-btn nav-link" onClick={toggleDropdown}>
                       Menu
                     </button>
-                    {dropdownOpen && (
-                      <div className="dropdown-content">
-                        <Link to="/profile" className="nav-link">Profile</Link>
-                        <Link to="/student/requests" className="nav-link">Student Requests</Link>
-                        <Link to="/teacher/requests" className="nav-link">Teacher Requests</Link>
-                        <Link to="/control-panel" className="nav-link">O/A Dashboard</Link>
-                        <Link to="/" className="nav-link" onClick={logout}>Logout</Link>
-                      </div>
-                    )}
+                    <div className="dropdown-content">
+                      <Link to="/profile" className="nav-link">Profile</Link>
+                      <Link to="/student/requests" className="nav-link">Student Requests</Link>
+                      <Link to="/teacher/requests" className="nav-link">Teacher Requests</Link>
+                      <Link to="/control-panel" className="nav-link">O/A Dashboard</Link>
+                      <Link to="/" className="nav-link" onClick={logout}>Logout</Link>
+                    </div>
                   </li>
                 )}
               </>
@@ -107,25 +118,23 @@ export default function Navbar({ location }) {
                   </li>
                 )}
                 {context.token && (
-                  <li className="nav-item dropdown">
+                  <li className={`nav-item dropdown ${dropdownOpen ? "open" : ""}`}>
                     <button className="profile-btn nav-link" onClick={toggleDropdown}>
                       Menu
                     </button>
-                    {dropdownOpen && (
-                      <div className="dropdown-content">
-                        <Link to="/profile" className="nav-link">Profile</Link>
-                        <Link to="/student/requests" className="nav-link">Student Requests</Link>
-                        <Link to="/teacher/requests" className="nav-link">Teacher Requests</Link>
-                        <Link to="/" className="nav-link" onClick={logout}>Logout</Link>
-                      </div>
-                    )}
+                    <div className="dropdown-content">
+                      <Link to="/profile" className="nav-link">Profile</Link>
+                      <Link to="/student/requests" className="nav-link">Student Requests</Link>
+                      <Link to="/teacher/requests" className="nav-link">Teacher Requests</Link>
+                      <Link to="/" className="nav-link" onClick={logout}>Logout</Link>
+                    </div>
                   </li>
                 )}
               </>
             )}
             {locationLowerCase === "admin" && (
               <>
-                  {context.token && (
+                {context.token && (
                   <li className="nav-item">
                     <Link to="" className="nav-link">
                       Analytics
@@ -133,18 +142,16 @@ export default function Navbar({ location }) {
                   </li>
                 )}
                 {context.token && (
-                  <li className="nav-item dropdown">
+                  <li className={`nav-item dropdown ${dropdownOpen ? "open" : ""}`}>
                     <button className="profile-btn nav-link" onClick={toggleDropdown}>
                       Menu
                     </button>
-                    {dropdownOpen && (
-                      <div className="dropdown-content">
-                        <Link to="/profile" className="nav-link">Profile</Link>
-                        <Link to="/student/requests" className="nav-link">Student Requests</Link>
-                        <Link to="/teacher/requests" className="nav-link">Teacher Requests</Link>
-                        <Link to="/" className="nav-link" onClick={logout}>Logout</Link>
-                      </div>
-                    )}
+                    <div className="dropdown-content">
+                      <Link to="/profile" className="nav-link">Profile</Link>
+                      <Link to="/student/requests" className="nav-link">Student Requests</Link>
+                      <Link to="/teacher/requests" className="nav-link">Teacher Requests</Link>
+                      <Link to="/" className="nav-link" onClick={logout}>Logout</Link>
+                    </div>
                   </li>
                 )}
               </>
@@ -167,16 +174,14 @@ export default function Navbar({ location }) {
                   </a>
                 </li>
                 {context.token && (
-                  <li className="nav-item dropdown">
+                  <li className={`nav-item dropdown ${dropdownOpen ? "open" : ""}`}>
                     <button className="profile-btn nav-link" onClick={toggleDropdown}>
                       Menu
                     </button>
-                    {dropdownOpen && (
-                      <div className="dropdown-content">
-                        <Link to="/profile" className="nav-link">Profile</Link>
-                        <Link to="/" className="nav-link" onClick={logout}>Logout</Link>
-                      </div>
-                    )}
+                    <div className="dropdown-content">
+                      <Link to="/profile" className="nav-link">Profile</Link>
+                      <Link to="/" className="nav-link" onClick={logout}>Logout</Link>
+                    </div>
                   </li>
                 )}
               </>

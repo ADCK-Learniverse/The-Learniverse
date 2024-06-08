@@ -1,8 +1,13 @@
-import './Loader.style.css'
+import './Loader.style.css';
+import Navbar from '../Navbar/Navbar';
 
-
-export default function Loader(){
+export default function Loader() {
     return (
-        <span className="loader"></span>
-    )
+        <div className="loader-overlay">
+            <Navbar location="loading" />
+            <div className="loader-container">
+                <span className="loader"></span>
+            </div>
+        </div>
+    );
 }
