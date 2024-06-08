@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import Navbar from "../Navbar/Navbar";
 import defaultCoursePic from "../../assets/default.jpg";
 import Loader from "../Loader/Loader"; // Adjust the import path
 
 export default function CourseSections() {
   const { courseID } = useParams();
+  const navigate = useNavigate();
   const token = JSON.parse(localStorage.getItem("token"));
 
   const [course, setCourse] = useState(null);
@@ -15,7 +16,12 @@ export default function CourseSections() {
   const [isSubscribed, setIsSubscribed] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+
+    const fetchCourseData = async () => {
       try {
         const courseResponse = await fetch(`http://127.0.0.1:8000/courses/${courseID}`, {
           headers: {
@@ -46,8 +52,8 @@ export default function CourseSections() {
       }
     };
 
-    fetchData();
-  }, [courseID, token]);
+    fetchCourseData();
+  }, [courseID, token, navigate]);
 
   const handleSubscribe = async () => {
     try {
@@ -68,7 +74,7 @@ export default function CourseSections() {
   };
 
   const getProgressColor = (progress) => {
-    if ( 0 <= progress <= 35) return 'red';
+    if (0 <= progress <= 35) return 'red';
     if (35 <= progress <= 75) return 'orange';
     return 'green';
   };
@@ -128,20 +134,22 @@ export default function CourseSections() {
           </div>
         </div>
 
-        <button
-          onClick={() => setShowSections(!showSections)}
-          style={{
-            marginTop: '20px',
-            width: '100%',
-            backgroundColor: '#1c1c3c',
-            color: '#fff',
-            padding: '10px 20px',
-            border: 'none',
-            borderRadius: '8px',
-            cursor: 'pointer'
-          }}>
-          {showSections ? 'Hide Sections' : 'Show Sections'}
-        </button>
+        {!isSubscribed && course.Status === 'premium' ? null : (
+          <button
+            onClick={() => setShowSections(!showSections)}
+            style={{
+              marginTop: '20px',
+              width: '100%',
+              backgroundColor: '#1c1c3c',
+              color: '#fff',
+              padding: '10px 20px',
+              border: 'none',
+              borderRadius: '8px',
+              cursor: 'pointer'
+            }}>
+            {showSections ? 'Hide Sections' : 'Show Sections'}
+          </button>
+        )}
 
         {showSections && (
           <div style={{ marginTop: '20px' }}>
