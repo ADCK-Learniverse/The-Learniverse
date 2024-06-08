@@ -13,14 +13,12 @@ function App() {
       setToken(token);
       console.log(accessToken);
     }
-  }, []);
+  }, [accessToken]);
 
   return (
-    <>
-      <AppContext.Provider value={{ token: accessToken, setContext: setToken }}>
-        <RouterProvider router={router}></RouterProvider>
-      </AppContext.Provider>
-    </>
+    <AppContext.Provider value={{ token: accessToken, setContext: setToken }}>
+      <RouterProvider router={router} />
+    </AppContext.Provider>
   );
 }
 

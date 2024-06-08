@@ -7,6 +7,7 @@ import RegistrationTeachers from "./components/Register/RegistrationTeachers";
 import TeacherRequests from "./components/Register/TeacherRequests";
 import StudentRequests from "./components/Register/StudentRequests";
 import Courses from "./components/Courses/Courses";
+import CourseDetails from "./components/Courses/CourseDetails"
 import Course from "./components/Courses/Course";
 import CourseSections from "./components/Courses/CourseSections";
 import CreateCourse from "./components/Courses/CreateCourse";

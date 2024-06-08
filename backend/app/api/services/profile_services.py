@@ -1,7 +1,7 @@
 import bcrypt
 from starlette.responses import StreamingResponse, JSONResponse
 import io
-
+import base64
 from backend.app import data
 from backend.app.api.services.register_services import send_emails
 from backend.app.api.utils.responses import NotFound
@@ -25,6 +25,7 @@ def update_lastname(user_id: int, lastname: str):
     data.database.update_query(sql, (lastname, user_id))
     return {"message": "Last name updated!"}
 
+
 def update_password(user, password):
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
     data.database.update_query('UPDATE users SET password = %s WHERE user_id = %s', (hashed_password, user.get('id')))
@@ -37,10 +38,11 @@ def view_profile(user_id: int):
     user_info = format_user_info(execute)
     return {"User info": user_info}
 
+
 def view_picture(user_id: int):
-    info =  data.database.read_query('SELECT picture FROM users WHERE user_id = %s', (user_id,))
+    info = data.database.read_query('SELECT picture FROM users WHERE user_id = %s', (user_id,))
     if info:
-        picture =  StreamingResponse(io.BytesIO(info[0][0]), media_type="image/png")
+        picture = StreamingResponse(io.BytesIO(info[0][0]), media_type="image/png")
         return picture
     else:
         raise NotFound
@@ -62,4 +64,15 @@ def newsletter(email):
 def newsletter_subscribers():
     return data.database.read_query('SELECT email FROM newsletter')
 
+
+def get_pic_for_frontend(user_id: int):
+    sql = "SELECT picture FROM users WHERE user_id = %s"
+    result = data.database.read_query(sql, (user_id,))
+    if result:
+        picture_blob = result[0]
+        base64_picture = base64.b64encode(picture_blob).decode('utf-8')
+        base64_picture = f"data:image/jpeg;base64,{base64_picture}"
+
+        return {"picture": base64_picture}
+    return {"picture": None}
 

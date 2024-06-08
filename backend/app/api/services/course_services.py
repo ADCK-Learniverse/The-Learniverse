@@ -1,3 +1,5 @@
+import base64
+
 from backend.app import data
 from backend.app.api.services.uploadpic_services import check_for_creator
 from backend.app.api.services.section_services import sections
@@ -77,7 +79,7 @@ def view_particular(course_id: int, user_id: int, user_role: str):
     if user_role == "student":
         if check_course_status(course_id) == "premium" and not check_for_subscription(user_id, course_id):
             raise HTTPException(status_code=403, detail="You must be subscribed in order to see this course!")
-    course_sql = "SELECT course_id, title, description, rating, status, owner, tags FROM courses WHERE course_id = %s"
+    course_sql = "SELECT course_id, title, description, rating, status, owner, tags, picture FROM courses WHERE course_id = %s"
     execute = data.database.read_query(course_sql, (course_id,))
     if not execute:
         raise HTTPException(status_code=404, detail="Course not found!")
@@ -96,10 +98,14 @@ def view_particular(course_id: int, user_id: int, user_role: str):
         progress_percentage = (visited_count / total_sections) * 100 if total_sections > 0 else 0
 
         course_format[0]['Progress'] = f"{progress_percentage:.2f}%"
+
+        image_data = get_pic_for_frontend(course_id)
+        if image_data:
+            course_format[0]["picture"] = image_data["picture"]
+
         return course_format
     else:
         return course_format
-
 
 def switch_status(course_id: int, user_role: str, user_id: int):
     if user_role == "student":
@@ -170,7 +176,10 @@ def update_course_rating(course_id: int, rating: int):
 def check_for_subscription(user_id: int, course_id: int):
     sql = "SELECT * FROM subscription WHERE user_id = %s AND course_id = %s"
     execute = data.database.read_query(sql, (user_id, course_id))
-    return execute
+    if execute:
+        return execute
+    else:
+        return None
 
 
 def check_if_user_is_approved(user_id: int):
@@ -215,3 +224,16 @@ def check_for_rating(user_id: int, course_id: int):
     sql = "SELECT * FROM course_rating WHERE user_id = %s AND course_id = %s"
     execute = data.database.read_query(sql, (user_id, course_id,))
     return execute
+
+
+def get_pic_for_frontend(course_id: int):
+    sql = "SELECT picture FROM courses WHERE course_id = %s"
+    picture = data.database.read_query(sql, (course_id,))
+    if picture:
+        picture_blob = picture[0][0]
+        if picture_blob is not None:
+            base64_picture = base64.b64encode(picture_blob).decode('utf-8')
+            base64_picture = f"data:image/jpeg;base64,{base64_picture}"
+            return {"picture": base64_picture}
+
+    return {"picture": None}

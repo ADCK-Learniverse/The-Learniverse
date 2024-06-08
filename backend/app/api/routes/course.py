@@ -3,7 +3,7 @@ from backend.app.models import Course
 from backend.app.api.services.login_services import get_current_user
 from backend.app.api.services.course_services import (new_course, switch_status, subscribe,
                                                       delete_course, unsubscribe, rate, view_all,
-                                                      view_particular, show_ratings)
+                                                      view_particular, show_ratings, check_for_subscription, get_pic_for_frontend)
 from typing import Annotated
 import logging
 
@@ -42,6 +42,12 @@ def switch_course_status(user: user_dependency, course_id: int):
     user_role = user.get("role")
     user_id = user.get("id")
     return switch_status(course_id, user_role, user_id)
+
+
+@course_router.get("/subscription/check_for_subscription/{course_id}", status_code=200)
+def check_for_sub(user: user_dependency, course_id: int):
+    user_id = user.get("id")
+    return check_for_subscription(user_id, course_id)
 
 
 @course_router.post("/subscription/{course_id}", status_code=201)
