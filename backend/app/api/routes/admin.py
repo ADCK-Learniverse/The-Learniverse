@@ -35,9 +35,9 @@ async def decline_teacher_request(user: user_dependency, teacher_id: int):
     return await decline_teacher(user, teacher_id)
 
 @admin_router.delete('/restrict_access', status_code=200)
-async def deactivate_account(user:user_dependency, person_id: int):
+async def deactivate_account(user:user_dependency, person_email: str):
     """This method deactivates the account of the desired person and restricts his access to everything."""
-    return await deactivate(user, person_id)
+    return await deactivate(user, person_email)
 
 
 def admin_related_endpoints(router: APIRouter):

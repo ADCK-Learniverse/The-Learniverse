@@ -125,6 +125,13 @@ export default function Navbar({ location }) {
             )}
             {locationLowerCase === "admin" && (
               <>
+                  {context.token && (
+                  <li className="nav-item">
+                    <Link to="" className="nav-link">
+                      Analytics
+                    </Link>
+                  </li>
+                )}
                 {context.token && (
                   <li className="nav-item dropdown">
                     <button className="profile-btn nav-link" onClick={toggleDropdown}>
@@ -188,10 +195,8 @@ export default function Navbar({ location }) {
                     </Link>
                   </li>
                 )}
-
               </>
             )}
-
           </ul>
         </div>
       </div>

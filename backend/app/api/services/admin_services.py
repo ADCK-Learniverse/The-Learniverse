@@ -23,11 +23,11 @@ async def view_teacher_requests(user):
         return {"message": "'No pending requests"}
 
 
-async def deactivate(user, person_id):
+async def deactivate(user, person_email):
     check_if_guest(user)
     check_if_student(user)
     check_if_teacher(user)
 
 
-    data.database.update_query('UPDATE users SET status = %s WHERE user_id = %s', ('banned', person_id,))
+    data.database.update_query('UPDATE users SET status = %s WHERE email = %s', ('banned', person_email,))
     return {"message": "User banned, access restricted"}

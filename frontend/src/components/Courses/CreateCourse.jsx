@@ -150,6 +150,7 @@ export default function CreateCourse() {
                         aria-label="Course Status"
                         onChange={handleStatusChange}
                       >
+                        <option value="">Select Type</option>
                         <option value="premium">premium</option>
                         <option value="public">public</option>
                       </select>

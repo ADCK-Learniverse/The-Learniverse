@@ -68,7 +68,7 @@ export default function CreateSection() {
 
 
       alert("Section created successfully");
-      navigate('/');
+      navigate('/courses');
     } catch (error) {
       setError(error.message);
     } finally {

@@ -15,16 +15,16 @@
 .control-panel {
   flex: 1;
   display: flex;
-  padding: 100px;
+  padding: 200px;
 }
 
 .main-panel {
   flex: 2;
-  border: 2px solid #ccc;
-  margin-right: 20px;
+  border: 0px solid #ccc;
+  margin-right: 500px;
   border-radius: 80px;
 
-  height: 68%; /* Adjust this value to make the box smaller height-wise */
+  height: 65%;
 }
 
 .side-panel {
@@ -36,10 +36,10 @@
 
 .top-box, .bottom-box {
   flex: 1;
-  border: 2px solid #ccc;
+  border: 0px solid #ccc;
   border-radius: 80px;
 
-  height: 40%;
+  height:65%;
 }
 
 .extra-panel {

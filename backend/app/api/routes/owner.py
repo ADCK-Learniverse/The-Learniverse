@@ -19,9 +19,9 @@ admin_related_endpoints(owner_router)
 
 
 @owner_router.patch('/account_role', status_code=200)
-async def account_role(user: user_dependency, person_id: int, role: str):
-    """This method switches the account role of the selected user by selecting his id and one of the 3 existing roles"""
-    return convert(user, person_id, role)
+async def account_role(user: user_dependency, person_email: str, role: str):
+    """This method switches the account role of the selected user by selecting his email and one of the 3 existing roles"""
+    return convert(user, person_email, role)
 
 @owner_router.post('/token', status_code=201)
 def take_info(user:user_dependency):
