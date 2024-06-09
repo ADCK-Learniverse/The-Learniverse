@@ -16,6 +16,56 @@ export default function CourseSections() {
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [showRatingOptions, setShowRatingOptions] = useState(false);
   const [userRating, setUserRating] = useState(null);
+  const [isHidden, setIsHidden] = useState(false); // New state for course visibility
+
+  const handleSubscribe = async () => {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/courses/subscription/${courseID}`, {
+        method: isSubscribed ? 'DELETE' : 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to ${isSubscribed ? 'unsubscribe' : 'subscribe'}: ${response.statusText}`);
+      }
+      setIsSubscribed(!isSubscribed);
+    } catch (error) {
+      console.error("Error subscribing/unsubscribing:", error);
+    }
+  };
+
+  const handleRating = async (rating) => {
+    try {
+      const ratingValue = parseInt(rating);
+      if (isNaN(ratingValue) || ratingValue < 1 || ratingValue > 10) {
+        throw new Error("Rating must be an integer between 1 and 10");
+      }
+
+      const response = await fetch(`http://127.0.0.1:8000/courses/rating/${courseID}?rating=${ratingValue}`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to rate course: ${response.statusText}`);
+      }
+
+      setUserRating(ratingValue);
+      setShowRatingOptions(false);
+    } catch (error) {
+      console.error("Error rating course:", error);
+    }
+  };
+
+  const getProgressColor = (progress) => {
+    if (0 <= progress <= 35) return 'red';
+    if (35 < progress <= 75) return 'orange';
+    return 'green';
+  };
 
   useEffect(() => {
     if (!token) {
@@ -34,7 +84,6 @@ export default function CourseSections() {
           throw new Error(`Failed to fetch course data: ${courseResponse.statusText}`);
         }
         const courseData = await courseResponse.json();
-        console.log('Fetched Course Data:', courseData);
         setCourse(courseData[0]);
 
         const subscriptionResponse = await fetch(`http://127.0.0.1:8000/courses/subscription/${courseID}`, {
@@ -67,68 +116,22 @@ export default function CourseSections() {
     fetchCourseData();
   }, [courseID, token, navigate]);
 
-  useEffect(() => {
-    // Check if the user is subscribed and has rated the course
-    if (isSubscribed && userRating) {
-      // Hide the rating and subscription options if the user is subscribed and has rated the course
-      setShowRatingOptions(false);
-    }
-  }, [isSubscribed, userRating]);
-
-  const handleSubscribe = async () => {
+  const handleHideCourse = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/courses/subscription/${courseID}`, {
-        method: isSubscribed ? 'DELETE' : 'POST',
+      const response = await fetch(`http://127.0.0.1:8000/courses/visibility/${courseID}`, {
+        method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
       });
       if (!response.ok) {
-        throw new Error(`Failed to ${isSubscribed ? 'unsubscribe' : 'subscribe'}: ${response.statusText}`);
+        throw new Error(`Failed to hide/unhide course: ${response.statusText}`);
       }
-      setIsSubscribed(!isSubscribed);
+      setIsHidden(!isHidden); // Toggle the hidden state
     } catch (error) {
-      console.error("Error subscribing/unsubscribing:", error);
+      console.error("Error hiding/unhiding course:", error);
     }
-  };
-
-const handleRating = async (rating) => {
-  try {
-    // Parse the rating value as an integer
-    const ratingValue = parseInt(rating);
-
-    // Check if the parsed rating is within the acceptable range
-    if (isNaN(ratingValue) || ratingValue < 1 || ratingValue > 10) {
-      throw new Error("Rating must be an integer between 1 and 10");
-    }
-
-    const response = await fetch(`http://127.0.0.1:8000/courses/rating/${courseID}?rating=${ratingValue}`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Failed to rate course: ${response.statusText}`);
-    }
-
-    // Update the user's rating locally
-    setUserRating(ratingValue);
-    // Hide the rating options after the user has rated the course
-    setShowRatingOptions(false);
-  } catch (error) {
-    console.error("Error rating course:", error);
-  }
-};
-
-
-
-  const getProgressColor = (progress) => {
-    if (0 <= progress <= 35) return 'red';
-    if (35 <= progress <= 75) return 'orange';
-    return 'green';
   };
 
   if (loading) return <Loader />;
@@ -137,8 +140,34 @@ const handleRating = async (rating) => {
 
   return (
     <section style={{ background: 'linear-gradient(135deg, #1c1c3c, #3a3a80)', color: '#fff', padding: '100px 0' }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '35px' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '35px', position: 'relative' }}>
         <Navbar location="course/sections/" />
+
+        <button
+          onClick={handleHideCourse}
+          style={{
+            position: 'absolute',
+            top: '35px',
+            right: '35px',
+            backgroundColor: isHidden ? '#ffcccb' : '#ff0000',
+            color: '#fff',
+            padding: '12px 20px',
+            border: 'none',
+            borderRadius: '50px',
+            cursor: 'pointer',
+            fontSize: '1rem',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+            transition: 'background-color 0.3s ease, transform 0.3s ease',
+            transform: 'scale(1)',
+            textTransform: 'uppercase',
+            letterSpacing: '1px',
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+        >
+          {isHidden ? 'Unhide Course' : 'Hide Course'}
+        </button>
+
         <div style={{ marginBottom: '50px', textAlign: 'center' }}>
           <h1 style={{ color: '#fff', fontSize: '3rem' }}>{course["Course Title"]}</h1>
           <h2 style={{ color: '#ccc', marginTop: '10px' }}>{course.Description}</h2>
@@ -156,12 +185,26 @@ const handleRating = async (rating) => {
           <div style={{ flex: '3', backgroundColor: '#fff', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', padding: '20px', position: 'relative', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
             <div>
               <p className="mb-0" style={{ fontSize: '2rem', color: '#1c1c3c' }}>Owner: {course.By}</p>
-              <p className="mb-0" style={{ fontSize: '2rem', marginTop: '10px', color: course.Status === 'premium' ? '#ffcc00' : (course.Status === 'public' ? 'green' : 'inherit'), fontWeight: course.Status === 'premium' ? 'bold' : 'normal' }}>
-                Status: {course.Status}
-              </p>
+              <p
+                  className="mb-0"
+                  style={{
+                    fontSize: '2rem',
+                    marginTop: '10px',
+                    color: course.Status === 'premium'
+                      ? '#ffcc00'
+                      : course.Status === 'public'
+                      ? 'green'
+                      : course.Status === 'hidden'
+                      ? 'red'
+                      : 'inherit',
+                    fontWeight: course.Status === 'premium' ? 'bold' : 'normal',
+                  }}
+                >
+                  Status: {course.Status}
+                </p>
               <p className="text-black-50 mb-0" style={{ fontSize: '1.5rem', marginTop: '10px' }}>Tags: {course.Tags}</p>
             </div>
-            <div style={{ marginTop: '50px' }}>
+            <div style={{ marginTop: '1px' }}>
               <h4 style={{ fontSize: '1.5rem', color: '#1c1c3c' }}>Rating: {course.Rating}</h4>
               {course.Progress && (
                 <p style={{ fontSize: '1.2rem', color: getProgressColor(course.Progress), marginTop: '10px' }}>
@@ -179,13 +222,20 @@ const handleRating = async (rating) => {
                       style={{
                         backgroundColor: userRating === i + 1 ? '#ffd700' : '#fff',
                         color: '#000',
-                        padding: '10px',
-                        margin: '5px',
-                        border: '1px solid #ccc',
-                        borderRadius: '5px',
+                        padding: '12px 20px',
+                        border: 'none',
+                        borderRadius: '50px',
                         cursor: 'pointer',
-                        pointerEvents: userRating ? 'none' : 'auto', // Disable button after rating
-                      }}>
+                        fontSize: '1rem',
+                        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                        transition: 'background-color 0.3s ease, transform 0.3s ease',
+                        transform: 'scale(1)',
+                        textTransform: 'uppercase',
+                        letterSpacing: '1px',
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                      onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                    >
                       {i + 1}
                     </button>
                   ))}
@@ -198,11 +248,18 @@ const handleRating = async (rating) => {
                     color: '#000',
                     padding: '12px 20px',
                     border: 'none',
-                    borderRadius: '8px',
+                    borderRadius: '50px',
                     cursor: 'pointer',
-                    fontSize: '1.2rem',
-                    pointerEvents: userRating ? 'none' : 'auto', // Disable button after rating
-                  }}>
+                    fontSize: '1rem',
+                    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                    transition: 'background-color 0.3s ease, transform 0.3s ease',
+                    transform: 'scale(1)',
+                    textTransform: 'uppercase',
+                    letterSpacing: '1px',
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                >
                   {userRating ? `Rated: ${userRating}` : 'Rate this Course'}
                 </button>
               )}
@@ -212,13 +269,21 @@ const handleRating = async (rating) => {
               style={{
                 backgroundColor: isSubscribed ? '#ffcccb' : '#ff0000',
                 color: '#fff',
-                padding: '12px 10px',
+                padding: '12px 20px',
                 border: 'none',
-                borderRadius: '8px',
+                borderRadius: '50px',
                 cursor: 'pointer',
-                fontSize: '1.2rem',
+                fontSize: '1rem',
+                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                transition: 'background-color 0.3s ease, transform 0.3s ease',
+                transform: 'scale(1)',
+                textTransform: 'uppercase',
+                letterSpacing: '1px',
                 marginTop: '10px',
-              }}>
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+            >
               {isSubscribed ? 'UNSUBSCRIBE' : 'SUBSCRIBE'}
             </button>
           </div>
@@ -232,11 +297,20 @@ const handleRating = async (rating) => {
               width: '100%',
               backgroundColor: '#1c1c3c',
               color: '#fff',
-              padding: '10px 20px',
+              padding: '12px 20px',
               border: 'none',
-              borderRadius: '8px',
-              cursor: 'pointer'
-            }}>
+              borderRadius: '50px',
+              cursor: 'pointer',
+              fontSize: '1rem',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+              transition: 'background-color 0.3s ease, transform 0.3s ease',
+              transform: 'scale(1)',
+              textTransform: 'uppercase',
+              letterSpacing: '1px',
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+          >
             {showSections ? 'Hide Sections' : 'Show Sections'}
           </button>
         )}

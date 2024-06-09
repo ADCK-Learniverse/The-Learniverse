@@ -46,7 +46,7 @@ def delete_course(user_id: int, user_role: str, course_id: int):
 def view_all(search, page=1, size=10):
     start = (page - 1) * size
     if not search:
-        sql = "SELECT course_id, title, description, rating, status, owner, tags FROM courses"
+        sql = "SELECT course_id, title, description, rating, status, owner, tags FROM courses WHERE status <> 'hidden'"
     elif isinstance(search, str):
         sql = ("SELECT course_id, title, description, rating, status, owner, tags FROM courses"
                " WHERE FIND_IN_SET(%s, REPLACE(tags, ', ', ',')) > 0")
@@ -177,9 +177,9 @@ def check_for_subscription(user_id: int, course_id: int):
     sql = "SELECT * FROM subscription WHERE user_id = %s AND course_id = %s"
     execute = data.database.read_query(sql, (user_id, course_id))
     if execute:
-        return execute
+        return {"message": "Subscribed"}
     else:
-        return None
+        return False
 
 
 def check_if_user_is_approved(user_id: int):
@@ -247,3 +247,19 @@ def get_pic_for_frontend(course_id: int):
             return {"picture": base64_picture}
 
     return {"picture": None}
+
+
+def hide_course(user_id: int, course_id: int, role: str):
+    if role == "student":
+        raise HTTPException(status_code=403, detail="As a student you cannot hide courses!")
+    if role == "teacher" and not check_for_creator(user_id, course_id):
+        raise HTTPException(status_code=403, detail="You are not the creator of this course")
+    sql = ("UPDATE courses SET status = CASE WHEN status = 'hidden' THEN 'premium' "
+           "ELSE 'hidden' END WHERE course_id = %s")
+    get_status_sql = "SELECT status FROM courses WHERE course_id = %s"
+    data.database.update_query(sql, (course_id,))
+    if data.database.read_query(get_status_sql, (course_id,))[0][0] == "hidden":
+        return {"message": "This course is now hidden"}
+    return {"message": "This course is now showing"}
+
+

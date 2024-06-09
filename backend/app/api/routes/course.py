@@ -6,7 +6,7 @@ from backend.app.api.services.login_services import get_current_user
 from backend.app.api.services.course_services import (new_course, switch_status, subscribe,
                                                       delete_course, unsubscribe, rate, view_all,
                                                       view_particular, show_ratings, check_for_subscription,
-                                                      get_pic_for_frontend, check_for_rating_frontend)
+                                                      get_pic_for_frontend, check_for_rating_frontend, hide_course)
 import logging
 
 course_router = APIRouter(prefix="/courses")
@@ -22,6 +22,13 @@ def view_all_courses(
     size: int = Query(10, ge=1, le=100)
 ):
     return view_all(search, page, size)
+
+
+@course_router.put("/visibility/{course_id}", status_code=201)
+def hide(user: user_dependency, course_id: int):
+    role = user.get("role")
+    user_id = user.get("id")
+    return hide_course(user_id, course_id, role)
 
 
 @course_router.get("/{course_id}", status_code=200)
