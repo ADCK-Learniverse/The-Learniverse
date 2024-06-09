@@ -14,6 +14,8 @@ export default function CourseSections() {
   const [error, setError] = useState(null);
   const [showSections, setShowSections] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [showRatingOptions, setShowRatingOptions] = useState(false);
+  const [userRating, setUserRating] = useState(null);
 
   useEffect(() => {
     if (!token) {
@@ -44,6 +46,16 @@ export default function CourseSections() {
           const subscriptionData = await subscriptionResponse.json();
           setIsSubscribed(subscriptionData.subscribed);
         }
+
+        const ratingResponse = await fetch(`http://127.0.0.1:8000/courses/rating/${courseID}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (ratingResponse.ok) {
+          const ratingData = await ratingResponse.json();
+          setUserRating(ratingData.rating !== null ? ratingData.rating : 'No rating');
+        }
       } catch (err) {
         console.error("Error fetching data:", err);
         setError(err);
@@ -54,6 +66,14 @@ export default function CourseSections() {
 
     fetchCourseData();
   }, [courseID, token, navigate]);
+
+  useEffect(() => {
+    // Check if the user is subscribed and has rated the course
+    if (isSubscribed && userRating) {
+      // Hide the rating and subscription options if the user is subscribed and has rated the course
+      setShowRatingOptions(false);
+    }
+  }, [isSubscribed, userRating]);
 
   const handleSubscribe = async () => {
     try {
@@ -72,6 +92,38 @@ export default function CourseSections() {
       console.error("Error subscribing/unsubscribing:", error);
     }
   };
+
+const handleRating = async (rating) => {
+  try {
+    // Parse the rating value as an integer
+    const ratingValue = parseInt(rating);
+
+    // Check if the parsed rating is within the acceptable range
+    if (isNaN(ratingValue) || ratingValue < 1 || ratingValue > 10) {
+      throw new Error("Rating must be an integer between 1 and 10");
+    }
+
+    const response = await fetch(`http://127.0.0.1:8000/courses/rating/${courseID}?rating=${ratingValue}`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to rate course: ${response.statusText}`);
+    }
+
+    // Update the user's rating locally
+    setUserRating(ratingValue);
+    // Hide the rating options after the user has rated the course
+    setShowRatingOptions(false);
+  } catch (error) {
+    console.error("Error rating course:", error);
+  }
+};
+
+
 
   const getProgressColor = (progress) => {
     if (0 <= progress <= 35) return 'red';
@@ -115,6 +167,44 @@ export default function CourseSections() {
                 <p style={{ fontSize: '1.2rem', color: getProgressColor(course.Progress), marginTop: '10px' }}>
                   Progress: {course.Progress}
                 </p>
+              )}
+            </div>
+            <div>
+              {showRatingOptions ? (
+                <div>
+                  {[...Array(10)].map((_, i) => (
+                    <button
+                      key={i + 1}
+                      onClick={() => handleRating(i + 1)}
+                      style={{
+                        backgroundColor: userRating === i + 1 ? '#ffd700' : '#fff',
+                        color: '#000',
+                        padding: '10px',
+                        margin: '5px',
+                        border: '1px solid #ccc',
+                        borderRadius: '5px',
+                        cursor: 'pointer',
+                        pointerEvents: userRating ? 'none' : 'auto', // Disable button after rating
+                      }}>
+                      {i + 1}
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <button
+                  onClick={() => setShowRatingOptions(true)}
+                  style={{
+                    backgroundColor: '#ffd700',
+                    color: '#000',
+                    padding: '12px 20px',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    fontSize: '1.2rem',
+                    pointerEvents: userRating ? 'none' : 'auto', // Disable button after rating
+                  }}>
+                  {userRating ? `Rated: ${userRating}` : 'Rate this Course'}
+                </button>
               )}
             </div>
             <button

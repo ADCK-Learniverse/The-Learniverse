@@ -1,10 +1,12 @@
+from typing import Annotated
+
 from fastapi import APIRouter, Depends, Query
 from backend.app.models import Course
 from backend.app.api.services.login_services import get_current_user
 from backend.app.api.services.course_services import (new_course, switch_status, subscribe,
                                                       delete_course, unsubscribe, rate, view_all,
-                                                      view_particular, show_ratings, check_for_subscription, get_pic_for_frontend)
-from typing import Annotated
+                                                      view_particular, show_ratings, check_for_subscription,
+                                                      get_pic_for_frontend, check_for_rating_frontend)
 import logging
 
 course_router = APIRouter(prefix="/courses")
@@ -70,7 +72,7 @@ def course_delete(user: user_dependency, course_id: int):
 
 
 @course_router.post("/rating/{course_id}", status_code=201)
-def rate_course(user: user_dependency, course_id: int, rating: int):
+def rate_course(user: user_dependency, course_id: int, rating: int = Query(gt=0, lt=11)):
     user_id = user.get("id")
     return rate(user_id, course_id, rating)
 

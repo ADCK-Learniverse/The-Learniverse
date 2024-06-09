@@ -49,7 +49,7 @@ def view_all(search, page=1, size=10):
         sql = "SELECT course_id, title, description, rating, status, owner, tags FROM courses"
     elif isinstance(search, str):
         sql = ("SELECT course_id, title, description, rating, status, owner, tags FROM courses"
-               " WHERE FIND_IN_SET(%s, tags) > 0")
+               " WHERE FIND_IN_SET(%s, REPLACE(tags, ', ', ',')) > 0")
 
     sql += " LIMIT %s OFFSET %s"
 
@@ -224,6 +224,16 @@ def check_for_rating(user_id: int, course_id: int):
     sql = "SELECT * FROM course_rating WHERE user_id = %s AND course_id = %s"
     execute = data.database.read_query(sql, (user_id, course_id,))
     return execute
+
+
+def check_for_rating_frontend(user_id: int, course_id: int):
+    sql = "SELECT rating FROM course_rating WHERE user_id = %s AND course_id = %s"
+    result = data.database.read_query(sql, (user_id, course_id))
+    if result and result[0] and "rating" in result[0]:
+        return {"rating": result[0]["rating"]}
+    else:
+        return {"rating": None}
+
 
 
 def get_pic_for_frontend(course_id: int):
