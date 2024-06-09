@@ -26,12 +26,12 @@ async def view_pending_requests_from_teachers(user: user_dependency):
 
 @admin_router.patch('/teacher/registration_request', status_code=200)
 async def approve_teacher_request(user: user_dependency, teacher_id: int):
-    """This method approves one by one each registration request."""
+    """This method approves one by one each registration request from teachers."""
     return await approve_teacher(user, teacher_id)
 
 @admin_router.delete('/teacher/registration_request', status_code=200)
 async def decline_teacher_request(user: user_dependency, teacher_id: int):
-    """This method declines one by one each registration request."""
+    """This method declines one by one each registration request from teachers."""
     return await decline_teacher(user, teacher_id)
 
 @admin_router.delete('/restrict_access', status_code=200)
@@ -45,4 +45,3 @@ def admin_related_endpoints(router: APIRouter):
     router.patch('/registration_request', status_code=200)(approve_teacher_request)
     router.delete('/registration_request', status_code=200)(decline_teacher_request)
     router.delete('/restrict_access', status_code=200)(deactivate_account)
-

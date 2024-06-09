@@ -21,6 +21,9 @@ def view_all_courses(
     page: int = Query(1, ge=1),
     size: int = Query(10, ge=1, le=100)
 ):
+    """This method returns a list with all courses,
+    provides the option to search for a specific value, and allows pagination."""
+
     return view_all(search, page, size)
 
 
@@ -33,6 +36,9 @@ def hide(user: user_dependency, course_id: int):
 
 @course_router.get("/{course_id}", status_code=200)
 def view_course(user: user_dependency, course_id: int):
+
+    """This method requires a course_id and returns the course with its entire information if it's there."""
+
     user_id = user.get("id")
     user_role = user.get("role")
     return view_particular(course_id, user_id, user_role)
@@ -40,6 +46,10 @@ def view_course(user: user_dependency, course_id: int):
 
 @course_router.post("/new", status_code=201)
 def create_course(user: user_dependency, course: Course):
+
+    """This method uses the init method to create a new object with the inserted values for verifications
+    and creates a new course inside the database with the values."""
+
     logging.debug(user)
     user_id = user.get("id")
     user_role = user.get("role")
@@ -48,6 +58,9 @@ def create_course(user: user_dependency, course: Course):
 
 @course_router.put("/status/{course_id}", status_code=200)
 def switch_course_status(user: user_dependency, course_id: int):
+
+    """This method requires the id of the course to switch the status of the course between public and premium."""
+
     user_role = user.get("role")
     user_id = user.get("id")
     return switch_status(course_id, user_role, user_id)
@@ -55,6 +68,10 @@ def switch_course_status(user: user_dependency, course_id: int):
 
 @course_router.get("/subscription/check_for_subscription/{course_id}", status_code=200)
 def check_for_sub(user: user_dependency, course_id: int):
+
+    """This method requires the course id for which the user wants to subscribe
+     and subscribes him by inserting a new entry inside the database."""
+
     user_id = user.get("id")
     return check_for_subscription(user_id, course_id)
 
@@ -73,6 +90,9 @@ def remove_subscription(user: user_dependency, course_id: int):
 
 @course_router.delete("/", status_code=204)
 def course_delete(user: user_dependency, course_id: int):
+
+    """This method requires the course_id and removes the desired course from the database."""
+
     user_id = user.get("id")
     user_role = user.get("role")
     return delete_course(user_id, user_role, course_id)
@@ -80,6 +100,9 @@ def course_delete(user: user_dependency, course_id: int):
 
 @course_router.post("/rating/{course_id}", status_code=201)
 def rate_course(user: user_dependency, course_id: int, rating: int = Query(gt=0, lt=11)):
+
+    """This method requires course_id and the desired rating, and once submitted,
+    recalculates and updates the course's rating."""
     user_id = user.get("id")
     return rate(user_id, course_id, rating)
 
@@ -87,6 +110,8 @@ def rate_course(user: user_dependency, course_id: int, rating: int = Query(gt=0,
 @course_router.get("/ratings/{course_id}", status_code=200)
 def view_ratings(user: user_dependency, course_id: int, page: int = Query(1, ge=1),
     size: int = Query(10, ge=1, le=100)):
+
+    """This method requires course_id, offers pagination features, and returns the ratings given to the specific course."""
     return show_ratings(course_id)
 
 

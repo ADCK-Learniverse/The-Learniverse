@@ -13,16 +13,16 @@ templates = Jinja2Templates(directory="frontend")
 @register_router.post('/student', status_code=201)
 async def register_student(user: User):
     """
-    This method takes the user's data required for a registration and adds them to the database
-    as a registered user
+    This method takes the user's data required for registration
+    and adds them to the database as a registered student with awaiting status.
     """
     return await student(user)
 
 @register_router.post('/teacher', status_code=201)
 async def register_teacher(user: User):
     """
-    This method takes the user's data required for a registration and adds them to the database
-    as a registered user
+    This method takes the user's data required for registration
+    and adds them to the database as a registered teacher with awaiting status.
     """
     return await teacher(user)
 

@@ -2,12 +2,14 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import AppContext from "../../context/AppContext";
 import "./Navbar.css";
+import  useRoleCheck  from "../../hooks/roleCheck";
 
 export default function Navbar({ location }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const locationLowerCase = location.toLowerCase();
   const context = useContext(AppContext);
+  const { role, isLoading, error } = useRoleCheck();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -92,9 +94,9 @@ export default function Navbar({ location }) {
                     </button>
                     <div className="dropdown-content">
                       <Link to="/profile" className="nav-link">Profile</Link>
-                      <Link to="/student/requests" className="nav-link">Student Requests</Link>
-                      <Link to="/teacher/requests" className="nav-link">Teacher Requests</Link>
-                      <Link to="/control-panel" className="nav-link">O/A Dashboard</Link>
+                      {role !== 'student' && <Link to="/student/requests" className="nav-link">Student Requests</Link>}
+                      {role !== 'student' && role !== 'teacher' && <Link to="/teacher/requests" className="nav-link">Teacher Requests</Link>}
+                      {role !== 'student' && role !== 'teacher' && <Link to="/control-panel" className="nav-link">O/A Dashboard</Link>}
                       <Link to="/" className="nav-link" onClick={logout}>Logout</Link>
                     </div>
                   </li>
@@ -103,14 +105,14 @@ export default function Navbar({ location }) {
             )}
             {locationLowerCase === "courses" && (
               <>
-                {context.token && (
+                {context.token && role !== 'student' && (
                   <li className="nav-item">
                     <Link to="/courses/create-course" className="nav-link">
                       Create Course
                     </Link>
                   </li>
                 )}
-                {context.token && (
+                {context.token && role !== 'student' && (
                   <li className="nav-item">
                     <Link to="/courses/delete-course" className="nav-link">
                       Delete Course
@@ -124,8 +126,8 @@ export default function Navbar({ location }) {
                     </button>
                     <div className="dropdown-content">
                       <Link to="/profile" className="nav-link">Profile</Link>
-                      <Link to="/student/requests" className="nav-link">Student Requests</Link>
-                      <Link to="/teacher/requests" className="nav-link">Teacher Requests</Link>
+                      {role !== 'student' && <Link to="/student/requests" className="nav-link">Student Requests</Link>}
+                      {role !== 'student' && role !== 'teacher' && <Link to="/teacher/requests" className="nav-link">Teacher Requests</Link>}
                       <Link to="/" className="nav-link" onClick={logout}>Logout</Link>
                     </div>
                   </li>
@@ -134,7 +136,7 @@ export default function Navbar({ location }) {
             )}
             {locationLowerCase === "admin" && (
               <>
-                {context.token && (
+                {context.token && role !== 'student' && 'teacher' && (
                   <li className="nav-item">
                     <Link to="" className="nav-link">
                       Analytics
@@ -148,8 +150,8 @@ export default function Navbar({ location }) {
                     </button>
                     <div className="dropdown-content">
                       <Link to="/profile" className="nav-link">Profile</Link>
-                      <Link to="/student/requests" className="nav-link">Student Requests</Link>
-                      <Link to="/teacher/requests" className="nav-link">Teacher Requests</Link>
+                      {role !== 'student' && <Link to="/student/requests" className="nav-link">Student Requests</Link>}
+                      {role !== 'student' && role !== 'teacher' && <Link to="/teacher/requests" className="nav-link">Teacher Requests</Link>}
                       <Link to="/" className="nav-link" onClick={logout}>Logout</Link>
                     </div>
                   </li>
@@ -158,21 +160,28 @@ export default function Navbar({ location }) {
             )}
             {locationLowerCase === "course/sections/" && (
               <>
+                {context.token && role !== 'student' && (
                 <li className="nav-item">
                   <Link to="/sections/create-section/" className="nav-link">
                     Create Section
                   </Link>
                 </li>
+                  )}
+                  {context.token && role !== 'student' && (
                 <li className="nav-item">
                   <Link to="/sections/delete-section/" className="nav-link">
                     Delete Section
                   </Link>
                 </li>
+                )}
+                {context.token && role !== 'student' && (
                 <li className="nav-item">
                   <a className="nav-link" href="/course/subscribedMembers">
                     Subscribed Members
                   </a>
                 </li>
+                )}
+
                 {context.token && (
                   <li className={`nav-item dropdown ${dropdownOpen ? "open" : ""}`}>
                     <button className="profile-btn nav-link" onClick={toggleDropdown}>
