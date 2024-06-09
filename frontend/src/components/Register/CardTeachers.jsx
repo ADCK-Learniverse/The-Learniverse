@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import "./Register.style.css";
+import defaultProfilePic from "../../assets/defaultProfile.png";
 
 const Card = styled.div`
   background-color: #2c3e50;
@@ -96,7 +97,7 @@ export const CardComponent  =  ({ profileImage, email, firstName, lastName, phon
 
   return (
     <Card>
-      <ProfileImage src={'https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp'} alt="Profile" />
+      <ProfileImage src={defaultProfilePic} alt="Profile" />
       <Info>
         <InfoText>{email}</InfoText>
         <InfoText>{firstName}</InfoText>

@@ -72,4 +72,3 @@ def get_pic_for_frontend(user_id: int):
 
         return {"picture": base64_picture}
     return {"picture": None}
-
