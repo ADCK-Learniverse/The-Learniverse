@@ -11,7 +11,6 @@ function App() {
     const token = localStorage.getItem("token");
     if (token) {
       setToken(token);
-      console.log(accessToken);
     }
   }, [accessToken]);
 

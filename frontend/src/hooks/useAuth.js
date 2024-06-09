@@ -20,7 +20,11 @@ export const useAuth = (username, password) => {
       const json = await data.json();
       setAppState(json);
 
-      if (json.access_token === undefined) {
+
+   if (json.detail === 'Your account has no access at this time!') {
+        alert(json.detail);
+        window.location.href = "/login";
+      } else if (json.access_token === undefined) {
         setError("Login failed: token is undefined");
         alert("Wrong Username or Password");
         window.location.href = "/login";

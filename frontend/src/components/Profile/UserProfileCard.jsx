@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
 export default function UserProfileCard({ user }) {
   return (
-    <div style={{ display: 'flex', marginBottom: '28px' }}>
+    <div style={{ display: 'flex', marginBottom: '30px' }}>
       <div style={{ flex: '1', padding: '20px', backgroundColor: '#fff', borderRadius: '5px', textAlign: 'center' }}>
-        <Link to={`/profile/${user.id}`}>
+        <Link to={`/profile/picture`}>
           <img
             src={user.picture || defaultProfilePic}
             alt='avatar'

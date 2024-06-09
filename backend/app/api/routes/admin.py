@@ -45,4 +45,3 @@ def admin_related_endpoints(router: APIRouter):
     router.patch('/registration_request', status_code=200)(approve_teacher_request)
     router.delete('/registration_request', status_code=200)(decline_teacher_request)
     router.delete('/restrict_access', status_code=200)(deactivate_account)
-
