@@ -1,4 +1,7 @@
-from backend.app.data.database import insert_query, read_query
+from random import randrange
+
+from backend.app.api.utils.responses import NotFound
+from backend.app.data.database import insert_query, read_query, update_query
 from backend.app.models import User
 from fastapi import HTTPException
 import bcrypt
@@ -96,3 +99,22 @@ async def teacher(user: User):
         )
 
         return {"message": "Teacher registered successfully"}
+
+async def generate_new_password(email):
+    info =  read_query('SELECT email FROM users WHERE email = %s', (email,))
+    generated_password = str(randrange(10000, 800000000))
+    new_password = bcrypt.hashpw(generated_password.encode('utf-8'), bcrypt.gensalt())
+
+
+    if info:
+        update_query('UPDATE users SET password = %s WHERE email = %s', (new_password, email))
+        send_emails(
+            [info[0][0]],
+            "Password recovery",
+            f"This email contains your new password {new_password} it will be active for the next 15 min, after"
+            f" you log in, go inside your Profile page and update your password",
+            "<h3>Password recovery.</h3>"
+        )
+        return {"message": "Password changed successfully"}
+    raise NotFound
+

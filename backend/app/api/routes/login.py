@@ -25,6 +25,3 @@ def user_logout(user_id: int):
     This method takes in the logged user's ID and logs them out.
     """
     return logout(user_id)
-
-
-

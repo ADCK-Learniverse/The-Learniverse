@@ -11,7 +11,7 @@ from backend.app.api.utils.responses import NotFound, AccountNotApproved
 from dotenv import load_dotenv
 import os
 
-from backend.app.data.database import read_query
+from backend.app.data.database import read_query, update_query
 
 load_dotenv()
 
@@ -128,3 +128,7 @@ def check_if_account_status_is_approved(username):
     if info[0][0] != 'approved':
         raise AccountNotApproved
 
+async def password(email):
+    info =  read_query('SELECT * FROM users WHERE email = %s', (email,))
+    if info:
+        update_query('UPDATE users SET password = %s WHERE email = %s', (new_password, email))
