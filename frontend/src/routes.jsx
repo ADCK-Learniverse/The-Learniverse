@@ -18,6 +18,7 @@ import Profile from "./components/Profile/Profile";
 import UpdateFirstName from "./components/Profile/UpdateFirstName";
 import UpdateLastName from "./components/Profile/UpdateLastName";
 import UpdatePassword from "./components/Profile/UpdatePassword";
+import UpdateProfilePicture from "./components/Profile/UpdateProfilePicture";
 import UpdateEmail from "./components/Profile/UpdateEmail";
 import UpdatePhone from "./components/Profile/UpdatePhone";
 import SubscribedMembers from "./components/Courses/SubscribedMembers";
@@ -89,6 +90,10 @@ export const router = createBrowserRouter([
     {
     path: "/profile/password",
     element: <UpdatePassword />,
+  },
+    {
+    path: "/profile/picture",
+    element: <UpdateProfilePicture />,
   },
     {
     path: "/profile/email",

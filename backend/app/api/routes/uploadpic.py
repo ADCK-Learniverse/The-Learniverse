@@ -10,12 +10,14 @@ user_dependency = Annotated[dict, Depends(get_current_user)]
 
 @picture_router.put("/profile/{user_id}", status_code=201)
 def upload_profile_pic(user: user_dependency, picture: UploadFile = File(...)):
+    """This method requires the user to upload a picture for his profile and sends the picture to the database."""
     user_id = user.get("id")
     return update_user_picture(user_id, picture)
 
 
 @picture_router.put("/course/{course_id}", status_code=201)
 def upload_course_pic(user: user_dependency, course_id: int, picture: UploadFile = File(...)):
+    """This method requires the user to upload a picture for the course he owns and sends the picture to the database."""
     user_role = user.get("role")
     user_id = user.get("id")
     return update_course_picture(user_id, user_role, course_id, picture)

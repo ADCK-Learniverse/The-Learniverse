@@ -137,7 +137,7 @@ const handleRating = async (rating) => {
 
   return (
     <section style={{ background: 'linear-gradient(135deg, #1c1c3c, #3a3a80)', color: '#fff', padding: '100px 0' }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '35px' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '78px' }}>
         <Navbar location="course/sections/" />
         <div style={{ marginBottom: '50px', textAlign: 'center' }}>
           <h1 style={{ color: '#fff', fontSize: '3rem' }}>{course["Course Title"]}</h1>

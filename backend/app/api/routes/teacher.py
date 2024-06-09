@@ -11,22 +11,6 @@ teacher_router = APIRouter(prefix='/teacher_panel')
 user_dependency = Annotated[dict, Depends(get_current_user)]
 profile_related_endpoints(teacher_router)
 
-# @teacher_router.get('/', status_code=200)
-# async def account_information(user: user_dependency):
-#     """
-#     This method returns the profile information of the user.
-#     """
-#     return await get_information(user)
-#
-
-# @teacher_router.patch('/personal_information', status_code=200)
-# async def update_personal_information(user: user_dependency, update: UpdateProfile):
-#     """
-#     This method updates selectively the personal information of the user.
-#     """
-#     return await update_information(user, update)
-
-
 @teacher_router.get('/{course_id}/subscribers', status_code=200)
 async def view_subscribers(user: user_dependency, course_id: int):
     """
@@ -52,7 +36,7 @@ async def view_pending_requests_from_students(user: user_dependency):
 @teacher_router.patch('/student/registration_request', status_code=200)
 async def approve_student_request(user: user_dependency, student_id: int):
     """
-    This method approves one by one each registration request.
+    This method approves one by one each registration request from students.
     """
     return await approve_student(user, student_id)
 
@@ -60,7 +44,7 @@ async def approve_student_request(user: user_dependency, student_id: int):
 @teacher_router.delete('/student/registration_request', status_code=200)
 async def decline_student_request(user: user_dependency, student_id: int):
     """
-    This method declines one by one each registration request.
+    This method declines one by one each registration request from students.
     """
     return await decline_student(user, student_id)
 
