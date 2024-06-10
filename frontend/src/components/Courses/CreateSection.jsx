@@ -63,6 +63,8 @@ export default function CreateSection() {
         } else {
           throw new Error("Server error: " + errorMessage);
         }
+        alert("Section created successfully");
+
         return;
       }
 

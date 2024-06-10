@@ -101,9 +101,9 @@ export default function HomePage() {
           {/* Project Two Row */}
           <div className="row gx-0 mb-4 mb-lg-5 align-items-center">
             <div className="col-xl-8 col-lg-7">
-              <img
+               <img
                 className="img-fluid mb-3 mb-lg-0"
-                src="assets/img/.jpg"
+                src="drone.jpg"
                 alt="..."
               />
             </div>

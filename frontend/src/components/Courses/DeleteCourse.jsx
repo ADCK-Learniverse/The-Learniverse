@@ -50,6 +50,9 @@ export default function DeleteSection() {
         } else {
           throw new Error("Server error: " + errorMessage);
         }
+
+        alert("Course deleted successfully");
+
         return;
       }
 

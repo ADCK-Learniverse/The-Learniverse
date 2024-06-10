@@ -27,7 +27,7 @@ def new_course(user_id: int, user_role: str, course: Course):
                                      names, course.status, joined_tags))
 
 
-    new_course_newsletter(course.title) # Send Email notifications to the subscribed users
+    # new_course_newsletter(course.title) # Send Email notifications to the subscribed users
     return {"message": "Course created successfully!"}
 
 
@@ -38,7 +38,7 @@ def delete_course(user_id: int, user_role: str, course_id: int):
         delete_sql = "DELETE FROM courses WHERE course_id = %s"
         data.database.update_query(delete_sql, (course_id,))
 
-        removed_course_newsletter()
+        # removed_course_newsletter()
         return {"message": "Course deleted!"}
     raise HTTPException(status_code=403, detail="You are not the creator of this course!")
 

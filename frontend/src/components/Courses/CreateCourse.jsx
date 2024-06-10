@@ -77,6 +77,9 @@ export default function CreateCourse() {
         } else {
           throw new Error("Server error: " + errorMessage);
         }
+
+        alert("Course created successfully");
+
         return;
       }
 
