@@ -111,9 +111,9 @@ async def generate_new_password(email):
         send_emails(
             [info[0][0]],
             "Password recovery",
-            f"This email contains your new password {new_password} it will be active for the next 15 min, after"
-            f" you log in, go inside your Profile page and update your password",
-            "<h3>Password recovery.</h3>"
+            "Password recovery.",
+            f"<h3>This email contains your new password {generated_password} it will be active for the next 15 min, after"
+            f" you log in, go inside your Profile page and update your password</h3>"
         )
         return {"message": "Password changed successfully"}
     raise NotFound
