@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import AppContext from "../../context/AppContext";
 import "./Navbar.css";
-import  useRoleCheck  from "../../hooks/roleCheck";
+import useRoleCheck from "../../hooks/roleCheck";
 
 export default function Navbar({ location }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -161,27 +161,19 @@ export default function Navbar({ location }) {
             {locationLowerCase === "course/sections/" && (
               <>
                 {context.token && role !== 'student' && (
-                <li className="nav-item">
-                  <Link to="/sections/create-section/" className="nav-link">
-                    Create Section
-                  </Link>
-                </li>
-                  )}
-                  {context.token && role !== 'student' && (
-                <li className="nav-item">
-                  <Link to="/sections/delete-section/" className="nav-link">
-                    Delete Section
-                  </Link>
-                </li>
+                  <li className="nav-item">
+                    <Link to="/sections/create-section/" className="nav-link">
+                      Create Section
+                    </Link>
+                  </li>
                 )}
                 {context.token && role !== 'student' && (
-                <li className="nav-item">
-                  <a className="nav-link" href="/course/subscribedMembers">
-                    Subscribed Members
-                  </a>
-                </li>
+                  <li className="nav-item">
+                    <Link to="/sections/delete-section/" className="nav-link">
+                      Delete Section
+                    </Link>
+                  </li>
                 )}
-
                 {context.token && (
                   <li className={`nav-item dropdown ${dropdownOpen ? "open" : ""}`}>
                     <button className="profile-btn nav-link" onClick={toggleDropdown}>

@@ -104,7 +104,7 @@ export const router = createBrowserRouter([
     element: <UpdatePhone />,
   },
      {
-    path: "course/subscribedMembers",
+    path: "/courses/subscribers/:courseID",
     element: <SubscribedMembers />,
   },
       {

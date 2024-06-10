@@ -162,6 +162,14 @@ def rate(user_id: int = Field(gt=0), course_id: int = Field(gt=0), rating: int =
     return {"message": f"You have rated this course {rating} out of 10!"}
 
 
+def view_subscribers(course_id: int = Field(..., gt=0)):
+    sql = ("SELECT u.firstname, u.lastname FROM users u JOIN subscription s "
+           "ON u.user_id = s.user_id WHERE s.course_id = %s;")
+    execute = data.database.read_query(sql, (course_id,))
+    return {"Subscribers": execute}
+
+
+
 def update_course_rating(course_id: int, rating: int):
     rates_sql = "SELECT COUNT(*), SUM(rating) FROM course_rating WHERE course_id = %s"
     execute_rates_sql = data.database.read_query(rates_sql, (course_id,))

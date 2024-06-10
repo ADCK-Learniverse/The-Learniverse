@@ -6,7 +6,8 @@ from backend.app.api.services.login_services import get_current_user
 from backend.app.api.services.course_services import (new_course, switch_status, subscribe,
                                                       delete_course, unsubscribe, rate, view_all,
                                                       view_particular, show_ratings, check_for_subscription,
-                                                      get_pic_for_frontend, check_for_rating_frontend, hide_course)
+                                                      get_pic_for_frontend, check_for_rating_frontend, hide_course,
+                                                      view_subscribers)
 import logging
 
 course_router = APIRouter(prefix="/courses")
@@ -42,6 +43,12 @@ def view_course(user: user_dependency, course_id: int):
     user_id = user.get("id")
     user_role = user.get("role")
     return view_particular(course_id, user_id, user_role)
+
+
+@course_router.get("/subscribers/{course_id}", status_code=200)
+def view_subs(user: user_dependency, course_id: int):
+    """This method shows all users subscribed to a particular course if there are such."""
+    return view_subscribers(course_id)
 
 
 @course_router.post("/new", status_code=201)

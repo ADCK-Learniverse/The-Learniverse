@@ -1,6 +1,17 @@
-body,
-html {
+/* App.css */
+
+html, body {
   height: 100%;
-  margin: 0; /* Remove default margins */
-  padding: 0; /* Remove default padding */
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  height: 100%;
+}
+
+section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }

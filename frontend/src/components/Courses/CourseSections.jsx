@@ -13,10 +13,10 @@ export default function CourseSections() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showSections, setShowSections] = useState(false);
-  const [isSubscribed, setIsSubscribed] = useState(false);
-  const [showRatingOptions, setShowRatingOptions] = useState(false);
+  const [isSubscribed, setIsSubscribed] = useState(null);
+  const [showRatingOptions, setShowRatingOptions] = useState(null);
   const [userRating, setUserRating] = useState(null);
-  const [isHidden, setIsHidden] = useState(false); // New state for course visibility
+  const [isHidden, setIsHidden] = useState(null);
 
   const handleSubscribe = async () => {
     try {
@@ -151,7 +151,7 @@ export default function CourseSections() {
             right: '35px',
             backgroundColor: isHidden ? '#ffcccb' : '#ff0000',
             color: '#fff',
-            padding: '12px 20px',
+            padding: '10px 20px',
             border: 'none',
             borderRadius: '50px',
             cursor: 'pointer',
@@ -166,6 +166,27 @@ export default function CourseSections() {
           onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
         >
           {isHidden ? 'Unhide Course' : 'Hide Course'}
+        </button>
+        <button
+          onClick={() => navigate(`/courses/subscribers/${courseID}`)}
+          style={{
+            backgroundColor: '#1c1c3c',
+            color: '#fff',
+            padding: '12px 20px',
+            border: 'none',
+            borderRadius: '50px',
+            cursor: 'pointer',
+            fontSize: '1rem',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+            transition: 'background-color 0.3s ease, transform 0.3s ease',
+            transform: 'scale(1)',
+            textTransform: 'uppercase',
+            letterSpacing: '1px',
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+        >
+          Subscribed Members
         </button>
 
         <div style={{ marginBottom: '50px', textAlign: 'center' }}>
