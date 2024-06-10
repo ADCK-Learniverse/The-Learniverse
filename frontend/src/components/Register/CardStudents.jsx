@@ -101,11 +101,16 @@ export const CardComponent  =  ({ profileImage, email, firstName, lastName, phon
     <Card>
       <ProfileImage src={defaultProfilePic} alt="Profile" />
       <Info>
-        <InfoText>{email}</InfoText>
-        <InfoText>{firstName}</InfoText>
-        <InfoText>{lastName}</InfoText>
-        <InfoText>{phoneNumber}</InfoText>
-      </Info>
+          <InfoText>
+            <span style={{ fontWeight: 'bold' }}>Email:</span> {email}
+          </InfoText>
+          <InfoText>
+            <span style={{ fontWeight: 'bold' }}>Name:</span> {firstName} {lastName}
+          </InfoText>
+          <InfoText>
+            <span style={{ fontWeight: 'bold' }}>Phone :</span> {phoneNumber}
+          </InfoText>
+        </Info>
       <ButtonContainer>
         <Button onClick={handleApprove}>Approve</Button>
         <Button onClick={handleDecline}>Decline</Button>

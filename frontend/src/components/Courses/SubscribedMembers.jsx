@@ -57,8 +57,8 @@ export default function SubscribedMembers() {
   if (!subscribers.length) return <div>No subscribers found.</div>;
 
   return (
-    <section style={{ background: 'linear-gradient(135deg, #1c1c3c, #3a3a80)', color: '#fff', padding: '100px 0' }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '35px' }}>
+    <section style={{ background: 'linear-gradient(135deg, #1c1c3c, #3a3a80)', color: '#fff', padding: '100px 0', height: '100vh' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '50px' }}>
         <Navbar location="course/subscribed-members" />
 
         <div style={{ marginBottom: '50px', textAlign: 'center' }}>
