@@ -6,6 +6,7 @@ import RegistrationStudents from "./components/Register/RegistrationStudents";
 import RegistrationTeachers from "./components/Register/RegistrationTeachers";
 import TeacherRequests from "./components/Register/TeacherRequests";
 import StudentRequests from "./components/Register/StudentRequests";
+import RecoverPassword from "./components/Register/RecoverPassword";
 import Courses from "./components/Courses/Courses";
 import CourseDetails from "./components/Courses/CourseDetails"
 import Course from "./components/Courses/Course";
@@ -66,6 +67,10 @@ export const router = createBrowserRouter([
   {
     path: "register/teachers",
     element: <RegistrationTeachers />,
+  },
+  {
+     path: "recover-password",
+    element: <RecoverPassword />,
   },
     {
     path: "teacher/requests",

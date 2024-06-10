@@ -86,7 +86,7 @@ export default function Login() {
                       </div>
 
                       <p className="small mb-5 pb-lg-2">
-                        <a className="text-white-50" href="#!">
+                        <a className="text-white-50" href="/recover-password">
                           Forgot password?
                         </a>
                       </p>
