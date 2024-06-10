@@ -109,13 +109,11 @@ export default function HomePage() {
             </div>
             <div className="col-xl-4 col-lg-5">
               <div className="featured-text text-center text-lg-left">
-                <h4>Something else</h4>
+                <h4>Drone Programming</h4>
                 <p className="text-black-50 mb-0">
-                  Use your data to predict future events with the help of
-                  machine learning. This course will walk you through creating a
-                  machine learning prediction solution and will introduce
-                  Python, the scikit-learn library, and the Jupyter Notebook
-                  environment!
+                  Ability to read telemetry data and give commands to autopilot by communicating with ArduPilot using Python programming language.
+                  Creating Python scripts with Dronekit library that communicates with ArduPilot.
+                  Ability to develop custom Python scripts with PyMAVLink and understanding the MAVLink protocol
                 </p>
               </div>
             </div>
@@ -198,7 +196,7 @@ export default function HomePage() {
               <div className="card py-4 h-100">
                 <div className="card-body text-center">
                   <i className="fas fa-map-marked-alt text-primary mb-2"></i>
-                  <h4 className="text-uppercase m-0">Address</h4>
+                  <h4 className="bold text-black-50 m-0">Address</h4>
                   <hr className="my-4 mx-auto" />
                   <div className="small text-black-50">
                     Bulgaria
@@ -210,10 +208,10 @@ export default function HomePage() {
               <div className="card py-4 h-100">
                 <div className="card-body text-center">
                   <i className="fas fa-envelope text-primary mb-2"></i>
-                  <h4 className="text-uppercase m-0">Email</h4>
+                  <h4 className="bold text-black-50 m-0">Email</h4>
                   <hr className="my-4 mx-auto" />
                   <div className="small text-black-50">
-                    <a href="#!">TheLearnivers@gmail.com</a>
+                    <a href="#!">thelearniverse@gmail.com</a>
                   </div>
                 </div>
               </div>
@@ -222,7 +220,7 @@ export default function HomePage() {
               <div className="card py-4 h-100">
                 <div className="card-body text-center">
                   <i className="fas fa-mobile-alt text-primary mb-2"></i>
-                  <h4 className="text-uppercase m-0">Phone</h4>
+                  <h4 className="bold text-black-50 m-0">Phone</h4>
                   <hr className="my-4 mx-auto" />
                   <div className="small text-black-50">+359 000000000</div>
                 </div>
