@@ -42,7 +42,7 @@ export default function CourseSections() {
   const [sections, setSections] = useState([]);
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/sections/${courseID}`, {
+    fetch(`http://the-learniverse-backend1.eu-north-1.elasticbeanstalk.com/sections/${courseID}`, {
       headers: {
         Authorization: `bearer ${token}`,
       },

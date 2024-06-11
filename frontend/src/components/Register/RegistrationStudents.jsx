@@ -50,7 +50,7 @@ export default function Register() {
       };
 
       try {
-        const response = await fetch('http://127.0.0.1:8000/register/student', {
+        const response = await fetch('http://the-learniverse-backend1.eu-north-1.elasticbeanstalk.com/register/student', {
           method: "POST",
           headers: {
             "Content-Type": "application/json"

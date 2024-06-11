@@ -45,7 +45,7 @@ export default function CreateSection() {
         course_id: courseID
       };
 
-      const response = await fetch('http://127.0.0.1:8000/sections/new', {
+      const response = await fetch('http://the-learniverse-backend1.eu-north-1.elasticbeanstalk.com/sections/new', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

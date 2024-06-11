@@ -65,8 +65,8 @@ const AllCourses = () => {
 
   const fetchCourses = async (search = "") => {
     try {
-      console.log("Fetching courses with search query:", search); // Debug log
-      const response = await fetch(`http://127.0.0.1:8000/courses/all?search=${search}`);
+      console.log("Fetching courses with search query:", search);
+      const response = await fetch(`http://the-learniverse-backend1.eu-north-1.elasticbeanstalk.com/courses/all?search=${search}`);
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }

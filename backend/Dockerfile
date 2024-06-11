@@ -5,6 +5,7 @@ FROM python:latest
 WORKDIR /app
 
 # Copy the contents of the backend directory into the container at /app
+COPY .env .env
 COPY . .
 
 # Install any needed packages specified in requirements.txt

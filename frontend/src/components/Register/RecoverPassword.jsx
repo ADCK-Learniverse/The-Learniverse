@@ -24,7 +24,7 @@ export default function RecoverPassword() {
 
 
         try {
-            const response = await fetch(`//127.0.0.1:8000/register/recover_password?email=${encodeURIComponent(email)}`, {
+            const response = await fetch(`http://the-learniverse-backend1.eu-north-1.elasticbeanstalk.com/register/recover_password?email=${encodeURIComponent(email)}`, {
                 method: "POST",
             });
             console.log(response)

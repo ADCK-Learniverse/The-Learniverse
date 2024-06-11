@@ -46,7 +46,7 @@ const RatingComponent = ({ courseID, token }) => {
 
   const handleRateCourse = async (rating) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/courses/rating/${courseID}`, {
+      const response = await fetch(`http://the-learniverse-backend1.eu-north-1.elasticbeanstalk.com/courses/rating/${courseID}`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,

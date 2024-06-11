@@ -24,7 +24,7 @@ export default function ChangePhone() {
         let token = localStorage.getItem('token');
 
         try {
-            const response = await fetch(`http://127.0.0.1:8000/teacher_panel/phone?phone=${encodeURIComponent(phone)}`, {
+            const response = await fetch(`http://the-learniverse-backend1.eu-north-1.elasticbeanstalk.com/teacher_panel/phone?phone=${encodeURIComponent(phone)}`, {
                 method: "PUT",
                 headers: {
                     Authorization: `Bearer ${token.replace(/^"|"$/g, '')}`,

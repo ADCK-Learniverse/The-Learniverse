@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-const server = "http://127.0.0.1:8000";
+const server = "http://the-learniverse-backend1.eu-north-1.elasticbeanstalk.com";
 const loginEndpoint = "owner_panel/info";
 const loginUrl = `${server}/${loginEndpoint}`;
 let token = localStorage.getItem('token');

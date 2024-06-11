@@ -80,6 +80,7 @@ def subscribe_for_newsletter(email: str):
 def profile_related_endpoints(router: APIRouter):
     router.get("/profile", status_code=200)(user_profile)
     router.get("/picture", status_code=200)(user_profile_picture)
+    router.put('number', status_code=201)(update_number)
     router.put("/firstname", status_code=201)(update_first_name)
     router.put("/lastname", status_code=201)(update_last_name)
     router.put("/password", status_code=201)(update_user_password)

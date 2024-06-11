@@ -12,7 +12,7 @@ const StudentRequests = () => {
   useEffect(() => {
     const fetchTeachers = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/teacher_panel/student/pending_requests", {
+        const response = await fetch("http://the-learniverse-backend1.eu-north-1.elasticbeanstalk.com/teacher_panel/student/pending_requests", {
           headers: {
             Authorization: `Bearer ${token.replace(/^"|"$/g, '')}`,
           },

@@ -77,7 +77,7 @@ export const DeactivateAccount = () => {
   const handleDeactivation = async (e) => {
     e.preventDefault();
     try {
-      const deactivate = await fetch(`http://127.0.0.1:8000/owner_panel/restrict_access?person_email=${encodeURIComponent(email)}`, {
+      const deactivate = await fetch(`http://the-learniverse-backend1.eu-north-1.elasticbeanstalk.com/owner_panel/restrict_access?person_email=${encodeURIComponent(email)}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

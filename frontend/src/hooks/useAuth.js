@@ -1,7 +1,7 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import AppContext from "../context/AppContext";
 
-const server = "http://127.0.0.1:8000";
+const server = "http://the-learniverse-backend1.eu-north-1.elasticbeanstalk.com";
 const loginEndpoint = "login";
 const loginUrl = `${server}/${loginEndpoint}/token`;
 
@@ -13,7 +13,7 @@ export const useAuth = (username, password) => {
   const fetching = useCallback(async (formData) => {
     try {
       setIsLoading(true);
-      const data = await fetch("http://127.0.0.1:8000/login/token", {
+      const data = await fetch("http://the-learniverse-backend1.eu-north-1.elasticbeanstalk.com/login/token", {
         method: "POST",
         body: formData,
       });

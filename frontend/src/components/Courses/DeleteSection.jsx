@@ -37,7 +37,7 @@ export default function DeleteSection() {
         section,
       };
 
-      const response = await fetch(`http://127.0.0.1:8000/sections/${encodeURIComponent(section)}?course_id=${encodeURIComponent(course)}`, {
+      const response = await fetch(`http://the-learniverse-backend1.eu-north-1.elasticbeanstalk.com/sections/${encodeURIComponent(section)}?course_id=${encodeURIComponent(course)}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

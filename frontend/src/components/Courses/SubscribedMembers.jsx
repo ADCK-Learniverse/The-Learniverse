@@ -26,7 +26,7 @@ export default function SubscribedMembers() {
           throw new Error('Invalid courseID');
         }
 
-        const response = await fetch(`http://127.0.0.1:8000/courses/subscribers/${courseID}`, {
+        const response = await fetch(`http://the-learniverse-backend1.eu-north-1.elasticbeanstalk.com/courses/subscribers/${courseID}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',

@@ -14,7 +14,7 @@ export default function ProfilePage() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:8000/teacher_panel/profile", {
+        const response = await fetch("http://the-learniverse-backend1.eu-north-1.elasticbeanstalk.com/teacher_panel/profile", {
           headers: {
             Authorization: `Bearer ${token.replace(/^"|"$/g, '')}`,
           },

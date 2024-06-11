@@ -59,7 +59,7 @@ export default function CreateCourse() {
         courseData: formData
       };
 
-      const response = await fetch('http://127.0.0.1:8000/courses/new', {
+      const response = await fetch('http://the-learniverse-backend1.eu-north-1.elasticbeanstalk.com/courses/new', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -53,7 +53,7 @@ export const CardComponent  =  ({ profileImage, email, firstName, lastName, phon
 
     const handleApprove = async () => {
     try {
-       const approveResponse = await fetch(`http://127.0.0.1:8000/admin_panel/teacher/registration_request?teacher_id=${encodeURIComponent(userId)}`, {
+       const approveResponse = await fetch(`http://the-learniverse-backend1.eu-north-1.elasticbeanstalk.com/admin_panel/teacher/registration_request?teacher_id=${encodeURIComponent(userId)}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ export const CardComponent  =  ({ profileImage, email, firstName, lastName, phon
 
   const handleDecline = async () => {
     try {
-      const declineResponse = await fetch(`http://127.0.0.1:8000/admin_panel/teacher/registration_request?teacher_id=${encodeURIComponent(userId)}`, {
+      const declineResponse = await fetch(`http://the-learniverse-backend1.eu-north-1.elasticbeanstalk.com/admin_panel/teacher/registration_request?teacher_id=${encodeURIComponent(userId)}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token.replace(/^"|"$/g, '')}`,

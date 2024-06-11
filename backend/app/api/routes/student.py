@@ -23,17 +23,26 @@ async def home(user: user_dependency):
 def student_all_courses_view(user: user_dependency, search: str = None,
                              page: int = Query(1, ge=1),
                              size: int = Query(10, ge=1, le=100)):
+
+    """This method returns a list all created courses which are not hidden and also offers pagination."""
+
     return view_all_courses(search, page, size)
 
 
 @student_router.get("/courses/{course_id}", status_code=200)
 def student_course_view(user: user_dependency, course_id: int):
+
+    """This method returns the desired course where the student is subscribed if he is."""
+
     return view_course(user, course_id)
 
 
 @student_router.get("/subscriptions", status_code=200)
 def subscriptions(user: user_dependency, page: int = Query(1, ge=1),
                   size: int = Query(10, ge=1, le=100)):
+
+    """This method shows the user all the courses he is currently subscribed to."""
+
     user_id = user.get("id")
     user_role = user.get("role")
     return view_subscriptions(user_id, user_role, page, size)

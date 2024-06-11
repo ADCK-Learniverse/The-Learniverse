@@ -7,7 +7,7 @@ export default function sendNewsletter(emailAddress) {
   }
 
 
-  const url = `http://127.0.0.1:8000/owner_panel/newsletter?email=${encodeURIComponent(emailAddress)}`;
+  const url = `http://the-learniverse-backend1.eu-north-1.elasticbeanstalk.com/owner_panel/newsletter?email=${encodeURIComponent(emailAddress)}`;
 
 
   fetch(url, {

@@ -81,7 +81,7 @@ export const SwitchRole = () => {
   const handleSwitch = async (e) => {
     e.preventDefault(); // Prevent form submission default behavior
     try {
-      const approveSwitch = await fetch(`http://127.0.0.1:8000/owner_panel/account_role?person_email=${encodeURIComponent(email)}&role=${encodeURIComponent(role)}`, {
+      const approveSwitch = await fetch(`http://the-learniverse-backend1.eu-north-1.elasticbeanstalk.com/owner_panel/account_role?person_email=${encodeURIComponent(email)}&role=${encodeURIComponent(role)}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

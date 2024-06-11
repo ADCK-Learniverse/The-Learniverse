@@ -27,7 +27,7 @@ export default function ChangeCoursePicture() {
             const formData = new FormData();
             formData.append('picture', picture);
 
-            const response = await fetch(`http://127.0.0.1:8000/picture/course/${}`, {
+            const response = await fetch(`http://the-learniverse-backend1.eu-north-1.elasticbeanstalk.com/picture/course/${}`, {
                 method: "PUT",
                 headers: {
                     Authorization: `Bearer ${token.replace(/^"|"$/g, '')}`,

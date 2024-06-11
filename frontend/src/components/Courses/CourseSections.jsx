@@ -75,7 +75,7 @@ export default function CourseSections() {
 
     const fetchCourseData = async () => {
       try {
-        const courseResponse = await fetch(`http://127.0.0.1:8000/courses/${courseID}`, {
+        const courseResponse = await fetch(`http://the-learniverse-backend1.eu-north-1.elasticbeanstalk.com/courses/${courseID}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -86,7 +86,7 @@ export default function CourseSections() {
         const courseData = await courseResponse.json();
         setCourse(courseData[0]);
 
-        const subscriptionResponse = await fetch(`http://127.0.0.1:8000/courses/subscription/${courseID}`, {
+        const subscriptionResponse = await fetch(`http://the-learniverse-backend1.eu-north-1.elasticbeanstalk.com/courses/subscription/${courseID}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -96,7 +96,7 @@ export default function CourseSections() {
           setIsSubscribed(subscriptionData.subscribed);
         }
 
-        const ratingResponse = await fetch(`http://127.0.0.1:8000/courses/rating/${courseID}`, {
+        const ratingResponse = await fetch(`http://the-learniverse-backend1.eu-north-1.elasticbeanstalk.com/courses/rating/${courseID}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -118,7 +118,7 @@ export default function CourseSections() {
 
   const handleHideCourse = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/courses/visibility/${courseID}`, {
+      const response = await fetch(`http://the-learniverse-backend1.eu-north-1.elasticbeanstalk.com/courses/visibility/${courseID}`, {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`,
