@@ -49,19 +49,19 @@ The platform includes a public part that is accessible without authentication, a
 4. **Open the address**: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
 
 5. **Run the project locally**:
-    1. Install Python on your computer.
-    2. Install PIP.
-    3. Download and install MySQL and MySQL Workbench, and create a new connection.
-    4. Open a new SQL tab for executing queries and paste the content from the `databaseFiller_sql` located in `backend/app/api/data`.
-    5. Open a new SQL tab for executing queries and paste the content from the `database_sql` located in `backend/app/api/data`.
-    6. Install the requirements:
-        ```bash
-        pip install -r backend/requirements.txt
-        ```
-    7. Run the application:
-        ```bash
-        uvicorn backend.main:app --reload
-        ```
+1. Install Python on your computer.
+2. Install PIP.
+3. Download and install MySQL and MySQL Workbench, and create a new connection.
+4. Open a new SQL tab for executing queries and paste the content from the `databaseFiller_sql` located in `backend/app/api/data`.
+5. Open a new SQL tab for executing queries and paste the content from the `database_sql` located in `backend/app/api/data`.
+6. Install the requirements:
+    ```bash
+    pip install -r backend/requirements.txt
+    ```
+7. Run the application:
+    ```bash
+    uvicorn backend.main:app --reload
+    ```
 
 ## How to Install and Run the Frontend
 
