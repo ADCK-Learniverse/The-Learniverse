@@ -36,7 +36,7 @@ The platform includes a public part that is accessible without authentication, a
 - Node.js
 
 ## How to Install and Run the Backend
-
+### Docker
 1. **Download and install Docker**: Ensure you have Docker installed on your computer. You can download it from [docker.com](https://www.docker.com/).
 
 2. **Build the Docker image**: While in the highest root level of the project, run:
@@ -48,7 +48,7 @@ The platform includes a public part that is accessible without authentication, a
 
 4. **Open the address**: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
 
-5. **Run the project locally**:
+### Run the project locally:
 1. Install Python on your computer.
 2. Install PIP.
 3. Download and install MySQL and MySQL Workbench, and create a new connection.
