@@ -30,6 +30,9 @@ def view_all_courses(
 
 @course_router.put("/visibility/{course_id}", status_code=201)
 def hide(user: user_dependency, course_id: int):
+    """
+    This method hides / shows the desired course depending on its status.
+    """
     role = user.get("role")
     user_id = user.get("id")
     return hide_course(user_id, course_id, role)
@@ -85,12 +88,18 @@ def check_for_sub(user: user_dependency, course_id: int):
 
 @course_router.post("/subscription/{course_id}", status_code=201)
 def subscribe_to_course(user: user_dependency, course_id: int):
+    """
+    This method allows the user to subscribe to the desired course.
+    """
     user_id = user.get("id")
     return subscribe(user_id, course_id)
 
 
 @course_router.delete("/subscription/{course_id}", status_code=200)
 def remove_subscription(user: user_dependency, course_id: int):
+    """
+    This method removes the user's subscription from the desired course.
+    """
     user_id = user.get("id")
     return unsubscribe(user_id, course_id)
 

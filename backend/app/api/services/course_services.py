@@ -34,13 +34,15 @@ def new_course(user_id: int, user_role: str, course: Course):
 def delete_course(user_id: int, user_role: str, course_id: int):
     if user_role == "student":
         raise HTTPException(status_code=403, detail="As a student you cannot delete courses!")
-    if check_for_creator(user_id, course_id) or user_role == "admin" or user_role == "owner":
-        delete_sql = "DELETE FROM courses WHERE course_id = %s"
-        data.database.update_query(delete_sql, (course_id,))
+    existence_check = "SELECT * FROM courses WHERE course_id = %s"
+    if data.database.read_query(existence_check, (course_id,)):
+        if check_for_creator(user_id, course_id) or user_role == "admin" or user_role == "owner":
+            delete_sql = "DELETE FROM courses WHERE course_id = %s"
+            data.database.update_query(delete_sql, (course_id,))
+            return {"message": "Course deleted!"}
+        raise HTTPException(status_code=403, detail="You are not the creator of this course!")
+    raise HTTPException(status_code=400, detail="Such course doesn't exist.")
 
-        # removed_course_newsletter()
-        return {"message": "Course deleted!"}
-    raise HTTPException(status_code=403, detail="You are not the creator of this course!")
 
 
 def view_all(search, page=1, size=10):
