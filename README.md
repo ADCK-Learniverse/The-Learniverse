@@ -4,6 +4,10 @@
 
 This project is an e-learning platform designed to facilitate online learning. It allows students to search for and enroll in online courses, while teachers can publish and manage courses. Admins have control over user registrations, course visibility, and can monitor platform activities. The platform follows the OAuth2 password bearer flow for authentication.
 
+
+![Database Schema](img/E-Learning%20Platform%201.PNG)
+
+
 ## Features
 
 The platform caters to three types of users: students, teachers, and admins. Students can view, search, and enroll in various courses. They have the ability to track their progress through the courses they are enrolled in and rate these courses. Teachers, on the other hand, can create and manage courses and sections, approve student enrollments, and generate reports on student progress. Teachers also have the ability to edit their account information, excluding their email address.
@@ -125,6 +129,9 @@ Both the frontend and backend need to be running simultaneously to experience th
 
 ## License
 This project is licensed under the MIT License.
+
+## Telerik Self Assessment Form
+![Self Assessment](img/self_assessment_telerik.png)
 
 ## Contact
 For any questions or feedback, please contact:
